@@ -1,8 +1,9 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
 
 set -euo pipefail
 
-if [ "$(basename $PWD)" != "dotfiles" ]; then
+dir=$(basename "$PWD")
+if [ "$dir" != "dotfiles" ]; then
     echo "error: execute install.sh from within the dotfiles directory"
     exit 1
 fi
@@ -13,7 +14,7 @@ link_config () {
 
     src_file=$1
     dst_file=$2
-    dst_dir="$(dirname $dst_file)"
+    dst_dir=$(dirname "$dst_file")
 
     # create config directory
     if [ ! -d "$dst_dir" ]; then
@@ -30,12 +31,10 @@ link_config () {
 
 case "${1:-help}" in
   vim)
-    link_config \
-        "$PWD/vim/vimrc" "$HOME/.vim/vimrc"
+    link_config "$PWD/vim/vimrc" "$HOME/.vim/vimrc"
     ;;
   alacritty)
-    link_config \
-        "$PWD/alacritty/alacritty.yml" "$HOME/.config/alacritty/alacritty.yml"
+    link_config "$PWD/alacritty/alacritty.yml" "$HOME/.config/alacritty/alacritty.yml"
     ;;
   tmux)
     link_config "$PWD/tmux/tmux.conf" "$HOME/.config/tmux/tmux.conf"
@@ -48,7 +47,8 @@ case "${1:-help}" in
     link_config "$PWD/homebrew/Brewfile" "$HOME/.config/homebrew/Brewfile"
     ;;
   *)
-    echo "./install [ vim | alacritty | tmux ]"
+    echo "./install [ alacritty | bash | brew | tmux | vim ]"
     ;;
 esac
+
 
