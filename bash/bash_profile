@@ -7,8 +7,8 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 
 # show command return value if not successful or ctrl-c
 nonzero_return () {
-    RET=$?;
-    [ $RET -ne 0 -a $RET -ne 130 ] && echo "[$RET] "
+    RET=$?
+    { [ $RET -ne 0 ] && [ $RET -ne 130 ]; } && echo "[$RET] "
 }
 export PS1="\[\e[93m\]\`nonzero_return\`\[\e[91m\]\W λ\[\e[m\] "
 
@@ -44,6 +44,5 @@ _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-test -r "$HOME/.opam/opam-init/init.sh" && . "$HOME/.opam/opam-init/init.sh" > /dev/null 2> /dev/null || true
+[ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
+[ -r "$HOME/.opam/opam-init/init.sh" ] && { source "$HOME/.opam/opam-init/init.sh" > /dev/null 2> /dev/null || true; }
