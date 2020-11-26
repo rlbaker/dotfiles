@@ -2,19 +2,17 @@ env:
   TERM: xterm-256color
 
 shell:
-  program: /usr/local/bin/bash
-  args:
-    - --login
+  program: /usr/local/bin/fish
+  args: ['--login']
 
 window:
   padding:
     x: 2
-    y: 0
   decorations: none
   startup_mode: Maximized
 
 font:
-  size: 14.0
+  size: 16
   normal:
     family: Iosevka Term
     style: Regular
