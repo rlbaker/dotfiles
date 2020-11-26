@@ -39,7 +39,7 @@ case "${1:-help}" in
         link_config "$PWD/fish/functions/fish_right_prompt.fish" "$CONFIG_DIR/fish/functions/fish_right_prompt.fish"
         link_config "$PWD/fish/functions/fish_user_key_bindings.fish" "$CONFIG_DIR/fish/functions/fish_user_key_bindings.fish"
         ;;
-    nvim)
+    neovim)
         link_config "$PWD/neovim/init.vim" "$HOME/.config/nvim/init.vim"
         ;;
     alacritty)
