@@ -35,6 +35,7 @@ case "${1:-help}" in
     fish)
         link_config "$PWD/fish/config.fish" "$CONFIG_DIR/fish/config.fish"
         link_config "$PWD/fish/colors.fish" "$CONFIG_DIR/fish/colors.fish"
+        link_config "$PWD/fish/functions/fish_title.fish" "$CONFIG_DIR/fish/functions/fish_title.fish"
         link_config "$PWD/fish/functions/fish_prompt.fish" "$CONFIG_DIR/fish/functions/fish_prompt.fish"
         link_config "$PWD/fish/functions/fish_right_prompt.fish" "$CONFIG_DIR/fish/functions/fish_right_prompt.fish"
         link_config "$PWD/fish/functions/fish_user_key_bindings.fish" "$CONFIG_DIR/fish/functions/fish_user_key_bindings.fish"
