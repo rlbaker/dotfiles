@@ -1,3 +1,3 @@
 function fish_title
-    echo -n (prompt_pwd) ": $_"
+    echo -n (pwd) "│" $_
 end
