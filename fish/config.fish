@@ -26,7 +26,7 @@ set -g -x FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git'
 set -g -x FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
 
 # opam
-source /Users/rlbaker/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
+source /Users/rlbaker/.opam/opam-init/init.fish >/dev/null 2>/dev/null; or true
 
 # per-system config
 source $HOME/.config/fish/local.fish

@@ -15,8 +15,8 @@ Plug 'ocaml/vim-ocaml'
 
 call plug#end()
 
-set termguicolors
 set cmdheight=1                           " Bottom command line height
+set completeopt=noselect,noinsert,menuone " Completion menu settings
 set cursorline cursorcolumn               " Display a crosshair over the cursor
 set expandtab                             " Expand tabs to spaces
 set hidden                                " Don't force save when moving between buffers
@@ -24,75 +24,104 @@ set ignorecase smartcase                  " Case insensitive search unless caps
 set mouse=a                               " Enable mouse interaction
 set nobackup nowritebackup noswapfile     " Disable backups
 set noshowmode                            " Already displaying mode in airline
-set shiftwidth=4 softtabstop=4 tabstop=4  " 4 space indents
 set shortmess=aIc                         " Shorten messages
-set splitbelow splitright                 " Splitting behavior
-set whichwrap=<,>,[,],h,l                 " Configure line wrapping
 set smartindent
-set completeopt=noselect,noinsert,menuone
+set splitbelow splitright                 " Splitting behavior
+set tabstop=4 shiftwidth=0 softtabstop=-1 " 4 space indents
+set termguicolors                         " Enable truecolor
 
 let g:maplocalleader = ','
 
 let g:gruvbox_contrast_dark = 'hard'
-let g:gruvbox_sign_column = 'bg2'
+let g:gruvbox_sign_column = 'dark0'
 colorscheme gruvbox
 
 " Disable arrow keys for movement
-inoremap <up>     <NOP>
-inoremap <down>   <NOP>
-inoremap <left>   <NOP>
-inoremap <right>  <NOP>
-noremap  <up>     <NOP>
-noremap  <down>   <NOP>
+inoremap <Up>    <Nop>
+inoremap <Down>  <Nop>
+inoremap <Left>  <Nop>
+inoremap <Right> <Nop>
+noremap  <Up>    <Nop>
+noremap  <Down>  <Nop>
 
-noremap  <left>  :bp<CR>
-noremap  <right> :bn<CR>
+noremap <silent> <Left>  :bp<CR>
+noremap <silent> <Right> :bn<CR>
 
-nnoremap <leader>b :Buffers<CR>
-nnoremap <leader>f :Files<CR>
-nnoremap <leader>m :Marks<CR>
-nnoremap <leader>l :Lines<CR>
-nnoremap <leader>w :Windows<CR>
+nnoremap <silent> <Leader>b :Buffers<CR>
+nnoremap <silent> <Leader>f :Files<CR>
+nnoremap <silent> <Leader>m :Marks<CR>
+nnoremap <silent> <Leader>l :Lines<CR>
+nnoremap <silent> <Leader>w :Windows<CR>
 
 let g:fzf_layout = { 'down': '~20%' }
 
 augroup rlb_global
-  au!
-  au WinLeave * set nocursorline nocursorcolumn
-  au WinEnter * set cursorline cursorcolumn
+  autocmd!
+  autocmd WinEnter * set cursorline cursorcolumn
+  autocmd WinLeave * set nocursorline nocursorcolumn
+  autocmd ColorScheme,BufEnter,BufWinEnter * call s:FixNeovimCursorLine()
+
+  autocmd FileType vim setlocal tabstop=2
+  autocmd FileType fish,go,ocaml,sh setlocal signcolumn=yes
+  autocmd FileType go,ocaml call s:LSPSetup()
 augroup END
 
-set omnifunc=ale#completion#OmniFunc
+function! s:FixNeovimCursorLine()
+  highlight CursorLine ctermfg=white
+endfunction
 
+let g:better_whitespace_enabled = 1
+let g:strip_whitespace_on_save = 1
+let g:strip_whitespace_confirm = 0
+
+let airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#ale#enabled = 1
+
+let g:ale_virtualtext_cursor = 1
 let g:ale_sign_column_always = 1
 let g:ale_linters_explicit = 1
-let g:ale_fix_on_save = 1
 
 let g:ale_linters = {
-\  '*': ['trim_whitespace'],
-\  'sh': ['shellcheck'],
+\  'fish': ['fish'],
 \  'go': ['gopls-custom'],
 \  'ocaml': ['ocamllsp'],
+\  'sh': ['shellcheck'],
 \}
 
+let g:ale_fix_on_save = 1
 let g:ale_fixers = {
-\  '*': ['trim_whitespace'],
 \  'go': ['goimports'],
+\  'ocaml': ['ocamlformat'],
 \}
 
-function! GetOCamlRoot(buffer) abort
-    let l:merlin_file = ale#path#FindNearestFile(a:buffer, '.merlin')
+function! s:LSPSetup() abort
+  setlocal omnifunc=ale#completion#OmniFunc
+  nmap <buffer><silent> K <Plug>(ale_hover)
+  nmap <buffer><silent> gd <Plug>(ale_go_to_definition)
+  nmap <buffer><silent> gr <Plug>(ale_find_references)
+endfunction
 
-    return !empty(l:merlin_file) ? fnamemodify(l:merlin_file, ':h') : ''
+function! s:FindOCamlProjectRoot(buffer) abort
+  let l:dune_project = ale#path#FindNearestFile(a:buffer, 'dune-project')
+  if !empty(l:dune_project)
+    return fnamemodify(l:dune_project, ':h')
+  endif
+
+  let l:dune_file = ale#path#FindNearestFile(a:buffer, 'dune')
+  if !empty(l:dune_file)
+    return fnamemodify(l:dune_file, ':h')
+  endif
+
+  let l:buffer_file = fnamemodify(bufname(a:buffer), ':p')
+  return fnameescape(l:buffer_file)
 endfunction
 
 call ale#linter#Define('ocaml', {
-\   'name': 'ocamllsp',
-\   'lsp': 'stdio',
-\   'executable': 'ocamllsp',
-\   'command': '%e',
-\   'project_root': function('GetOCamlRoot'),
+\  'name': 'ocamllsp',
+\  'lsp': 'stdio',
+\  'executable': 'ocamllsp',
+\  'command': 'ocamllsp',
+\  'project_root': function('s:FindOCamlProjectRoot'),
 \})
 
 call ale#linter#Define('go', {
@@ -103,8 +132,3 @@ call ale#linter#Define('go', {
 \  'command': function('ale_linters#go#gopls#GetCommand'),
 \  'project_root': function('ale_linters#go#gopls#FindProjectRoot'),
 \})
-
-
-au FileType go,ocaml nmap <buffer><silent> K <Plug>(ale_hover)
-au FileType go,ocaml nmap <buffer><silent> gd <Plug>(ale_go_to_definition)
-au FileType go,ocaml nmap <buffer><silent> gr <Plug>(ale_go_to_definition)
