@@ -23,11 +23,9 @@ set hidden                                " Don't force save when moving between
 set ignorecase smartcase                  " Case insensitive search unless caps
 set mouse=a                               " Enable mouse interaction
 set nobackup nowritebackup noswapfile     " Disable backups
-set noerrorbells                          " Disable all bells
 set noshowmode                            " Already displaying mode in airline
 set shiftwidth=4 softtabstop=4 tabstop=4  " 4 space indents
 set shortmess=aIc                         " Shorten messages
-set showcmd                               " Show status for running commands
 set splitbelow splitright                 " Splitting behavior
 set whichwrap=<,>,[,],h,l                 " Configure line wrapping
 set smartindent
