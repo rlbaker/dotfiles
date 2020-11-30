@@ -1,18 +1,14 @@
 call plug#begin(stdpath('data') . '/plugged')
-
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'dense-analysis/ale'
-
 Plug 'georgewitteman/vim-fish'
 Plug 'ocaml/vim-ocaml'
-
 call plug#end()
 
 set cmdheight=1                           " Bottom command line height
@@ -55,6 +51,8 @@ nnoremap <silent> <Leader>w :Windows<CR>
 
 let g:fzf_layout = { 'down': '~20%' }
 
+let g:html_indent_autotags = "html"
+
 let airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#ale#enabled = 1
 
@@ -82,7 +80,7 @@ augroup rlb_global
   autocmd ColorScheme,BufEnter,BufWinEnter * call s:FixNeovimCursorLine()
 
   autocmd FileType help noremap <buffer><silent> q :q<CR>
-  autocmd FileType vim setlocal tabstop=2
+  autocmd FileType vim,javascript,json,html setlocal tabstop=2
   autocmd FileType fish setlocal keywordprg=:Man
 
   autocmd FileType fish,go,ocaml,sh setlocal signcolumn=yes
@@ -95,7 +93,7 @@ endfunction
 
 function! s:LSPSetup() abort
   setlocal omnifunc=ale#completion#OmniFunc
-  nmap <buffer><silent> K <Plug>(ale_hover)
+  nmap <buffer><silent> K  <Plug>(ale_hover)
   nmap <buffer><silent> gd <Plug>(ale_go_to_definition)
   nmap <buffer><silent> gr <Plug>(ale_find_references)
 endfunction
