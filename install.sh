@@ -57,5 +57,3 @@ case "${1:-help}" in
         echo "./install [ alacritty | fish | brew | nvim | tmux ]"
         ;;
 esac
-
-

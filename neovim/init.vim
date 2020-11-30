@@ -2,15 +2,15 @@ call plug#begin(stdpath('data') . '/plugged')
 
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline-themes'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-
 Plug 'dense-analysis/ale'
 
+Plug 'georgewitteman/vim-fish'
 Plug 'ocaml/vim-ocaml'
 
 call plug#end()
@@ -55,32 +55,12 @@ nnoremap <silent> <Leader>w :Windows<CR>
 
 let g:fzf_layout = { 'down': '~20%' }
 
-augroup rlb_global
-  autocmd!
-  autocmd WinEnter * set cursorline cursorcolumn
-  autocmd WinLeave * set nocursorline nocursorcolumn
-  autocmd ColorScheme,BufEnter,BufWinEnter * call s:FixNeovimCursorLine()
-
-  autocmd FileType vim setlocal tabstop=2
-  autocmd FileType fish,go,ocaml,sh setlocal signcolumn=yes
-  autocmd FileType go,ocaml call s:LSPSetup()
-augroup END
-
-function! s:FixNeovimCursorLine()
-  highlight CursorLine ctermfg=white
-endfunction
-
-let g:better_whitespace_enabled = 1
-let g:strip_whitespace_on_save = 1
-let g:strip_whitespace_confirm = 0
-
 let airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#ale#enabled = 1
 
-let g:ale_virtualtext_cursor = 1
 let g:ale_sign_column_always = 1
-let g:ale_linters_explicit = 1
 
+let g:ale_linters_explicit = 1
 let g:ale_linters = {
 \  'fish': ['fish'],
 \  'go': ['gopls-custom'],
@@ -90,9 +70,28 @@ let g:ale_linters = {
 
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
+\  '*': ['trim_whitespace'],
 \  'go': ['goimports'],
 \  'ocaml': ['ocamlformat'],
 \}
+
+augroup rlb_global
+  autocmd!
+  autocmd WinEnter * set cursorline cursorcolumn
+  autocmd WinLeave * set nocursorline nocursorcolumn
+  autocmd ColorScheme,BufEnter,BufWinEnter * call s:FixNeovimCursorLine()
+
+  autocmd FileType help noremap <buffer><silent> q :q<CR>
+  autocmd FileType vim setlocal tabstop=2
+  autocmd FileType fish setlocal keywordprg=:Man
+
+  autocmd FileType fish,go,ocaml,sh setlocal signcolumn=yes
+  autocmd FileType go,ocaml call s:LSPSetup()
+augroup END
+
+function! s:FixNeovimCursorLine()
+  highlight CursorLine ctermfg=white
+endfunction
 
 function! s:LSPSetup() abort
   setlocal omnifunc=ale#completion#OmniFunc
