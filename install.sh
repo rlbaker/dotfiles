@@ -42,16 +42,19 @@ case "${1:-help}" in
         touch "$CONFIG_DIR/fish/local.fish"
         ;;
     neovim)
-        link_config "$PWD/neovim/init.vim" "$HOME/.config/nvim/init.vim"
+        link_config "$PWD/neovim/init.vim" "$CONFIG_DIR/nvim/init.vim"
+        ;;
+    vim)
+        link_config "$PWD/vim/vimrc" "$HOME/.vim/vimrc"
         ;;
     alacritty)
-        link_config "$PWD/alacritty/alacritty.yml" "$HOME/.config/alacritty/alacritty.yml"
+        link_config "$PWD/alacritty/alacritty.yml" "$CONFIG_DIR/alacritty/alacritty.yml"
         ;;
     tmux)
-        link_config "$PWD/tmux/tmux.conf" "$HOME/.config/tmux/tmux.conf"
+        link_config "$PWD/tmux/tmux.conf" "$CONFIG_DIR/tmux/tmux.conf"
         ;;
     brew)
-        link_config "$PWD/brew/Brewfile" "$HOME/.config/brew/Brewfile"
+        link_config "$PWD/brew/Brewfile" "$CONFIG_DIR/brew/Brewfile"
         ;;
     *)
         echo "./install [ alacritty | fish | brew | nvim | tmux ]"
