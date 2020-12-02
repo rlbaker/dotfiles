@@ -9,9 +9,7 @@ set -g -x LSCOLORS ExFxCxDxBxegedabagacad
 
 set fish_user_paths $HOME/.cargo/bin $HOME/go/bin /Applications/Postgres.app/Contents/Versions/latest/bin
 
-# use neovim
-alias vim='nvim'
-set -g -x EDITOR nvim
+set -g -x EDITOR vim
 
 # don't copy garbage into tar files
 set -g -x COPYFILE_DISABLED 1

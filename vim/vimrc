@@ -1,4 +1,49 @@
-call plug#begin(stdpath('data') . '/plugged')
+set encoding=utf-8
+set fileencoding=utf-8
+scriptencoding utf-8
+set nocompatible
+set termguicolors
+set ttyfast
+set background=dark
+
+set autoindent smartindent
+set autoread
+set backspace=indent,eol,start
+set belloff=all
+set cmdheight=1
+set complete-=i
+set completeopt=noselect,noinsert,menuone
+set cursorline
+set display+=lastline
+set expandtab smarttab
+set fillchars=vert:│,fold:·
+set formatoptions+=j
+set hidden
+set history=10000
+set hlsearch incsearch
+set ignorecase smartcase
+set laststatus=2
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+set mouse=a ttymouse=xterm2
+set nobackup nowritebackup noswapfile
+set noshowcmd noshowmode
+set nostartofline
+set nrformats-=octal
+set previewheight=4
+set scrolloff=1
+set sessionoptions-=options
+set shortmess=aIc
+set splitbelow splitright
+set tabstop=4 shiftwidth=0 softtabstop=-1
+set ttimeout ttimeoutlen=25
+set viewoptions-=options
+set viminfo^=!
+set wildmenu
+
+filetype plugin indent on
+syntax enable
+
+call plug#begin()
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'ntpeters/vim-better-whitespace'
@@ -9,23 +54,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'dense-analysis/ale'
 Plug 'georgewitteman/vim-fish'
 Plug 'ocaml/vim-ocaml'
+Plug 'plasticboy/vim-markdown'
 call plug#end()
-
-set cmdheight=1                           " Bottom command line height
-set completeopt=noselect,noinsert,menuone " Completion menu settings
-" set cursorline cursorcolumn               " Display a crosshair over the cursor
-set expandtab                             " Expand tabs to spaces
-set hidden                                " Don't force save when moving between buffers
-set ignorecase smartcase                  " Case insensitive search unless caps
-set mouse=a                               " Enable mouse interaction
-set nobackup nowritebackup noswapfile     " Disable backups
-set noshowmode                            " Already displaying mode in airline
-set shortmess=aIc                         " Shorten messages
-set smartindent
-set splitbelow splitright                 " Splitting behavior
-set tabstop=4 shiftwidth=0 softtabstop=-1 " 4 space indents
-set termguicolors                         " Enable truecolor
-set ttyfast
 
 let g:maplocalleader = ','
 
@@ -49,48 +79,43 @@ nnoremap <silent> <Leader>f :Files<CR>
 nnoremap <silent> <Leader>m :Marks<CR>
 nnoremap <silent> <Leader>l :Lines<CR>
 nnoremap <silent> <Leader>w :Windows<CR>
+nnoremap <silent> <Leader>q :pclose <bar> cclose <bar> lclose<CR>
 
 let g:fzf_layout = { 'down': '~20%' }
 
 let g:html_indent_autotags = "html"
 
-let airline#extensions#whitespace#enabled = 0
+let g:vim_markdown_no_default_key_mappings = 1
+
+let g:better_whitespace_enabled=1
+let g:strip_whitespace_on_save=1
+let g:strip_whitespace_confirm=0
+
+let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#ale#enabled = 1
 
+let g:ale_hover_to_preview = 1
 let g:ale_sign_column_always = 1
-
 let g:ale_linters_explicit = 1
+let g:ale_fix_on_save = 1
 let g:ale_linters = {
 \  'fish': ['fish'],
 \  'go': ['gopls-custom'],
 \  'ocaml': ['ocamllsp'],
 \  'sh': ['shellcheck'],
 \}
-
-let g:ale_fix_on_save = 1
 let g:ale_fixers = {
-\  '*': ['trim_whitespace'],
 \  'go': ['goimports'],
 \  'ocaml': ['ocamlformat'],
 \}
 
 augroup rlb_global
   autocmd!
-  " autocmd WinEnter * set cursorline cursorcolumn
-  " autocmd WinLeave * set nocursorline nocursorcolumn
-  " autocmd ColorScheme,BufEnter,BufWinEnter * call s:FixNeovimCursorLine()
-
-  autocmd FileType help noremap <buffer><silent> q :q<CR>
-  autocmd FileType vim,javascript,json,html setlocal tabstop=2
-  autocmd FileType fish setlocal keywordprg=:Man
-
-  autocmd FileType fish,go,ocaml,sh setlocal signcolumn=yes
+  autocmd FileType help noremap <buffer><silent> <Leader>q :q<CR>
+  autocmd FileType ocaml,vim,javascript,json,html setlocal tabstop=2
   autocmd FileType go,ocaml call s:LSPSetup()
+  autocmd FileType fish,go,ocaml,sh setlocal signcolumn=yes
 augroup END
-
-function! s:FixNeovimCursorLine()
-  highlight CursorLine ctermfg=white
-endfunction
 
 function! s:LSPSetup() abort
   setlocal omnifunc=ale#completion#OmniFunc
