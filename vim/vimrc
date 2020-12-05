@@ -59,10 +59,6 @@ call plug#end()
 
 let g:maplocalleader = ','
 
-let g:gruvbox_contrast_dark = 'hard'
-let g:gruvbox_sign_column = 'dark0'
-colorscheme gruvbox
-
 " Disable arrow keys for movement
 inoremap <Up>    <Nop>
 inoremap <Down>  <Nop>
@@ -81,19 +77,31 @@ nnoremap <silent> <Leader>l :Lines<CR>
 nnoremap <silent> <Leader>w :Windows<CR>
 nnoremap <silent> <Leader>q :pclose <bar> cclose <bar> lclose<CR>
 
-let g:fzf_layout = { 'down': '~20%' }
+nnoremap <silent> <C-H> <C-W>h
+nnoremap <silent> <C-J> <C-W>j
+nnoremap <silent> <C-K> <C-W>k
+nnoremap <silent> <C-L> <C-W>l
 
 let g:html_indent_autotags = "html"
 
-let g:vim_markdown_no_default_key_mappings = 1
+" ---- gruvbox ----
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_sign_column = 'dark0'
+colorscheme gruvbox
 
+" ---- fzf ----
+let g:fzf_layout = { 'down': '~25%' }
+
+" ---- vim-better-whitespace
 let g:better_whitespace_enabled=1
 let g:strip_whitespace_on_save=1
 let g:strip_whitespace_confirm=0
 
+" ---- airline ----
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#ale#enabled = 1
 
+" ---- ALE ----
 let g:ale_hover_to_preview = 1
 let g:ale_sign_column_always = 1
 let g:ale_linters_explicit = 1
@@ -108,6 +116,17 @@ let g:ale_fixers = {
 \  'go': ['goimports'],
 \  'ocaml': ['ocamlformat'],
 \}
+
+" ---- vim-markdown ----
+let g:vim_markdown_no_default_key_mappings = 1
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_fenced_languages = [
+\  'go=go',
+\  'ocaml=ocaml',
+\  'viml=vim',
+\  'bash=sh',
+\  'fish=fish'
+\]
 
 augroup rlb_global
   autocmd!
