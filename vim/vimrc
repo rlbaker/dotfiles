@@ -53,7 +53,6 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'dense-analysis/ale'
 Plug 'georgewitteman/vim-fish'
-Plug 'ocaml/vim-ocaml'
 Plug 'plasticboy/vim-markdown'
 call plug#end()
 
@@ -110,20 +109,20 @@ let g:ale_completion_max_suggestions = 999
 let g:ale_linters = {
 \  'fish': ['fish'],
 \  'go': ['gopls-custom'],
-\  'ocaml': ['ocamllsp'],
 \  'sh': ['shellcheck'],
 \}
 let g:ale_fixers = {
 \  'go': ['goimports'],
-\  'ocaml': ['ocamlformat'],
 \}
 
 " ---- vim-markdown ----
+let g:vim_markdown_auto_insert_bullets = 0
 let g:vim_markdown_no_default_key_mappings = 1
 let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_auto_insert_bullets = 0
+let g:vim_markdown_new_list_item_indent = 0
 let g:vim_markdown_fenced_languages = [
 \  'go=go',
-\  'ocaml=ocaml',
 \  'viml=vim',
 \  'bash=sh',
 \  'fish=fish'
@@ -131,10 +130,12 @@ let g:vim_markdown_fenced_languages = [
 
 augroup rlb_global
   autocmd!
+  autocmd FileType vim,javascript,json,html,markdown setlocal tabstop=2
+  autocmd FileType go call s:LSPSetup()
+  autocmd FileType fish,go,sh setlocal signcolumn=yes
+
   autocmd FileType help noremap <buffer><silent> <Leader>q :q<CR>
-  autocmd FileType ocaml,vim,javascript,json,html setlocal tabstop=2
-  autocmd FileType go,ocaml call s:LSPSetup()
-  autocmd FileType fish,go,ocaml,sh setlocal signcolumn=yes
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>j :%!pandoc -f markdown -t jira<CR>
 augroup END
 
 function! s:LSPSetup() abort
@@ -143,29 +144,6 @@ function! s:LSPSetup() abort
   nmap <buffer><silent> gd <Plug>(ale_go_to_definition)
   nmap <buffer><silent> gr <Plug>(ale_find_references)
 endfunction
-
-function! s:FindOCamlProjectRoot(buffer) abort
-  let l:dune_project = ale#path#FindNearestFile(a:buffer, 'dune-project')
-  if !empty(l:dune_project)
-    return fnamemodify(l:dune_project, ':h')
-  endif
-
-  let l:dune_file = ale#path#FindNearestFile(a:buffer, 'dune')
-  if !empty(l:dune_file)
-    return fnamemodify(l:dune_file, ':h')
-  endif
-
-  let l:buffer_file = fnamemodify(bufname(a:buffer), ':p')
-  return fnameescape(l:buffer_file)
-endfunction
-
-call ale#linter#Define('ocaml', {
-\  'name': 'ocamllsp',
-\  'lsp': 'stdio',
-\  'executable': 'ocamllsp',
-\  'command': 'ocamllsp',
-\  'project_root': function('s:FindOCamlProjectRoot'),
-\})
 
 call ale#linter#Define('go', {
 \  'name': 'gopls-custom',
