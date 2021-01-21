@@ -1,13 +1,18 @@
+set nocompatible
+
 set encoding=utf-8
 set fileencoding=utf-8
 scriptencoding utf-8
-set nocompatible
-set termguicolors
-set ttyfast
-set background=dark
+
+if has('termguicolors')
+  let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
 
 set autoindent smartindent
 set autoread
+set background=dark
 set backspace=indent,eol,start
 set belloff=all
 set cmdheight=1
@@ -24,9 +29,9 @@ set hlsearch incsearch
 set ignorecase smartcase
 set laststatus=2
 set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-set mouse=a ttymouse=xterm2
+set mouse=a
 set nobackup nowritebackup noswapfile
-set noshowcmd noshowmode
+set noshowmode noshowcmd
 set nostartofline
 set nrformats-=octal
 set previewheight=4
@@ -36,6 +41,7 @@ set shortmess=aIc
 set splitbelow splitright
 set tabstop=4 shiftwidth=0 softtabstop=-1
 set ttimeout ttimeoutlen=25
+set ttyfast ttymouse=xterm2
 set viewoptions-=options
 set viminfo^=!
 set wildmenu
@@ -46,47 +52,75 @@ syntax enable
 call plug#begin()
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
+
 Plug 'ntpeters/vim-better-whitespace'
+
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+
 Plug 'dense-analysis/ale'
 Plug 'georgewitteman/vim-fish'
 Plug 'plasticboy/vim-markdown'
 call plug#end()
 
+" ---- gruvbox ----
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_sign_column = 'dark0'
+colorscheme gruvbox
+
+
+" <Space> as leader
+nnoremap <Space> <Nop>
+let g:mapleader = ' '
+
+" comma as localleader
 let g:maplocalleader = ','
 
 " Disable arrow keys for movement
-inoremap <Up>    <Nop>
-inoremap <Down>  <Nop>
-inoremap <Left>  <Nop>
-inoremap <Right> <Nop>
 noremap  <Up>    <Nop>
 noremap  <Down>  <Nop>
+noremap  <Left>  <Nop>
+noremap  <Right> <Nop>
+noremap! <Up>    <Nop>
+noremap! <Down>  <Nop>
+noremap! <Left>  <Nop>
+noremap! <Right> <Nop>
 
-noremap <silent> <Left>  :bp<CR>
-noremap <silent> <Right> :bn<CR>
+" <Space>-f : fzf commands
+noremap <silent> <Leader>fb :Buffers<CR>
+noremap <silent> <Leader>ff :Files<CR>
+noremap <silent> <Leader>fm :Marks<CR>
+noremap <silent> <Leader>fl :Lines<CR>
+noremap <silent> <Leader>fw :Windows<CR>
+noremap <silent> <Leader>fr :Rg<CR>
 
-nnoremap <silent> <Leader>b :Buffers<CR>
-nnoremap <silent> <Leader>f :Files<CR>
-nnoremap <silent> <Leader>m :Marks<CR>
-nnoremap <silent> <Leader>l :Lines<CR>
-nnoremap <silent> <Leader>w :Windows<CR>
-nnoremap <silent> <Leader>q :pclose <bar> cclose <bar> lclose<CR>
+" <Space>-p : pandoc commands
+nnoremap <silent> <Leader>pj :%!pandoc -f markdown -t jira<CR>
+vnoremap <silent> <Leader>pj :'<,'>!pandoc -f markdown -t jira<CR>
+
+" <Space>-j-q : jq commands
+nnoremap <silent> <Leader>jq :%!jq<CR>
+vnoremap <silent> <Leader>jq :'<,'>!jq<CR>
+
+" <Space>-y : Yank to system clipboard
+noremap <silent> <Leader>y "+y
+" <Space>-<Space> : list buffers
+noremap <silent> <Leader><Leader> :Buffers<CR>
+
+" Close all helper windows
+nnoremap <silent> <Leader>q :pclose <bar> cclose <bar> lclose <bar> helpclose<CR>
+
+" Jump between Ale errors
+nmap <silent> <Leader>an <Plug>(ale_next_wrap)
+nmap <silent> <Leader>ap <Plug>(ale_previous_wrap)
 
 nnoremap <silent> <C-H> <C-W>h
 nnoremap <silent> <C-J> <C-W>j
 nnoremap <silent> <C-K> <C-W>k
 nnoremap <silent> <C-L> <C-W>l
-
-let g:html_indent_autotags = "html"
-
-" ---- gruvbox ----
-let g:gruvbox_contrast_dark = 'hard'
-let g:gruvbox_sign_column = 'dark0'
-colorscheme gruvbox
 
 " ---- fzf ----
 let g:fzf_layout = { 'down': '~25%' }
@@ -103,16 +137,17 @@ let g:airline#extensions#ale#enabled = 1
 " ---- ALE ----
 let g:ale_hover_to_preview = 1
 let g:ale_sign_column_always = 1
-let g:ale_linters_explicit = 1
 let g:ale_fix_on_save = 1
+let g:ale_linters_explicit = 1
 let g:ale_completion_max_suggestions = 999
 let g:ale_linters = {
 \  'fish': ['fish'],
 \  'go': ['gopls-custom'],
 \  'sh': ['shellcheck'],
 \}
+
 let g:ale_fixers = {
-\  'go': ['goimports'],
+\  'go': ['goimports', 'gomod'],
 \}
 
 " ---- vim-markdown ----
@@ -128,14 +163,15 @@ let g:vim_markdown_fenced_languages = [
 \  'fish=fish'
 \]
 
+" ---- vim filetype settings ----
+let g:html_indent_autotags = "html"
+let g:vim_indent_cont = &sw
+
 augroup rlb_global
   autocmd!
-  autocmd FileType vim,javascript,json,html,markdown setlocal tabstop=2
   autocmd FileType go call s:LSPSetup()
-  autocmd FileType fish,go,sh setlocal signcolumn=yes
-
-  autocmd FileType help noremap <buffer><silent> <Leader>q :q<CR>
-  autocmd FileType markdown nnoremap <buffer> <LocalLeader>j :%!pandoc -f markdown -t jira<CR>
+  autocmd FileType go setlocal signcolumn=yes
+  autocmd FileType vim,javascript,json,html,markdown setlocal tabstop=2
 augroup END
 
 function! s:LSPSetup() abort
@@ -148,8 +184,13 @@ endfunction
 call ale#linter#Define('go', {
 \  'name': 'gopls-custom',
 \  'lsp': 'stdio',
-\  'initialization_options': { 'staticcheck': v:true, },
+\  'initialization_options': {
+\    'staticcheck': v:true,
+\    'linksInHover': v:false,
+\    'usePlaceholders': v:true,
+\  },
 \  'executable': {b -> ale#Var(b, 'go_gopls_executable')},
 \  'command': function('ale_linters#go#gopls#GetCommand'),
 \  'project_root': function('ale_linters#go#gopls#FindProjectRoot'),
 \})
+
