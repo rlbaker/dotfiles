@@ -107,8 +107,11 @@ vnoremap <silent> <Leader>jq :'<,'>!jq<CR>
 
 " <Space>-y : Yank to system clipboard
 noremap <silent> <Leader>y "+y
+
 " <Space>-<Space> : list buffers
 noremap <silent> <Leader><Leader> :Buffers<CR>
+" <Space>-. : open files buffers
+noremap <silent> <Leader>. :Files<CR>
 
 " Close all helper windows
 nnoremap <silent> <Leader>q :pclose <bar> cclose <bar> lclose <bar> helpclose<CR>
@@ -194,3 +197,10 @@ call ale#linter#Define('go', {
 \  'project_root': function('ale_linters#go#gopls#FindProjectRoot'),
 \})
 
+" Fix copy / paste in tmux
+if &term =~ '^screen'
+  let &t_BE="\<Esc>[?2004h"
+  let &t_BD="\<Esc>[?2004l"
+  let &t_PS="\<Esc>[200~"
+  let &t_PE="\<Esc>[201~"
+endif
