@@ -186,8 +186,6 @@ call ale#linter#Define('go', {
 \  'lsp': 'stdio',
 \  'initialization_options': {
 \    'staticcheck': v:true,
-\    'linksInHover': v:false,
-\    'usePlaceholders': v:true,
 \  },
 \  'executable': {b -> ale#Var(b, 'go_gopls_executable')},
 \  'command': function('ale_linters#go#gopls#GetCommand'),
