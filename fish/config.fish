@@ -9,16 +9,12 @@ source $HOME/.config/fish/colors.fish
 set __fish_git_prompt_show_informative_status true
 set -gx LSCOLORS ExFxCxDxBxegedabagacad
 
-# setup homebrew paths
+# setup paths
 /opt/homebrew/bin/brew shellenv | source
-
-# setup asdf paths
-source /usr/local/opt/asdf/libexec/asdf.fish
-
-# setup custom paths
+source $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.fish
+fish_add_path $HOMEBREW_PREFIX/opt/curl/bin
 fish_add_path $HOME/.nvim-nightly/nvim-osx64/bin
 fish_add_path /Applications/Postgres.app/Contents/Versions/latest/bin
-fish_add_path /opt/homebrew/opt/curl/bin
 
 # Use neovim instead of vim
 alias vim="nvim"
