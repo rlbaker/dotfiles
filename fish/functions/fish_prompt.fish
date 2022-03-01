@@ -6,7 +6,7 @@ function fish_prompt --description 'Write out the prompt'
     set -l prompt_char (set_color $gb_orange_bright; echo -n ' λ '; set_color normal)
 
     echo -n -s $prompt_dir \
-        (fish_git_prompt) \
-        (__fish_print_pipestatus " [" "]" "|" $sep_color $status_color $last_pipestatus) \
-        $prompt_char
+      (fish_git_prompt) \
+      (__fish_print_pipestatus " [" "]" "|" $sep_color $status_color $last_pipestatus) \
+      $prompt_char
 end

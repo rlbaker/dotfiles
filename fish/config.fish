@@ -4,30 +4,33 @@ set fish_greeting # disable startup message
 
 set -g fish_term24bit 1 # force truecolor
 
-set __fish_git_prompt_show_informative_status true
-set -g -x LSCOLORS ExFxCxDxBxegedabagacad
+# set __fish_git_prompt_show_informative_status true
+set -gx LSCOLORS ExFxCxDxBxegedabagacad
 
-set fish_user_paths $HOME/.cargo/bin $HOME/go/bin /Applications/Postgres.app/Contents/Versions/latest/bin
+set -gx fish_user_paths $HOME/.go/bin $HOME/.nvim-nightly/nvim-osx64/bin /Applications/Postgres.app/Contents/Versions/latest/bin
 
-set -g -x EDITOR vim
+alias vim="nvim"
+set -gx EDITOR nvim
 
 # don't copy garbage into tar files
-set -g -x COPYFILE_DISABLED 1
+set -gx COPYFILE_DISABLED 1
 
 # homebrew config
-set -g -x HOMEBREW_FORCE_BREWED_GIT 1
-set -g -x HOMEBREW_BUNDLE_NO_LOCK true
-set -g -x HOMEBREW_BUNDLE_FILE "$HOME/.config/brew/Brewfile"
+set -gx HOMEBREW_FORCE_BREWED_GIT 1
+set -gx HOMEBREW_BUNDLE_NO_LOCK true
+set -gx HOMEBREW_BUNDLE_FILE "$HOME/.config/brew/Brewfile"
 
-# fzf config
-set -g -x FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git'
-set -g -x FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
+set -gx GOPATH "$HOME/.go"
 
-# opam
-source /Users/rlbaker/.opam/opam-init/init.fish >/dev/null 2>/dev/null; or true
+fish_add_path /usr/local/opt/curl/bin
 
-# fnm
-fnm env | source
+source /usr/local/opt/asdf/libexec/asdf.fish
 
 # per-system config
 source $HOME/.config/fish/local.fish
+
+if status is-interactive
+and not set -q TMUX
+    tmux new-session -A -s 0
+end
+
