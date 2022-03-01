@@ -2,7 +2,7 @@ env:
   TERM: alacritty-direct
 
 shell:
-  program: /usr/local/bin/fish
+  program: /opt/homebrew/bin/fish
   args: ['--login']
 
 window:

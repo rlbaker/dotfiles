@@ -1,16 +1,18 @@
 source $HOME/.config/fish/colors.fish
 
+/opt/homebrew/bin/brew shellenv | source
+
 set fish_greeting # disable startup message
 
 set -g fish_term24bit 1 # force truecolor
 
-# set __fish_git_prompt_show_informative_status true
+set __fish_git_prompt_show_informative_status true
 set -gx LSCOLORS ExFxCxDxBxegedabagacad
 
-set -gx fish_user_paths $HOME/.go/bin $HOME/.nvim-nightly/nvim-osx64/bin /Applications/Postgres.app/Contents/Versions/latest/bin
+set -gx fish_user_paths $HOME/.nvim-nightly/nvim-osx64/bin /Applications/Postgres.app/Contents/Versions/latest/bin
 
-alias vim="nvim"
-set -gx EDITOR nvim
+" alias vim="nvim"
+" set -gx EDITOR nvim
 
 # don't copy garbage into tar files
 set -gx COPYFILE_DISABLED 1

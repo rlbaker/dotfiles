@@ -38,14 +38,12 @@ case "${1:-help}" in
         link_config "$PWD/fish/functions/fish_title.fish" "$CONFIG_DIR/fish/functions/fish_title.fish"
         link_config "$PWD/fish/functions/fish_prompt.fish" "$CONFIG_DIR/fish/functions/fish_prompt.fish"
         link_config "$PWD/fish/functions/fish_right_prompt.fish" "$CONFIG_DIR/fish/functions/fish_right_prompt.fish"
-        link_config "$PWD/fish/functions/fish_user_key_bindings.fish" "$CONFIG_DIR/fish/functions/fish_user_key_bindings.fish"
+        link_config "$PWD/fish/functions/nvim-update.fish" "$CONFIG_DIR/fish/functions/nvim-update.fish"
         touch "$CONFIG_DIR/fish/local.fish"
         ;;
     neovim)
         link_config "$PWD/neovim/init.vim" "$CONFIG_DIR/nvim/init.vim"
-        ;;
-    vim)
-        link_config "$PWD/vim/vimrc" "$HOME/.vim/vimrc"
+        link_config "$PWD/neovim/lua/config.lua" "$CONFIG_DIR/nvim/lua/config.lua"
         ;;
     alacritty)
         link_config "$PWD/alacritty/alacritty.yml" "$CONFIG_DIR/alacritty/alacritty.yml"
@@ -54,7 +52,7 @@ case "${1:-help}" in
         link_config "$PWD/tmux/tmux.conf" "$CONFIG_DIR/tmux/tmux.conf"
         ;;
     brew)
-        link_config "$PWD/brew/Brewfile" "$CONFIG_DIR/brew/Brewfile"
+        link_config "$PWD/brew/Brewfile" "$HOME/Brewfile"
         ;;
     *)
         echo "./install [ alacritty | fish | brew | nvim | tmux ]"
