@@ -11,7 +11,7 @@ window:
   startup_mode: Maximized
 
 font:
-  size: 14
+  size: 16
   use_thin_strokes: false
   normal:
     family: Iosevka Term
