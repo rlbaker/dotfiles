@@ -31,8 +31,9 @@ set -gx COPYFILE_DISABLED 1 # don't copy garbage into tar files
 source $HOME/.config/fish/local.fish # load system-specific configuration
 
 fish_add_path /Applications/Postgres.app/Contents/Versions/latest/bin
-fish_add_path $HOME/.nvim-nightly/nvim-macos/bin
 fish_add_path $HOME/.zig-nightly/latest
+fish_add_path $HOME/src/zig/zls/zig-out/bin 
+fish_add_path $HOME/.nvim-nightly/nvim-macos/bin
 set -gx EDITOR nvim
 alias vim="nvim"
 

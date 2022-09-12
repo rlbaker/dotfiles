@@ -13,6 +13,7 @@ packer.startup(function()
     use 'tpope/vim-commentary'
     use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/plenary.nvim'}}}
     use { 'nvim-treesitter/nvim-treesitter', run = function() require('nvim-treesitter.install').update({ with_sync = true }) end, }
+    use { 'neovim/nvim-lspconfig' }
     use 'ziglang/zig.vim'
 end)
 
@@ -33,7 +34,7 @@ vim.opt.splitright = true
 vim.opt.tabstop = 4
 vim.opt.wildmode = {'longest:full', 'full'}
 vim.opt.termguicolors = true
--- vim.opt.signcolumn = 'yes'
+vim.opt.signcolumn = 'yes'
 vim.opt.background = 'dark'
 vim.g.mapleader = ' '
 vim.g.maplocalleader=','
@@ -58,6 +59,38 @@ local tele = require'telescope.builtin'
 vim.api.nvim_set_keymap('n', '<Leader>f', '', { callback=tele.find_files, noremap=true, silent=true })
 vim.api.nvim_set_keymap('n', '<Leader><Leader>', '', { callback=tele.buffers, noremap=true, silent=true })
 vim.api.nvim_set_keymap('n', '<Leader>/', '', { callback=tele.live_grep, noremap=true, silent=true })
+
+local lspconfig = require('lspconfig')
+local opts = { noremap=true, silent=true }
+-- vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+-- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+-- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+-- vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+local on_attach = function(client, bufnr)
+  -- Enable completion triggered by <c-x><c-o>
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+  -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+  -- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+  -- vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+  -- vim.keymap.set('n', '<space>wl', function()
+  --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  -- end, bufopts)
+  -- vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+  -- vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+  -- vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+  -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+  -- vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+end
+
+lspconfig['zls'].setup { on_attach = on_attach }
 
 require'nvim-treesitter.configs'.setup {
     highlight = {
