@@ -1,16 +1,5 @@
 set -g fish_greeting           # disable startup message
 
-set -g __fish_git_prompt_showupstream auto
-set -g __fish_git_prompt_show_informative_status
-
-set -gx COPYFILE_DISABLED 1 # don't copy garbage into tar files
-set -gx LSCOLORS xXfxgxdxBaahahahahahah
-
-fish_add_path /Applications/Postgres.app/Contents/Versions/latest/bin
-fish_add_path $HOME/.nvim-nightly/nvim-macos/bin
-set -gx EDITOR nvim
-alias vim="nvim"
-
 # gruvbox theme
 set fish_color_normal         normal    # default color
 set fish_color_command        brgreen   # commands like echo
@@ -29,6 +18,21 @@ set fish_color_escape         purple    # character escapes like \n and \x70
 set fish_color_autosuggestion brblack   # autosuggestions (the proposed rest of a command)
 set fish_color_cancel         brblack   # '^C' indicator on a canceled command
 set fish_color_search_match   -b yellow # background color for history search matches and selected pager items
+
+set -g __fish_git_prompt_showupstream auto
+set -g __fish_git_prompt_show_informative_status
+set -g __fish_git_prompt_showcolorhints
+set -g __fish_git_prompt_color purple
+
+set -gx LSCOLORS xXfxgxdxBaahahahahahah
+
+set -gx COPYFILE_DISABLED 1 # don't copy garbage into tar files
+
+fish_add_path /Applications/Postgres.app/Contents/Versions/latest/bin
+fish_add_path $HOME/.nvim-nightly/nvim-macos/bin
+set -gx EDITOR nvim
+alias vim="nvim"
+
 
 # populate homebrew vars
 brew shellenv | source
