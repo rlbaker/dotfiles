@@ -1,5 +1,7 @@
 set -g fish_greeting           # disable startup message
 
+set -g __fish_git_prompt_showupstream auto
+
 set -gx COPYFILE_DISABLED 1 # don't copy garbage into tar files
 set -gx LSCOLORS xXfxgxdxBaahahahahahah
 
@@ -28,8 +30,10 @@ set fish_color_cancel         brblack   # '^C' indicator on a canceled command
 set fish_color_search_match   -b yellow # background color for history search matches and selected pager items
 
 # populate homebrew vars
+brew shellenv | source
 set -gx HOMEBREW_FORCE_BREWED_GIT 1
 set -gx HOMEBREW_BUNDLE_NO_LOCK 1
 set -gx HOMEBREW_BUNDLE_FILE $HOME/.config/homebrew/Brewfile
-brew shellenv | source
 source $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.fish
+
+source $HOME/.config/fish/local.fish # load system-specific configuration

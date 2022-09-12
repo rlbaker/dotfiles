@@ -4,6 +4,7 @@ dotfiles = $(shell pwd)
 fish:
 	mkdir -p $$HOME/.config/fish/
 	-ln -s $(dotfiles)/fish/config.fish $$HOME/.config/fish/config.fish
+	touch $$HOME/.config/fish/local.fish
 	mkdir -p $$HOME/.config/fish/functions/
 	-ln -s $(curr_dir)/fish/functions/nvim-update.fish $$HOME/.config/fish/functions/nvim-update.fish
 	-ln -s $(curr_dir)/fish/functions/fish_prompt.fish $$HOME/.config/fish/functions/fish_prompt.fish
