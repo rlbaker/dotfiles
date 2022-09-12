@@ -33,7 +33,6 @@ fish_add_path $HOME/.nvim-nightly/nvim-macos/bin
 set -gx EDITOR nvim
 alias vim="nvim"
 
-
 # populate homebrew vars
 brew shellenv | source
 set -gx HOMEBREW_FORCE_BREWED_GIT 1

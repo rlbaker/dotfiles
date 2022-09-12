@@ -50,7 +50,6 @@ vim.api.nvim_create_autocmd('FileType', {pattern='*', command='set formatoptions
 --- compile packer configuration after saving init.lua
 vim.api.nvim_create_autocmd('BufWritePost', { pattern={'init.lua'}, command='PackerCompile' })
 
-
 --- close all helper windows
 vim.api.nvim_set_keymap('n', '<Leader>q', ':pclose <Bar> cclose <Bar> lclose <Bar> helpclose<CR>', {noremap=true, silent=true})
 
@@ -61,14 +60,29 @@ vim.api.nvim_set_keymap('n', '<Leader><Leader>', '', { callback=tele.buffers, no
 vim.api.nvim_set_keymap('n', '<Leader>/', '', { callback=tele.live_grep, noremap=true, silent=true })
 
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = {
-        'c', 'cpp', 'lua', 'go', 'toml', 'yaml',
-        'python', 'css', 'html', 'javascript',
-        'bash', 'fish', 'make', 'json', 'ninja',
-        'zig',
-    },
     highlight = {
         enable = true,
         additional_vim_regex_highlighting = false,
+    },
+    ensure_installed = {
+        'bash',
+        'c',
+        'cmake',
+        'cpp',
+        'css',
+        'fish',
+        'go',
+        'gomod',
+        'gowork',
+        'html',
+        'javascript',
+        'json',
+        'lua',
+        'make',
+        'ninja',
+        'python',
+        'toml',
+        'yaml',
+        'zig'
     },
 }
