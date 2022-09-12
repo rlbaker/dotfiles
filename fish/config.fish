@@ -1,36 +1,35 @@
-# disable startup message
-set fish_greeting
+set -g fish_greeting           # disable startup message
 
-# force truecolor
-set -g fish_term24bit 1 # force truecolor
+set -gx COPYFILE_DISABLED 1 # don't copy garbage into tar files
+set -gx LSCOLORS xXfxgxdxBaahahahahahah
 
-# set colorscheme
-source $HOME/.config/fish/colors.fish
-set __fish_git_prompt_show_informative_status true
-set -gx LSCOLORS ExFxCxDxBxegedabagacad
-
-# setup paths
-/opt/homebrew/bin/brew shellenv | source
-source $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.fish
-fish_add_path $HOMEBREW_PREFIX/opt/curl/bin
-fish_add_path $HOME/.nvim-nightly/nvim-osx64/bin
 fish_add_path /Applications/Postgres.app/Contents/Versions/latest/bin
-
-# Use neovim instead of vim
-alias vim="nvim"
+fish_add_path $HOME/.nvim-nightly/nvim-macos/bin
 set -gx EDITOR nvim
+alias vim="nvim"
 
-# don't copy garbage into tar files
-set -gx COPYFILE_DISABLED 1
+# gruvbox theme
+set fish_color_normal         normal    # default color
+set fish_color_command        brgreen   # commands like echo
+set fish_color_keyword        normal -o # keywords like if, for
+set fish_color_quote          normal    # quoted text
+set fish_color_redirection    yellow    # io redirections like >/dev/null and 2>&1
+set fish_color_end            brblack   # process separators like ; and &
+set fish_color_error          brred     # syntax errors
+set fish_color_param          normal    # ordinary command parameters
+set fish_color_valid_path     brcyan    # parameters that are filenames (if the file exists)
+set fish_color_option         normal    # - options, up to first --
+set fish_color_comment        white -i  # comments like '# important'
+set fish_color_selection      normal    # selected text in vi visual mode
+set fish_color_operator       purple    # parameter expansion operators like * and ~
+set fish_color_escape         purple    # character escapes like \n and \x70
+set fish_color_autosuggestion brblack   # autosuggestions (the proposed rest of a command)
+set fish_color_cancel         brblack   # '^C' indicator on a canceled command
+set fish_color_search_match   -b yellow # background color for history search matches and selected pager items
 
-# homebrew config
+# populate homebrew vars
 set -gx HOMEBREW_FORCE_BREWED_GIT 1
-set -gx HOMEBREW_BUNDLE_NO_LOCK true
-
-# load per-system config
-source $HOME/.config/fish/local.fish
-
-if status is-interactive
-and not set -q TMUX
-    tmux new-session -A -s 0
-end
+set -gx HOMEBREW_BUNDLE_NO_LOCK 1
+set -gx HOMEBREW_BUNDLE_FILE $HOME/.config/homebrew/Brewfile
+brew shellenv | source
+source $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.fish
