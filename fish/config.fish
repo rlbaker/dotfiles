@@ -28,16 +28,22 @@ set -gx LSCOLORS xXfxgxdxBaahahahahahah
 
 set -gx COPYFILE_DISABLED 1 # don't copy garbage into tar files
 
+source $HOME/.config/fish/local.fish # load system-specific configuration
+
 fish_add_path /Applications/Postgres.app/Contents/Versions/latest/bin
 fish_add_path $HOME/.nvim-nightly/nvim-macos/bin
 set -gx EDITOR nvim
 alias vim="nvim"
 
 # populate homebrew vars
-brew shellenv | source
+if test (uname -p) = 'arm'
+    /opt/homebrew/bin/brew shellenv | source
+else
+    /usr/local/bin/brew shellenv | source
+end
+
+set -gx HOMEBREW_BUNDLE_FILE $HOME/.config/homebrew/Brewfile
 set -gx HOMEBREW_FORCE_BREWED_GIT 1
 set -gx HOMEBREW_BUNDLE_NO_LOCK 1
-set -gx HOMEBREW_BUNDLE_FILE $HOME/.config/homebrew/Brewfile
 source $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.fish
 
-source $HOME/.config/fish/local.fish # load system-specific configuration
