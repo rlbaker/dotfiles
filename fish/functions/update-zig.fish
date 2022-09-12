@@ -1,4 +1,4 @@
-function zig-update
+function update-zig
     mkdir -p ~/.zig-nightly
     pushd ~/.zig-nightly
 

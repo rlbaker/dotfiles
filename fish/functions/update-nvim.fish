@@ -1,4 +1,4 @@
-function nvim-update
+function update-nvim
   mkdir -p ~/.nvim-nightly
   pushd ~/.nvim-nightly
 
