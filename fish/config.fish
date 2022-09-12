@@ -32,6 +32,7 @@ source $HOME/.config/fish/local.fish # load system-specific configuration
 
 fish_add_path /Applications/Postgres.app/Contents/Versions/latest/bin
 fish_add_path $HOME/.nvim-nightly/nvim-macos/bin
+fish_add_path $HOME/.zig-nightly/latest
 set -gx EDITOR nvim
 alias vim="nvim"
 
