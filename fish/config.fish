@@ -1,6 +1,7 @@
 set -g fish_greeting           # disable startup message
 
 set -g __fish_git_prompt_showupstream auto
+set -g __fish_git_prompt_show_informative_status
 
 set -gx COPYFILE_DISABLED 1 # don't copy garbage into tar files
 set -gx LSCOLORS xXfxgxdxBaahahahahahah
