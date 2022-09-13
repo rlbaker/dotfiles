@@ -30,7 +30,9 @@ alias vim="nvim"
 
 source $HOME/.config/fish/local.fish # load system-specific configuration
 
-fish_add_path $HOME/src/zls/zig-out/bin 
+alias update-nvim="asdf uninstall neovim nightly; and asdf install neovim nightly"
+alias update-zig="asdf uninstall zig master; and asdf install zig master"
+fish_add_path $HOME/src/zls/zig-out/bin
 
 # populate homebrew vars
 if test (uname -p) = 'arm'
