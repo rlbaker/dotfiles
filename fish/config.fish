@@ -47,5 +47,4 @@ end
 set -gx HOMEBREW_BUNDLE_FILE $HOME/.config/homebrew/Brewfile
 set -gx HOMEBREW_FORCE_BREWED_GIT 1
 set -gx HOMEBREW_BUNDLE_NO_LOCK 1
-source $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.fish
-
+source ~/.asdf/asdf.fish
