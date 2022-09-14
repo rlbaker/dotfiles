@@ -32,17 +32,23 @@ vim.opt.softtabstop = -1
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.tabstop = 4
+vim.opt.signcolumn = 'yes'
 vim.opt.wildmode = {'longest:full', 'full'}
 vim.opt.termguicolors = true
-vim.opt.signcolumn = 'yes'
 vim.opt.background = 'dark'
 vim.g.mapleader = ' '
 vim.g.maplocalleader=','
 vim.g.html_indent_autotags = 'html,head,body'
-vim.g.gruvbox_sign_column = 'bg2'
+vim.g.gruvbox_sign_column = 'bg1'
 vim.g.gruvbox_invert_tabline = 1
+vim.g.zig_fmt_autosave = 0
 
-require("gruvbox").setup({ italic = false })
+require("gruvbox").setup({
+  italic = false,
+  overrides = {
+    SignColumn = { bg = "#504945" }         
+  }
+})
 vim.cmd [[colorscheme gruvbox]]
 
 --- disable comment continuations
@@ -61,61 +67,36 @@ vim.api.nvim_set_keymap('n', '<Leader><Leader>', '', { callback=tele.buffers, no
 vim.api.nvim_set_keymap('n', '<Leader>/', '', { callback=tele.live_grep, noremap=true, silent=true })
 
 local lspconfig = require('lspconfig')
-local opts = { noremap=true, silent=true }
+-- local opts = { noremap=true, silent=true }
 -- vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
 -- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 -- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 -- vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 local on_attach = function(client, bufnr)
-  -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', '<Leader>r', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<Leader>=', vim.lsp.buf.format, bufopts)
   -- vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
   -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  -- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-  -- vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-  -- vim.keymap.set('n', '<space>wl', function()
-  --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  -- end, bufopts)
   -- vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
-  -- vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
   -- vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-  -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  -- vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
 end
 
 lspconfig['zls'].setup { on_attach = on_attach }
 
 require'nvim-treesitter.configs'.setup {
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-    },
-    ensure_installed = {
-        'bash',
-        'c',
-        'cmake',
-        'cpp',
-        'css',
-        'fish',
-        'go',
-        'gomod',
-        'gowork',
-        'html',
-        'javascript',
-        'json',
-        'lua',
-        'make',
-        'ninja',
-        'python',
-        'toml',
-        'yaml',
-        'zig'
-    },
+  highlight = { enable = true },
+  ensure_installed = {
+      'bash', 'c', 'cmake', 'cpp', 'css',
+      'fish', 'go', 'gomod', 'gowork', 'html',
+      'javascript', 'json', 'lua', 'make', 'ninja',
+      'python', 'toml', 'yaml', 'zig'
+  },
 }
