@@ -18,13 +18,16 @@ set fish_color_escape         purple    # character escapes like \n and \x70
 set fish_color_autosuggestion brblack   # autosuggestions (the proposed rest of a command)
 set fish_color_cancel         brblack   # '^C' indicator on a canceled command
 set fish_color_search_match   -b yellow # background color for history search matches and selected pager items
-
+set -g __fish_git_prompt_color purple
 set -g __fish_git_prompt_showupstream auto
 set -g __fish_git_prompt_show_informative_status
 set -g __fish_git_prompt_showcolorhints
-set -g __fish_git_prompt_color purple
-set -gx LSCOLORS xXfxgxdxBaahahahahahah
+
 set -gx COPYFILE_DISABLED 1 # don't copy garbage into tar files
+set -gx HOMEBREW_BUNDLE_FILE $HOME/.config/homebrew/Brewfile
+set -gx HOMEBREW_BUNDLE_NO_LOCK 1
+set -gx HOMEBREW_FORCE_BREWED_GIT 1
+set -gx LSCOLORS xXfxgxdxBaahahahahahah
 set -gx EDITOR nvim
 alias vim="nvim"
 
@@ -41,7 +44,4 @@ else
     /usr/local/bin/brew shellenv | source
 end
 
-set -gx HOMEBREW_BUNDLE_FILE $HOME/.config/homebrew/Brewfile
-set -gx HOMEBREW_FORCE_BREWED_GIT 1
-set -gx HOMEBREW_BUNDLE_NO_LOCK 1
 source ~/.asdf/asdf.fish
