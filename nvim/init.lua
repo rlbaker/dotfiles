@@ -1,20 +1,21 @@
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-    vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
+  vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
 end
 
 local packer = require('packer')
 local use = packer.use
 packer.startup(function()
-    use 'wbthomason/packer.nvim'
-    use 'dstein64/vim-startuptime'
-    use 'ellisonleao/gruvbox.nvim'
-    use 'tpope/vim-fugitive'
-    use 'tpope/vim-commentary'
-    use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/plenary.nvim'}}}
-    use { 'nvim-treesitter/nvim-treesitter', run = function() require('nvim-treesitter.install').update({ with_sync = true }) end, }
-    use { 'neovim/nvim-lspconfig' }
-    use 'ziglang/zig.vim'
+  use 'wbthomason/packer.nvim'
+  use 'dstein64/vim-startuptime'
+  use 'ellisonleao/gruvbox.nvim'
+  use 'tpope/vim-fugitive'
+  use 'tpope/vim-commentary'
+  use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/plenary.nvim'}}}
+  use { 'nvim-treesitter/nvim-treesitter', run = function() require('nvim-treesitter.install').update({ with_sync = true }) end, }
+  use { 'neovim/nvim-lspconfig' }
+  use 'p00f/nvim-ts-rainbow'
+  use 'Olical/conjure'
 end)
 
 vim.opt.completeopt = {'menuone', 'noinsert', 'noselect'}
@@ -46,13 +47,15 @@ vim.g.zig_fmt_autosave = 0
 require('gruvbox').setup({
   italic = false,
   overrides = {
-    SignColumn = { bg = '#504945' }         
+    SignColumn = { bg = '#504945' },
+    NormalFloat = { bg = '#32302f' }
   }
 })
 vim.cmd [[colorscheme gruvbox]]
 
 --- disable comment continuations
 vim.api.nvim_create_autocmd('FileType', {pattern='*', command='set formatoptions-=cro'})
+vim.api.nvim_create_autocmd('FileType', {pattern='lua,json,javascript,html,css', command='set tabstop=2'})
 
 --- compile packer configuration after saving init.lua
 vim.api.nvim_create_autocmd('BufWritePost', { pattern={'init.lua'}, command='PackerCompile' })
@@ -69,20 +72,52 @@ vim.keymap.set('n', '<Leader>f', '', merge(opts, { callback=tele.find_files }))
 vim.keymap.set('n', '<Leader><Leader>', '', merge(opts, { callback=tele.buffers}))
 vim.keymap.set('n', '<Leader>/', '', merge(opts, { callback=tele.live_grep }))
 
-local lspconfig = require('lspconfig')
+local parsers = require('nvim-treesitter.parsers')
+require('nvim-treesitter.configs').setup {
+  highlight = { enable = true },
+  rainbow = {
+    enable = true,
+    extended_mode = true,
+    max_file_lines = nil,
+    disable = vim.tbl_filter(
+      function(p) return p ~= 'clojure' end,
+      parsers.available_parsers()
+    ),
+  },
+  ensure_installed = {
+    'bash',
+    'c',
+    'clojure',
+    'cmake',
+    'cpp',
+    'css',
+    'fish',
+    'go',
+    'gomod',
+    'html',
+    'javascript',
+    'json',
+    'lua',
+    'make',
+    'python',
+    'toml',
+    'yaml',
+  },
+}
+
 -- vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
 -- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 -- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 -- vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-  vim.api.nvim_win_set_option(0, 'signcolumn', 'yes')
+  -- vim.api.nvim_win_set_option(0, 'signcolumn', 'yes')
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local bufopts = merge(opts, { buffer=bufnr })
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', '<Leader>r', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<Leader>=', vim.lsp.buf.format, bufopts)
@@ -91,15 +126,3 @@ local on_attach = function(client, bufnr)
   -- vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
   -- vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
 end
-
-lspconfig['zls'].setup { on_attach = on_attach }
-
-require'nvim-treesitter.configs'.setup {
-  highlight = { enable = true },
-  ensure_installed = {
-      'bash', 'c', 'cmake', 'cpp', 'css',
-      'fish', 'go', 'gomod', 'gowork', 'html',
-      'javascript', 'json', 'lua', 'make', 'ninja',
-      'python', 'toml', 'yaml', 'zig'
-  },
-}
