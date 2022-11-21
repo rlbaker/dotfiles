@@ -1,11 +1,17 @@
-local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
+local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
 end
 
-local packer = require('packer')
-local use = packer.use
-packer.startup(function()
+local packer_bootstrap = ensure_packer()
+
+require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'dstein64/vim-startuptime'
   use 'ellisonleao/gruvbox.nvim'
@@ -13,10 +19,15 @@ packer.startup(function()
   use 'tpope/vim-commentary'
   use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/plenary.nvim'}}}
   use { 'nvim-treesitter/nvim-treesitter', run = function() require('nvim-treesitter.install').update({ with_sync = true }) end, }
-  use { 'neovim/nvim-lspconfig' }
-  use 'p00f/nvim-ts-rainbow'
-  use 'Olical/conjure'
+  use 'neovim/nvim-lspconfig'
+
+  if packer_bootstrap then
+    require('packer').sync()
+  end
 end)
+
+--- compile packer configuration after saving init.lua
+vim.api.nvim_create_autocmd('BufWritePost', { pattern={'init.lua'}, command='PackerCompile' })
 
 vim.opt.completeopt = {'menuone', 'noinsert', 'noselect'}
 vim.opt.confirm = true
@@ -41,8 +52,8 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader=','
 vim.g.html_indent_autotags = 'html,head,body'
 vim.g.gruvbox_sign_column = 'bg1'
-vim.g.gruvbox_invert_tabline = 1
-vim.g.zig_fmt_autosave = 0
+-- vim.g.gruvbox_invert_tabline = 1
+vim.g.rainbow_active = 1
 
 require('gruvbox').setup({
   italic = false,
@@ -55,74 +66,50 @@ vim.cmd [[colorscheme gruvbox]]
 
 --- disable comment continuations
 vim.api.nvim_create_autocmd('FileType', {pattern='*', command='set formatoptions-=cro'})
-vim.api.nvim_create_autocmd('FileType', {pattern='lua,json,javascript,html,css', command='set tabstop=2'})
+vim.api.nvim_create_autocmd('FileType', {pattern='css,html,javascript,json,lua,ocaml', command='set tabstop=2'})
 
---- compile packer configuration after saving init.lua
-vim.api.nvim_create_autocmd('BufWritePost', { pattern={'init.lua'}, command='PackerCompile' })
 
 local opts = { noremap=true, silent=true }
-function merge(...) return vim.tbl_extend('force', ...) end
 
 --- close all helper windows
-vim.keymap.set('n', '<Leader>q', ':pclose <Bar> cclose <Bar> lclose <Bar> helpclose<CR>', opts)
+vim.keymap.set('n', '<Leader>q', ':pclose | cclose | lclose | helpclose<CR>', opts)
 
 -- telescope config
 local tele = require('telescope.builtin')
-vim.keymap.set('n', '<Leader>f', '', merge(opts, { callback=tele.find_files }))
-vim.keymap.set('n', '<Leader><Leader>', '', merge(opts, { callback=tele.buffers}))
-vim.keymap.set('n', '<Leader>/', '', merge(opts, { callback=tele.live_grep }))
+vim.keymap.set('n', '<Leader>f', '', { noremap=true, silent=true, callback=tele.find_files })
+vim.keymap.set('n', '<Leader><Leader>', '', { noremap=true, silent=true, callback=tele.buffers})
+vim.keymap.set('n', '<Leader>/', '', { noremap=true, silent=true, callback=tele.live_grep })
 
-local parsers = require('nvim-treesitter.parsers')
+-- treesitter config
 require('nvim-treesitter.configs').setup {
   highlight = { enable = true },
-  rainbow = {
-    enable = true,
-    extended_mode = true,
-    max_file_lines = nil,
-    disable = vim.tbl_filter(
-      function(p) return p ~= 'clojure' end,
-      parsers.available_parsers()
-    ),
-  },
-  ensure_installed = {
-    'bash',
-    'c',
-    'clojure',
-    'cmake',
-    'cpp',
-    'css',
-    'fish',
-    'go',
-    'gomod',
-    'html',
-    'javascript',
-    'json',
-    'lua',
-    'make',
-    'python',
-    'toml',
-    'yaml',
-  },
+  auto_install = false,
+  ensure_installed = { "lua", "ocaml", "clojure" },
 }
 
--- vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
--- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
--- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
--- vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+-- lsp config
 local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-  -- vim.api.nvim_win_set_option(0, 'signcolumn', 'yes')
 
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local bufopts = merge(opts, { buffer=bufnr })
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set('n', '<Leader>r', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', '<Leader>=', vim.lsp.buf.format, bufopts)
-  -- vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-  -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  -- vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
-  -- vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', '<LocalLeader>d', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', '<LocalLeader>D', vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', '<LocalLeader>r', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', '<LocalLeader>R', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<LocalLeader>a', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', '<LocalLeader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+  vim.keymap.set('n', '<LocalLeader>t', vim.lsp.buf.type_definition, bufopts)
 end
+
+-- vim.keymap.set('n', '<LocalLeader>e', vim.diagnostic.open_float, opts)
+-- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+-- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+-- vim.keymap.set('n', '<LocalLeader>q', vim.diagnostic.setloclist, opts)
+
+require'lspconfig'.ocamllsp.setup{
+  on_attach = on_attach,
+  single_file_support = true,
+}
+
+require'lspconfig'.gopls.setup{ on_attach = on_attach }
