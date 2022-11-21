@@ -11,18 +11,18 @@ end
 
 local packer_bootstrap = ensure_packer()
 
-require('packer').startup(function(use)
+require'packer'.startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'dstein64/vim-startuptime'
   use 'ellisonleao/gruvbox.nvim'
   use 'tpope/vim-fugitive'
   use 'tpope/vim-commentary'
   use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/plenary.nvim'}}}
-  use { 'nvim-treesitter/nvim-treesitter', run = function() require('nvim-treesitter.install').update({ with_sync = true }) end, }
+  use { 'nvim-treesitter/nvim-treesitter', run = function() require'nvim-treesitter.install'.update({ with_sync = true }) end, }
   use 'neovim/nvim-lspconfig'
 
   if packer_bootstrap then
-    require('packer').sync()
+    require'packer'.sync()
   end
 end)
 
@@ -55,7 +55,7 @@ vim.g.gruvbox_sign_column = 'bg1'
 -- vim.g.gruvbox_invert_tabline = 1
 vim.g.rainbow_active = 1
 
-require('gruvbox').setup({
+require'gruvbox'.setup({
   italic = false,
   overrides = {
     SignColumn = { bg = '#504945' },
@@ -65,29 +65,29 @@ require('gruvbox').setup({
 vim.cmd [[colorscheme gruvbox]]
 
 --- disable comment continuations
-vim.api.nvim_create_autocmd('FileType', {pattern='*', command='set formatoptions-=cro'})
-vim.api.nvim_create_autocmd('FileType', {pattern='css,html,javascript,json,lua,ocaml', command='set tabstop=2'})
-
+vim.api.nvim_create_autocmd('FileType', { pattern='*', command='set formatoptions-=cro' })
+vim.api.nvim_create_autocmd('FileType', { pattern='css,html,javascript,json,lua,ocaml', command='set tabstop=2' })
 
 local opts = { noremap=true, silent=true }
 
 --- close all helper windows
 vim.keymap.set('n', '<Leader>q', ':pclose | cclose | lclose | helpclose<CR>', opts)
 
--- telescope config
-local tele = require('telescope.builtin')
-vim.keymap.set('n', '<Leader>f', '', { noremap=true, silent=true, callback=tele.find_files })
-vim.keymap.set('n', '<Leader><Leader>', '', { noremap=true, silent=true, callback=tele.buffers})
-vim.keymap.set('n', '<Leader>/', '', { noremap=true, silent=true, callback=tele.live_grep })
 
--- treesitter config
-require('nvim-treesitter.configs').setup {
+-- telescope
+local telescope = require'telescope.builtin'
+vim.keymap.set('n', '<Leader>f', '', { noremap=true, silent=true, callback=telescope.find_files })
+vim.keymap.set('n', '<Leader><Leader>', '', { noremap=true, silent=true, callback=telescope.buffers})
+vim.keymap.set('n', '<Leader>/', '', { noremap=true, silent=true, callback=telescope.live_grep })
+
+-- treesitter
+require'nvim-treesitter.configs'.setup {
   highlight = { enable = true },
   auto_install = false,
-  ensure_installed = { "lua", "ocaml", "clojure" },
+  ensure_installed = { 'lua', 'ocaml', 'go' },
 }
 
--- lsp config
+-- lsp
 local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -99,17 +99,28 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<LocalLeader>R', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<LocalLeader>a', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', '<LocalLeader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+  vim.keymap.set('n', '<LocalLeader>i', function()
+    vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
+  end, bufopts)
   vim.keymap.set('n', '<LocalLeader>t', vim.lsp.buf.type_definition, bufopts)
 end
 
--- vim.keymap.set('n', '<LocalLeader>e', vim.diagnostic.open_float, opts)
--- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
--- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
--- vim.keymap.set('n', '<LocalLeader>q', vim.diagnostic.setloclist, opts)
+vim.keymap.set('n', '<LocalLeader>e', vim.diagnostic.open_float, opts)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+vim.keymap.set('n', '<LocalLeader>q', vim.diagnostic.setloclist, opts)
 
-require'lspconfig'.ocamllsp.setup{
+require'lspconfig'.ocamllsp.setup {
   on_attach = on_attach,
-  single_file_support = true,
+  single_file_support = true
 }
 
-require'lspconfig'.gopls.setup{ on_attach = on_attach }
+require'lspconfig'.gopls.setup {
+  on_attach = on_attach,
+  settings = {
+    gopls = {
+      gofumpt = true, 
+      staticcheck = true,
+    }
+  }
+}
