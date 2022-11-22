@@ -18,6 +18,7 @@ require('packer').startup(function(use)
   use 'tpope/vim-fugitive'
   use 'tpope/vim-commentary'
   use 'neovim/nvim-lspconfig'
+  use 'blankname/vim-fish'
   use {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
@@ -84,6 +85,12 @@ require('nvim-treesitter.configs').setup {
 local telescope = require('telescope.builtin')
 
 require('telescope').setup {
+  defaults = {
+    layout_strategy = 'center',
+    preview = {
+      hide_on_startup = true,
+    }
+  },
   pickers = {
     buffers = {
       ignore_current_buffer = true,
@@ -105,7 +112,7 @@ vim.keymap.set('n', '<Leader>c', telescope.commands, opts)
 -- lsp specific mappings
 vim.keymap.set('n', '<LocalLeader>/', telescope.current_buffer_fuzzy_find)
 vim.keymap.set('n', '<LocalLeader>s', telescope.lsp_document_symbols, opts)
-vim.keymap.set('n', '<LocalLeader>S', telescope.lsp_workspace_symbols, opts)
+vim.keymap.set('n', '<LocalLeader>S', telescope.lsp_dynamic_workspace_symbols, opts)
 vim.keymap.set('n', '<LocalLeader>q', telescope.diagnostics, opts)
 vim.keymap.set('n', '<LocalLeader>e', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
