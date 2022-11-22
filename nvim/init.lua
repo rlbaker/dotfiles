@@ -86,7 +86,7 @@ local telescope = require('telescope.builtin')
 
 require('telescope').setup {
   defaults = {
-    layout_strategy = 'center',
+    layout_strategy = 'horizontal',
     preview = {
       hide_on_startup = true,
     }
