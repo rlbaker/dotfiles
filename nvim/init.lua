@@ -21,7 +21,6 @@ require('packer').startup(function(use)
   use 'blankname/vim-fish'
   use {
     'nvim-telescope/telescope.nvim',
-    branch = '0.1.x',
     requires = {{'nvim-lua/plenary.nvim'}},
   }
   use {
@@ -82,14 +81,13 @@ require('nvim-treesitter.configs').setup {
 }
 
 -- telescope
-local telescope = require('telescope.builtin')
-
 require('telescope').setup {
   defaults = {
-    layout_strategy = 'horizontal',
+    layout_strategy = 'vertical',
+    path_display = 'tail',
     preview = {
       hide_on_startup = true,
-    }
+    },
   },
   pickers = {
     buffers = {
@@ -101,6 +99,7 @@ require('telescope').setup {
 
 local opts = { noremap=true, silent=true }
 
+local telescope = require('telescope.builtin')
 --- close all helper windows
 vim.keymap.set('n', '<Leader>q', ':pclose | cclose | lclose | helpclose<CR>', opts)
 vim.keymap.set('n', '<Leader><Leader>', telescope.buffers, opts)
