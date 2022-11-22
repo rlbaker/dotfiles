@@ -6,6 +6,16 @@
 <Space>c - Command list
 
 ,/ - Buffer grep
+
+K - Hover
+,a - Actions
+,d - Definition
+,D - Declaration
+,f - Format
+,i - Implementations
+,o - Organize imports
+,r - References
+,R - Rename
 ,s - Document symbols
 ,S - Workspace symbols
 
@@ -14,12 +24,3 @@
 [d - Next diagnostic
 ]d - Prev diagnostic
 
-K - Hover
-,d - Definition
-,r - References
-,D - Declaration
-,R - Rename
-,i - Implementations
-,a - Actions
-,f - Format
-,o - Organize imports
