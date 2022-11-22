@@ -45,6 +45,7 @@ vim.opt.confirm = true
 vim.opt.cursorline = true
 vim.opt.expandtab = true
 vim.opt.ignorecase = true
+vim.opt.mouse = 'a'
 vim.opt.shiftwidth = 0
 vim.opt.shortmess:append 'cI'
 vim.opt.smartcase = true

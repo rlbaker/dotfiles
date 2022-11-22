@@ -1,0 +1,25 @@
+<Space>q - close helper windows
+<Space><Space> - buffer list
+<Space>. - File list
+<Space>/ - Live Grep
+<Space>m - Mark list
+<Space>c - Command list
+
+,/ - Buffer grep
+,s - Document symbols
+,S - Workspace symbols
+
+,q - Diagnostics
+,e - Diagnostic hover
+[d - Next diagnostic
+]d - Prev diagnostic
+
+K - Hover
+,d - Definition
+,r - References
+,D - Declaration
+,R - Rename
+,i - Implementations
+,a - Actions
+,f - Format
+,o - Organize imports
