@@ -21,6 +21,7 @@ require('packer').startup(function(use)
   use 'blankname/vim-fish'
   use {
     'nvim-telescope/telescope.nvim',
+    branch = '0.1.x',
     requires = {{'nvim-lua/plenary.nvim'}},
   }
   use {
@@ -84,10 +85,11 @@ require('nvim-treesitter.configs').setup {
 require('telescope').setup {
   defaults = {
     layout_strategy = 'vertical',
-    path_display = 'tail',
-    preview = {
-      hide_on_startup = true,
+    layout_config = {
+      prompt_position = 'top',
     },
+    path_display = { 'shorten' },
+    sorting_strategy = 'ascending'
   },
   pickers = {
     buffers = {
