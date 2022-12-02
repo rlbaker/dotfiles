@@ -15,6 +15,7 @@ brew 'hugo'
 brew 'jq'
 brew 'ripgrep'
 brew 'rlwrap'
+brew 'rustup'
 brew 'shellcheck'
 brew 'tree'
 

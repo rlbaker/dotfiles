@@ -44,5 +44,7 @@ end
 
 source ~/.asdf/asdf.fish
 
+fish_add_path ~/.cargo/bin
+
 # opam configuration
 source /Users/rlbaker/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
