@@ -42,9 +42,11 @@ else
     /usr/local/bin/brew shellenv | source
 end
 
-source ~/.asdf/asdf.fish
-
-fish_add_path ~/.cargo/bin
+if test (which asdf)
+    source ~/.asdf/asdf.fish
+end
 
 # opam configuration
-source /Users/rlbaker/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
+if test (which opam)
+    source /Users/rlbaker/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
+end

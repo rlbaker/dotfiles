@@ -1,5 +1,7 @@
 require('plugins')
 
+local opts = { noremap=true, silent=true }
+
 vim.opt.completeopt = {'menuone', 'noinsert', 'noselect'}
 vim.opt.confirm = true
 vim.opt.cursorline = true
@@ -18,10 +20,14 @@ vim.opt.tabstop = 4
 vim.opt.signcolumn = 'no'
 vim.opt.wildmode = {'longest:full', 'full'}
 vim.opt.termguicolors = true
-vim.g.mapleader = ' '
-vim.g.maplocalleader=','
 vim.g.html_indent_autotags = 'html,head,body'
 vim.g.no_ocaml_maps = true
+vim.o.timeoutlen = 500
+vim.g["conjure#extract#tree_sitter#enabled"]=false
+
+vim.keymap.set('n', '<Space>', '<Nop>', opts)
+vim.g.mapleader = ' '
+vim.g.maplocalleader=','
 
 require('gruvbox').setup({
   italic = false,
@@ -35,7 +41,9 @@ vim.cmd [[colorscheme gruvbox]]
 --- disable comment continuations
 vim.api.nvim_create_autocmd('FileType', {
   pattern = '*',
-  command = 'set formatoptions-=c'
+  callback = function()
+      vim.opt.formatoptions:remove { 'c', 'r', 'o' }
+  end
 })
 
 -- 2 space indents for some languages
@@ -46,14 +54,14 @@ vim.api.nvim_create_autocmd('FileType', {
   end
 })
 
--- treesitter
-require('nvim-treesitter.configs').setup {
-  auto_install = false,
-  ensure_installed = { 'clojure', 'go', 'help', 'lua', 'ocaml', 'vim' },
-  highlight = { enable = true }
-}
+vim.api.nvim_create_autocmd('BufWritePost', {
+  callback = function()
+    require("lint").try_lint()
+  end,
+})
 
--- telescope
+
+-- telescope config
 require('telescope').setup {
   defaults = {
     layout_strategy = 'vertical',
@@ -71,10 +79,10 @@ require('telescope').setup {
   }
 }
 
-
 local telescope = require('telescope.builtin')
 --- close all helper windows
 vim.keymap.set('n', '<Leader>q', ':pclose | cclose | lclose | helpclose<CR>', opts)
+vim.keymap.set('n', '<Leader>t', ':%s/\\s\\+$//e<CR>', opts)
 vim.keymap.set('n', '<Leader><Leader>', telescope.buffers, opts)
 vim.keymap.set('n', '<Leader>.', telescope.find_files, opts)
 vim.keymap.set('n', '<Leader>/', telescope.live_grep, opts)
@@ -88,11 +96,12 @@ vim.keymap.set('n', '<LocalLeader>e', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 
+
 -- lsp
 local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  local bufopts = { silent=true, buffer=bufnr }
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
   vim.keymap.set('n', '<LocalLeader>d', telescope.lsp_definitions, bufopts)
@@ -121,5 +130,15 @@ require('lspconfig').gopls.setup {
       gofumpt = true,
       staticcheck = true,
     }
+  }
+}
+
+-- treesitter
+require('nvim-treesitter.configs').setup {
+  auto_install = false,
+  ensure_installed = { 'clojure', 'go', 'help', 'lua', 'ocaml', 'vim' },
+  highlight = {
+    enable = true,
+    disable = { "clojure" },
   }
 }
