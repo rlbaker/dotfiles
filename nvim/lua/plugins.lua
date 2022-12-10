@@ -34,9 +34,9 @@ require('packer').startup(function(use)
   }
 
   use 'Olical/conjure'
-  -- use { 'eraserhd/parinfer-rust', run = 'cargo build --release' }
-  use { 'guns/vim-sexp' }
-  use { 'tpope/vim-sexp-mappings-for-regular-people' }
+  use { 'eraserhd/parinfer-rust', run = 'cargo build --release' }
+  -- use { 'guns/vim-sexp' }
+  -- use { 'tpope/vim-sexp-mappings-for-regular-people' }
   use {
     'mfussenegger/nvim-lint',
     config = function()

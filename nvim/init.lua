@@ -22,8 +22,7 @@ vim.opt.wildmode = {'longest:full', 'full'}
 vim.opt.termguicolors = true
 vim.g.html_indent_autotags = 'html,head,body'
 vim.g.no_ocaml_maps = true
-vim.o.timeoutlen = 500
-vim.g["conjure#extract#tree_sitter#enabled"]=false
+vim.g["conjure#extract#tree_sitter#enabled"]=true
 
 vim.keymap.set('n', '<Space>', '<Nop>', opts)
 vim.g.mapleader = ' '
@@ -137,8 +136,5 @@ require('lspconfig').gopls.setup {
 require('nvim-treesitter.configs').setup {
   auto_install = false,
   ensure_installed = { 'clojure', 'go', 'help', 'lua', 'ocaml', 'vim' },
-  highlight = {
-    enable = true,
-    disable = { "clojure" },
-  }
+  highlight = { enable = true }
 }
