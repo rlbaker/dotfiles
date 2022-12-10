@@ -42,11 +42,6 @@ else
     /usr/local/bin/brew shellenv | source
 end
 
-if test (which asdf)
-    source ~/.asdf/asdf.fish
-end
+source ~/.asdf/asdf.fish
 
-# opam configuration
-if test (which opam)
-    source /Users/rlbaker/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
-end
+source /Users/rlbaker/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
