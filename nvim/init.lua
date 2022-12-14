@@ -5,24 +5,36 @@ local opts = { noremap=true, silent=true }
 vim.opt.completeopt = {'menuone', 'noinsert', 'noselect'}
 vim.opt.confirm = true
 vim.opt.cursorline = true
-vim.opt.expandtab = true
 vim.opt.ignorecase = true
 vim.opt.laststatus = 3
 vim.opt.mouse = 'a'
 vim.opt.shiftwidth = 0
 vim.opt.shortmess:append 'cI'
 vim.opt.smartcase = true
-vim.opt.smartindent = true
 vim.opt.softtabstop = -1
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.tabstop = 4
 vim.opt.signcolumn = 'no'
 vim.opt.wildmode = {'longest:full', 'full'}
 vim.opt.termguicolors = true
 vim.g.html_indent_autotags = 'html,head,body'
-vim.g.no_ocaml_maps = true
-vim.g["conjure#extract#tree_sitter#enabled"]=true
+
+vim.opt.smartindent = true
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+vim.opt.softtabstop = -1
+
+vim.keymap.set('i', '<Tab>', '<C-t>', opts)
+vim.keymap.set('i', '<S-Tab>', '<C-d>', opts)
+
+vim.g['conjure#filetypes'] = { 'clojure' }
+vim.g['conjure#extract#tree_sitter#enabled'] = true
+vim.g['conjure#log#botright'] = true
+vim.g['conjure#log#wrap'] = true
+vim.g['conjure#log#hud#height'] = 0.75
+vim.g['conjure#highlight#enabled'] = true
+vim.g['conjure#log#jump_to_latest#cursor_scroll_position'] = 'bottom'
 
 vim.keymap.set('n', '<Space>', '<Nop>', opts)
 vim.g.mapleader = ' '
@@ -45,17 +57,9 @@ vim.api.nvim_create_autocmd('FileType', {
   end
 })
 
--- 2 space indents for some languages
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'css,html,javascript,json,lua,ocaml',
-  callback = function()
-    vim.opt.tabstop = 2
-  end
-})
-
 vim.api.nvim_create_autocmd('BufWritePost', {
   callback = function()
-    require("lint").try_lint()
+    require('lint').try_lint()
   end,
 })
 
@@ -117,11 +121,6 @@ local on_attach = function(client, bufnr)
   end, bufopts)
 end
 
-require('lspconfig').ocamllsp.setup {
-  on_attach = on_attach,
-  single_file_support = true,
-}
-
 require('lspconfig').gopls.setup {
   on_attach = on_attach,
   settings = {
@@ -132,9 +131,8 @@ require('lspconfig').gopls.setup {
   }
 }
 
--- treesitter
 require('nvim-treesitter.configs').setup {
   auto_install = false,
-  ensure_installed = { 'clojure', 'go', 'help', 'lua', 'ocaml', 'vim' },
+  ensure_installed = { 'clojure', 'go', 'help', 'lua', 'vim' },
   highlight = { enable = true }
 }
