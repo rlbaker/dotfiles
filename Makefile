@@ -13,6 +13,7 @@ nvim:
 	@mkdir -p $$HOME/.config/nvim/lua/
 	ln -s -f $(dotfiles)/nvim/init.lua $$HOME/.config/nvim/init.lua
 	ln -s -f $(dotfiles)/nvim/lua/plugins.lua $$HOME/.config/nvim/lua/plugins.lua
+	ln -s -f $(dotfiles)/nvim/lua/keymaps.lua $$HOME/.config/nvim/lua/keymaps.lua
 
 .PHONY: kitty
 kitty:
