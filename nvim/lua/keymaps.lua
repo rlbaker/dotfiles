@@ -24,7 +24,7 @@ keymaps.setup = function()
   vim.keymap.set('n', '<Leader>/', telescope.live_grep, opts)
   vim.keymap.set('n', '<LocalLeader>/', telescope.current_buffer_fuzzy_find)
 
-  vim.keymap.set('n', '<Leader>r', ':TSToggle rainbow<CR>', opts)
+  vim.keymap.set('n', '<Leader>r', ':RainbowToggle<CR>', opts)
   vim.keymap.set('n', '<Leader>t', ':%s/\\s\\+$//e<CR>', opts) -- trim whitespace
 
   vim.keymap.set('n', '<Leader>d', vim.diagnostic.open_float, opts)
@@ -32,21 +32,6 @@ keymaps.setup = function()
   vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev, opts)
   vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next, opts)
 end
-
--- action types
--- quickfix
--- refactor
--- refactor.extract
--- refactor.inline
--- refactor.rewrite
--- source
--- source.organizeImports
--- vim.keymap.set('n', '<LocalLeader>aq', code_action('quickfix'), bufopts)
--- function code_action(kind)
---   return function()
---     vim.lsp.buf.code_action({context = { only = { kind } } })
---   end
--- end
 
 keymaps.lsp = function(bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -72,5 +57,20 @@ keymaps.lsp = function(bufnr)
 
   vim.keymap.set('n', '<LocalLeader>a', vim.lsp.buf.code_action, bufopts)
 end
+
+-- action types
+-- quickfix
+-- refactor
+-- refactor.extract
+-- refactor.inline
+-- refactor.rewrite
+-- source
+-- source.organizeImports
+-- vim.keymap.set('n', '<LocalLeader>aq', code_action('quickfix'), bufopts)
+-- function code_action(kind)
+--   return function()
+--     vim.lsp.buf.code_action({context = { only = { kind } } })
+--   end
+-- end
 
 return keymaps
