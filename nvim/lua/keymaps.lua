@@ -58,19 +58,4 @@ keymaps.lsp = function(bufnr)
   vim.keymap.set('n', '<LocalLeader>a', vim.lsp.buf.code_action, bufopts)
 end
 
--- action types
--- quickfix
--- refactor
--- refactor.extract
--- refactor.inline
--- refactor.rewrite
--- source
--- source.organizeImports
--- vim.keymap.set('n', '<LocalLeader>aq', code_action('quickfix'), bufopts)
--- function code_action(kind)
---   return function()
---     vim.lsp.buf.code_action({context = { only = { kind } } })
---   end
--- end
-
 return keymaps
