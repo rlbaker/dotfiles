@@ -40,13 +40,9 @@ require('packer').startup(function(use)
   }
   use 'nvim-telescope/telescope-ui-select.nvim'
 
-  use {
-    'guns/vim-sexp',
-    setup = function()
-      -- vim.g.sexp_filetypes = ''
-      vim.g.sexp_enable_insert_mode_mappings = 0
-    end
-  }
+  use 'clojure-vim/clojure.vim'
+  use 'luochen1990/rainbow'
+  use 'guns/vim-sexp'
   use 'tpope/vim-sexp-mappings-for-regular-people'
   
   use {
@@ -82,11 +78,6 @@ require('packer').startup(function(use)
       vim.g['conjure#mapping#doc_word'] = false
     end,
   }
-
-  -- use {
-  --   'eraserhd/parinfer-rust',
-  --   run = 'cargo build --release',
-  -- }
 
   if packer_bootstrap then
     require('packer').sync()
