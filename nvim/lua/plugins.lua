@@ -35,17 +35,15 @@ require('packer').startup(function(use)
   }
 
   use {
-    'nvim-telescope/telescope.nvim', branch = '0.1.x',
+    'nvim-telescope/telescope.nvim',
+    branch = '0.1.x',
     requires = 'nvim-lua/plenary.nvim',
   }
   use 'nvim-telescope/telescope-ui-select.nvim'
 
   use 'luochen1990/rainbow'
   use 'clojure-vim/clojure.vim'
-  use { 'guns/vim-sexp',
-    setup = function()
-    end
-  }
+  use 'guns/vim-sexp'
   use 'tpope/vim-sexp-mappings-for-regular-people'
   use 'Olical/conjure'
 
@@ -55,6 +53,6 @@ require('packer').startup(function(use)
 end)
 
 vim.api.nvim_create_autocmd('BufWritePost', {
-  pattern={'plugins.lua'},
-  command='PackerCompile',
+  pattern = 'plugins.lua',
+  command = 'PackerCompile',
 })

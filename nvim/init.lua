@@ -34,7 +34,6 @@ require('gruvbox').setup({
 })
 vim.cmd('colorscheme gruvbox')
 
-
 --- disable comment continuations
 vim.api.nvim_create_autocmd('FileType', {
   pattern = '*',
@@ -144,6 +143,20 @@ require('lspconfig').clojure_lsp.setup{
   end,
 }
 
+-- rainbow parens
+vim.g.rainbow_active = 1
+vim.g.rainbow_conf = {
+  guifgs = {
+    '#7C6F64', -- grey
+    '#B57614', -- yellow
+    '#427B58', -- aqua
+    '#8F3F71', -- purple
+    '#076678', -- blue
+    '#AF3A03', -- orange
+    '#79740E', -- green
+  },
+}
+
 -- vim-sexp
 vim.g.sexp_mappings = {
   sexp_insert_at_list_head = 'H',
@@ -163,17 +176,3 @@ vim.g['conjure#log#hud#height'] = 0.66
 vim.g['conjure#log#jump_to_latest#cursor_scroll_position'] = 'center'
 vim.g['conjure#log#jump_to_latest#enabled'] = true
 vim.g['conjure#log#wrap'] = true
-
--- rainbow parens
-vim.g.rainbow_active = 1
-vim.g.rainbow_conf = {
-  guifgs = {
-    '#7C6F64', -- grey
-    '#B57614', -- yellow
-    '#427B58', -- aqua
-    '#8F3F71', -- purple
-    '#076678', -- blue
-    '#AF3A03', -- orange
-    '#79740E', -- green
-  },
-}
