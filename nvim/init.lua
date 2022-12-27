@@ -22,6 +22,20 @@ vim.opt.tabstop = 2
 
 vim.g.html_indent_autotags = 'html,head,body'
 
+-- rainbow parens
+vim.g.rainbow_active = 1
+vim.g.rainbow_conf = {
+  guifgs = {
+    '#7C6F64', -- grey
+    '#B57614', -- yellow
+    '#427B58', -- aqua
+    '#8F3F71', -- purple
+    '#076678', -- blue
+    '#AF3A03', -- orange
+    '#79740E', -- green
+  },
+}
+
 vim.opt.termguicolors = true
 require('gruvbox').setup({
   italic = false,
@@ -32,16 +46,16 @@ require('gruvbox').setup({
 })
 vim.cmd('colorscheme gruvbox')
 
+local keymaps = require('keymaps')
+keymaps.setup()
+
 --- disable comment continuations
 vim.api.nvim_create_autocmd('FileType', {
   pattern = '*',
   callback = function()
-      vim.opt.formatoptions:remove { 'c', 'r', 'o' }
+    vim.opt.formatoptions:remove { 'c', 'r', 'o' }
   end
 })
-
-local keymaps = require('keymaps')
-keymaps.setup()
 
 function on_attach(client, bufnr)
   client.server_capabilities.semanticTokensProvider = nil
@@ -65,9 +79,9 @@ require'lspconfig'.clojure_lsp.setup{
 require('nvim-treesitter.configs').setup {
   auto_install = false,
   ensure_installed = { 'clojure', 'go', 'help', 'lua', 'vim' },
-  highlight = { enable = true },
-  rainbow = { enable = false },
+  highlight = { enable = false },
 }
+
 
 -- telescope config
 local telescope = require('telescope')
@@ -88,4 +102,3 @@ telescope.setup {
   }
 }
 telescope.load_extension("ui-select")
-
