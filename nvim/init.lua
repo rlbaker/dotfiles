@@ -105,15 +105,15 @@ function on_attach(client, bufnr)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
 
-  vim.keymap.set('n', 'gd', telescope.lsp_definitions, bufopts)
-  vim.keymap.set('n', 'gr', telescope.lsp_references, bufopts)
-  vim.keymap.set('n', 'gi', telescope.lsp_implementations, bufopts)
+  vim.keymap.set('n', 'gd', ts.lsp_definitions, bufopts)
+  vim.keymap.set('n', 'gr', ts.lsp_references, bufopts)
+  vim.keymap.set('n', 'gi', ts.lsp_implementations, bufopts)
 
   vim.keymap.set('n', '<LocalLeader>R', vim.lsp.buf.rename, bufopts)
 
   -- vim.keymap.set('n', '<LocalLeader>D', vim.lsp.buf.declaration, bufopts)
-  -- vim.keymap.set('n', '<LocalLeader>s', telescope.lsp_document_symbols, bufopts)
-  -- vim.keymap.set('n', '<LocalLeader>S', telescope.lsp_dynamic_workspace_symbols, bufopts)
+  -- vim.keymap.set('n', '<LocalLeader>s', ts.lsp_document_symbols, bufopts)
+  -- vim.keymap.set('n', '<LocalLeader>S', ts.lsp_dynamic_workspace_symbols, bufopts)
 
   vim.keymap.set('n', '<LocalLeader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
   vim.keymap.set('n', '<LocalLeader>o', function()
