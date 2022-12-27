@@ -31,23 +31,17 @@ keymaps.setup = function()
   vim.keymap.set('n', '<Leader>D', telescope.diagnostics, opts)
   vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev, opts)
   vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next, opts)
-
-  vim.api.nvim_create_autocmd('FileType', {
-    pattern = 'clojure',
-    callback = function(args)
-      local bufopts = { silent=true, buffer=args.buf }
-      vim.keymap.set('n', '>(', '<Plug>(sexp_emit_head_element)', bufopts)
-      vim.keymap.set('n', '<)', '<Plug>(sexp_emit_tail_element)', bufopts)
-      vim.keymap.set('n', '>)', '<Plug>(sexp_capture_next_element)', bufopts)
-      vim.keymap.set('n', '<(', '<Plug>(sexp_capture_prev_element)', bufopts)
-      vim.keymap.set('n', '>I', '<Plug>(sexp_insert_at_list_tail)', bufopts)
-      vim.keymap.set('n', '<I', '<Plug>(sexp_insert_at_list_head)', bufopts)
-      vim.keymap.set('n', '(', '<Plug>(sexp_move_to_prev_bracket)', bufopts)
-      vim.keymap.set('n', ')', '<Plug>(sexp_move_to_next_bracket)', bufopts)
-    end
-  })
 end
 
+-- action types
+-- quickfix
+-- refactor
+-- refactor.extract
+-- refactor.inline
+-- refactor.rewrite
+-- source
+-- source.organizeImports
+-- vim.keymap.set('n', '<LocalLeader>aq', code_action('quickfix'), bufopts)
 -- function code_action(kind)
 --   return function()
 --     vim.lsp.buf.code_action({context = { only = { kind } } })
@@ -71,24 +65,12 @@ keymaps.lsp = function(bufnr)
   -- vim.keymap.set('n', '<LocalLeader>s', telescope.lsp_document_symbols, bufopts)
   -- vim.keymap.set('n', '<LocalLeader>S', telescope.lsp_dynamic_workspace_symbols, bufopts)
 
-  vim.keymap.set('n', '<LocalLeader>f', function()
-    vim.lsp.buf.format { async = true }
-  end, bufopts)
-
+  vim.keymap.set('n', '<LocalLeader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
   vim.keymap.set('n', '<LocalLeader>o', function()
     vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
   end, bufopts)
 
   vim.keymap.set('n', '<LocalLeader>a', vim.lsp.buf.code_action, bufopts)
-  -- action types
-  -- quickfix
-  -- refactor
-  -- refactor.extract
-  -- refactor.inline
-  -- refactor.rewrite
-  -- source
-  -- source.organizeImports
-  -- vim.keymap.set('n', '<LocalLeader>aq', code_action('quickfix'), bufopts)
 end
 
 return keymaps
