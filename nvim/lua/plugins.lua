@@ -1,58 +1,127 @@
-local ensure_packer = function()
-  local fn = vim.fn
-  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-    vim.cmd [[packadd packer.nvim]]
-    return true
-  end
-  return false
-end
+return {
+  {
+    'ellisonleao/gruvbox.nvim',
+    config = function()
+      vim.opt.termguicolors = true
+      require('gruvbox').setup({
+        italic = false,
+        overrides = {
+          SignColumn = { bg = '#504945' },
+          NormalFloat = { bg = '#504945' },
+        }
+      })
+      vim.cmd([[colorscheme gruvbox]])
+    end
+  },
 
-local packer_bootstrap = ensure_packer()
+  { 'tpope/vim-commentary' },
+  { 'tpope/vim-surround' },
+  { 'tpope/vim-repeat' },
+  { 'tpope/vim-fugitive', cmd = 'Git' },
+  { 'blankname/vim-fish', ft = 'fish' },
+  { 'neovim/nvim-lspconfig' },
 
-require('packer').startup(function(use)
-  use 'wbthomason/packer.nvim'
-  use 'dstein64/vim-startuptime'
-
-  use 'ellisonleao/gruvbox.nvim'
-
-  use 'tpope/vim-commentary'
-  use 'tpope/vim-fugitive'
-  use 'tpope/vim-surround'
-  use 'tpope/vim-repeat'
-
-  use 'blankname/vim-fish'
-  use 'neovim/nvim-lspconfig'
-  
-  use {
+  {
     'nvim-treesitter/nvim-treesitter',
-    run = function()
+    build = function()
       local treesitter = require('nvim-treesitter.install')
       local ts_update = treesitter.update({ with_sync = true })
       ts_update()
     end,
-  }
+    config = function()
+      require('nvim-treesitter.configs').setup {
+        auto_install = false,
+        ensure_installed = { 'clojure', 'go', 'help', 'lua', 'vim' },
+        highlight = {
+          enable = true,
+          disable = { 'clojure' },
+        },
+      }
+    end
+  },
 
-  use {
+  {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
-    requires = 'nvim-lua/plenary.nvim',
-  }
-  use 'nvim-telescope/telescope-ui-select.nvim'
+    dependencies = 'nvim-lua/plenary.nvim',
+    config = {
+      defaults = {
+        layout_strategy = 'vertical',
+        layout_config = {
+          prompt_position = 'top',
+        },
+        path_display = { 'shorten' },
+        sorting_strategy = 'ascending'
+      },
+      pickers = {
+        buffers = {
+          ignore_current_buffer = true,
+          sort_mru = true,
+        }
+      }
+    },
+  },
 
-  use 'luochen1990/rainbow'
-  use 'clojure-vim/clojure.vim'
-  use 'guns/vim-sexp'
-  use 'tpope/vim-sexp-mappings-for-regular-people'
-  use 'Olical/conjure'
+  {
+    'nvim-telescope/telescope-ui-select.nvim',
+    config = function() require('telescope').load_extension('ui-select') end
+  },
 
-  if packer_bootstrap then
-    require('packer').sync()
-  end
-end)
+  -- clojure plugins
+  { 'clojure-vim/clojure.vim', ft = 'clojure' },
 
-vim.api.nvim_create_autocmd('BufWritePost', {
-  pattern = 'plugins.lua',
-  command = 'PackerCompile',
-})
+  {
+    'luochen1990/rainbow',
+    ft = { 'clojure', 'lisp' },
+    init = function() vim.g.rainbow_active = 1 end,
+    config = function()
+      vim.g.rainbow_conf = {
+        guifgs = {
+          '#7C6F64', -- grey
+          '#B57614', -- yellow
+          '#427B58', -- aqua
+          '#8F3F71', -- purple
+          '#076678', -- blue
+          '#AF3A03', -- orange
+          '#79740E', -- green
+        },
+      }
+    end
+  },
+
+  {
+    'guns/vim-sexp',
+    ft = { 'clojure', 'lisp' },
+    config = function()
+      vim.g.sexp_mappings = {
+        sexp_insert_at_list_head = 'H',
+        sexp_insert_at_list_tail = 'L',
+      }
+    end
+  },
+
+  {
+    'tpope/vim-sexp-mappings-for-regular-people',
+    ft = { 'clojure', 'lisp' },
+    dependencies = 'guns/vim-sexp',
+  },
+
+  {
+    'Olical/conjure',
+    ft = { 'clojure', 'lisp' },
+    config = function()
+      vim.g['conjure#client#clojure#nrepl#connection#auto_repl#enabled'] = false
+      vim.g['conjure#completion#omnifunc'] = false
+      vim.g['conjure#eval#inline_results'] = false
+      vim.g['conjure#extract#tree_sitter#enabled'] = true
+      vim.g['conjure#filetypes'] = { 'clojure' }
+      vim.g['conjure#mapping#def_word'] = false
+      vim.g['conjure#mapping#doc_word'] = false
+      vim.g['conjure#log#botright'] = true
+      vim.g['conjure#log#hud#height'] = 0.66
+      vim.g['conjure#log#jump_to_latest#cursor_scroll_position'] = 'center'
+      vim.g['conjure#log#jump_to_latest#enabled'] = true
+      vim.g['conjure#log#wrap'] = true
+    end
+  },
+}

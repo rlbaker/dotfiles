@@ -1,4 +1,29 @@
-require('plugins')
+vim.g.mapleader = ' '
+vim.g.maplocalleader=','
+
+-- bootstrap package manager
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "--single-branch",
+    "https://github.com/folke/lazy.nvim.git",
+    lazypath,
+  })
+end
+vim.opt.runtimepath:prepend(lazypath)
+
+require("lazy").setup('plugins', {
+  ui = {
+    icons = {
+      cmd = "⌘", config = "🛠", event = "📅", ft = "📂",
+      init = "⚙", keys = "🗝", plugin = "🔌", runtime = "💻",
+      source = "📄", start = "🚀", task = "📌",
+    }
+  }
+})
 
 vim.opt.completeopt = {'menuone', 'noinsert', 'noselect'}
 vim.opt.confirm = true
@@ -20,19 +45,7 @@ vim.opt.smartindent = true
 vim.opt.softtabstop = -1
 vim.opt.tabstop = 2
 
-vim.g.mapleader = ' '
-vim.g.maplocalleader=','
 vim.g.html_indent_autotags = 'html,head,body'
-
-vim.opt.termguicolors = true
-require('gruvbox').setup({
-  italic = false,
-  overrides = {
-    SignColumn = { bg = '#504945' },
-    NormalFloat = { bg = '#504945' },
-  }
-})
-vim.cmd('colorscheme gruvbox')
 
 --- disable comment continuations
 vim.api.nvim_create_autocmd('FileType', {
@@ -41,26 +54,6 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.opt.formatoptions:remove { 'c', 'r', 'o' }
   end
 })
-
--- telescope config
-local telescope = require('telescope')
-telescope.setup {
-  defaults = {
-    layout_strategy = 'vertical',
-    layout_config = {
-      prompt_position = 'top',
-    },
-    path_display = { 'shorten' },
-    sorting_strategy = 'ascending'
-  },
-  pickers = {
-    buffers = {
-      ignore_current_buffer = true,
-      sort_mru = true,
-    }
-  }
-}
-telescope.load_extension("ui-select")
 
 local opts = { noremap = true, silent = true }
 
@@ -88,12 +81,6 @@ vim.keymap.set('n', '<Leader>d', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '<Leader>D', ts.diagnostics, opts)
 vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next, opts)
-
-require('nvim-treesitter.configs').setup {
-  auto_install = false,
-  ensure_installed = { 'clojure', 'go', 'help', 'lua', 'vim' },
-  highlight = { enable = false },
-}
 
 function on_attach(client, bufnr)
   client.server_capabilities.semanticTokensProvider = nil
@@ -142,37 +129,3 @@ require('lspconfig').clojure_lsp.setup{
     return require("lspconfig.server_configurations.clojure_lsp").default_config.root_dir(filename, bufnr)
   end,
 }
-
--- rainbow parens
-vim.g.rainbow_active = 1
-vim.g.rainbow_conf = {
-  guifgs = {
-    '#7C6F64', -- grey
-    '#B57614', -- yellow
-    '#427B58', -- aqua
-    '#8F3F71', -- purple
-    '#076678', -- blue
-    '#AF3A03', -- orange
-    '#79740E', -- green
-  },
-}
-
--- vim-sexp
-vim.g.sexp_mappings = {
-  sexp_insert_at_list_head = 'H',
-  sexp_insert_at_list_tail = 'L',
-}
-
--- conjure
-vim.g['conjure#client#clojure#nrepl#connection#auto_repl#enabled'] = false
-vim.g['conjure#completion#omnifunc'] = false
-vim.g['conjure#eval#inline_results'] = false
-vim.g['conjure#extract#tree_sitter#enabled'] = true
-vim.g['conjure#filetypes'] = { 'clojure' }
-vim.g['conjure#mapping#def_word'] = false
-vim.g['conjure#mapping#doc_word'] = false
-vim.g['conjure#log#botright'] = true
-vim.g['conjure#log#hud#height'] = 0.66
-vim.g['conjure#log#jump_to_latest#cursor_scroll_position'] = 'center'
-vim.g['conjure#log#jump_to_latest#enabled'] = true
-vim.g['conjure#log#wrap'] = true
