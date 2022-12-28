@@ -72,7 +72,7 @@ return {
 
   {
     'luochen1990/rainbow',
-    ft = { 'clojure', 'lisp' },
+    ft = 'clojure',
     init = function() vim.g.rainbow_active = 1 end,
     config = function()
       vim.g.rainbow_conf = {
@@ -91,7 +91,7 @@ return {
 
   {
     'guns/vim-sexp',
-    ft = { 'clojure', 'lisp' },
+    ft = 'clojure',
     config = function()
       vim.g.sexp_mappings = {
         sexp_insert_at_list_head = 'H',
@@ -102,13 +102,13 @@ return {
 
   {
     'tpope/vim-sexp-mappings-for-regular-people',
-    ft = { 'clojure', 'lisp' },
+    ft = 'clojure',
     dependencies = 'guns/vim-sexp',
   },
 
   {
     'Olical/conjure',
-    ft = { 'clojure', 'lisp' },
+    ft = 'clojure',
     config = function()
       vim.g['conjure#client#clojure#nrepl#connection#auto_repl#enabled'] = false
       vim.g['conjure#completion#omnifunc'] = false
