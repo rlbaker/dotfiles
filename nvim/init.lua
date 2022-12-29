@@ -5,10 +5,8 @@ vim.g.maplocalleader=','
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "--single-branch",
+    "git", "clone",
+    "--filter=blob:none", "--single-branch",
     "https://github.com/folke/lazy.nvim.git",
     lazypath,
   })
@@ -18,17 +16,10 @@ vim.opt.runtimepath:prepend(lazypath)
 require("lazy").setup('plugins', {
   ui = {
     icons = {
-      cmd = "⌘",
-      config = "🛠",
-      event = "📅",
-      ft = "📂",
-      init = "⚙",
-      keys = "🗝",
-      plugin = "🔌",
-      runtime = "💻",
-      source = "📄",
-      start = "🚀",
-      task = "📌",
+      cmd = "⌘", config = "🛠", event = "📅",
+      ft = "📂", init = "⚙", keys = "🗝",
+      plugin = "🔌", runtime = "💻", source = "📄",
+      start = "🚀", task = "📌",
     }
   }
 })
@@ -76,7 +67,7 @@ vim.keymap.set('n', '<Leader>q', function()
 end, opts)
 
 vim.keymap.set('n', '<Leader>t', ':%s/\\s\\+$//e<CR>', opts) -- trim whitespace
-      
+
 local telescope = require('telescope.builtin')
 vim.keymap.set('n', '<Leader><Leader>', telescope.buffers, opts)
 vim.keymap.set('n', '<Leader>.', telescope.find_files, opts)
@@ -94,9 +85,9 @@ vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next, opts)
 
 function on_attach(client, bufnr)
   client.server_capabilities.semanticTokensProvider = nil
-  
+
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-  
+
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
