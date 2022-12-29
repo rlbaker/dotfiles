@@ -96,18 +96,21 @@ function on_attach(client, bufnr)
   vim.keymap.set('n', 'gr', telescope.lsp_references, bufopts)
   vim.keymap.set('n', 'gi', telescope.lsp_implementations, bufopts)
 
-  vim.keymap.set('n', '<LocalLeader>R', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', 'gR', vim.lsp.buf.rename, bufopts)
+
+  vim.keymap.set('n', '<LocalLeader>ci', telescope.lsp_incoming_calls, bufopts)
+  vim.keymap.set('n', '<LocalLeader>co', telescope.lsp_outgoing_calls, bufopts)
 
   -- keymap.set('n', '<LocalLeader>D', vim.lsp.buf.declaration, bufopts)
   -- vim.keymap.set('n', '<LocalLeader>s', telescope.lsp_document_symbols, bufopts)
   -- vim.keymap.set('n', '<LocalLeader>S', telescope.lsp_dynamic_workspace_symbols, bufopts)
 
-  vim.keymap.set('n', '<LocalLeader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
-  vim.keymap.set('n', '<LocalLeader>o', function()
+  vim.keymap.set('n', 'gf', function() vim.lsp.buf.format { async = true } end, bufopts)
+  vim.keymap.set('n', 'go', function()
     vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
   end, bufopts)
 
-  vim.keymap.set('n', '<LocalLeader>a', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, bufopts)
 end
 
 require('lspconfig').gopls.setup {
