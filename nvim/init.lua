@@ -18,9 +18,17 @@ vim.opt.runtimepath:prepend(lazypath)
 require("lazy").setup('plugins', {
   ui = {
     icons = {
-      cmd = "⌘", config = "🛠", event = "📅", ft = "📂",
-      init = "⚙", keys = "🗝", plugin = "🔌", runtime = "💻",
-      source = "📄", start = "🚀", task = "📌",
+      cmd = "⌘",
+      config = "🛠",
+      event = "📅",
+      ft = "📂",
+      init = "⚙",
+      keys = "🗝",
+      plugin = "🔌",
+      runtime = "💻",
+      source = "📄",
+      start = "🚀",
+      task = "📌",
     }
   }
 })
@@ -48,7 +56,9 @@ vim.opt.tabstop = 2
 vim.g.html_indent_autotags = 'html,head,body'
 
 --- disable comment continuations
+vim.api.nvim_create_augroup('rlb', { clear = true })
 vim.api.nvim_create_autocmd('FileType', {
+  group = 'rlb',
   pattern = '*',
   callback = function()
     vim.opt.formatoptions:remove { 'c', 'r', 'o' }
@@ -65,22 +75,22 @@ vim.keymap.set('n', '<Leader>q', function()
   vim.cmd('helpclose')
 end, opts)
 
-local ts = require('telescope.builtin')
-vim.keymap.set('n', '<Leader><Leader>', ts.buffers, opts)
-vim.keymap.set('n', '<Leader>.', ts.find_files, opts)
-vim.keymap.set('n', '<Leader>m', ts.marks, opts)
-vim.keymap.set('n', '<Leader>c', ts.commands, opts)
-
-vim.keymap.set('n', '<Leader>/', ts.live_grep, opts)
-vim.keymap.set('n', '<LocalLeader>/', ts.current_buffer_fuzzy_find)
-
-vim.keymap.set('n', '<Leader>r', ':RainbowToggle<CR>', opts)
 vim.keymap.set('n', '<Leader>t', ':%s/\\s\\+$//e<CR>', opts) -- trim whitespace
+      
+local telescope = require('telescope.builtin')
+vim.keymap.set('n', '<Leader><Leader>', telescope.buffers, opts)
+vim.keymap.set('n', '<Leader>.', telescope.find_files, opts)
+vim.keymap.set('n', '<Leader>m', telescope.marks, opts)
+vim.keymap.set('n', '<Leader>:', telescope.commands, opts)
+
+vim.keymap.set('n', '<Leader>/', telescope.live_grep, opts)
+vim.keymap.set('n', '<LocalLeader>/', telescope.current_buffer_fuzzy_find)
 
 vim.keymap.set('n', '<Leader>d', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '<Leader>D', ts.diagnostics, opts)
+vim.keymap.set('n', '<Leader>D', telescope.diagnostics, opts)
 vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next, opts)
+
 
 function on_attach(client, bufnr)
   client.server_capabilities.semanticTokensProvider = nil
@@ -91,15 +101,15 @@ function on_attach(client, bufnr)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
 
-  vim.keymap.set('n', 'gd', ts.lsp_definitions, bufopts)
-  vim.keymap.set('n', 'gr', ts.lsp_references, bufopts)
-  vim.keymap.set('n', 'gi', ts.lsp_implementations, bufopts)
+  vim.keymap.set('n', 'gd', telescope.lsp_definitions, bufopts)
+  vim.keymap.set('n', 'gr', telescope.lsp_references, bufopts)
+  vim.keymap.set('n', 'gi', telescope.lsp_implementations, bufopts)
 
   vim.keymap.set('n', '<LocalLeader>R', vim.lsp.buf.rename, bufopts)
 
-  -- vim.keymap.set('n', '<LocalLeader>D', vim.lsp.buf.declaration, bufopts)
-  -- vim.keymap.set('n', '<LocalLeader>s', ts.lsp_document_symbols, bufopts)
-  -- vim.keymap.set('n', '<LocalLeader>S', ts.lsp_dynamic_workspace_symbols, bufopts)
+  -- keymap.set('n', '<LocalLeader>D', vim.lsp.buf.declaration, bufopts)
+  -- vim.keymap.set('n', '<LocalLeader>s', telescope.lsp_document_symbols, bufopts)
+  -- vim.keymap.set('n', '<LocalLeader>S', telescope.lsp_dynamic_workspace_symbols, bufopts)
 
   vim.keymap.set('n', '<LocalLeader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
   vim.keymap.set('n', '<LocalLeader>o', function()
