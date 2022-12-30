@@ -42,7 +42,7 @@ return {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
     dependencies = 'nvim-lua/plenary.nvim',
-    config = function() 
+    config = function()
       local actions = require('telescope.actions')
       require('telescope').setup({
       defaults = {
