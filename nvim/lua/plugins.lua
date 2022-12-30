@@ -42,22 +42,32 @@ return {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
     dependencies = 'nvim-lua/plenary.nvim',
-    config = {
+    config = function() 
+      local actions = require('telescope.actions')
+      require('telescope').setup({
       defaults = {
         layout_strategy = 'vertical',
         layout_config = {
           prompt_position = 'top',
+          width = { 0.85, max = 130 },
+          preview_height = 10,
         },
-        path_display = { 'shorten' },
-        sorting_strategy = 'ascending'
+        path_display = { 'smart' },
+        sorting_strategy = 'ascending',
+        mappings = {
+          i = {
+            ["<ESC>"] = actions.close,
+          },
+        },
       },
       pickers = {
         buffers = {
           ignore_current_buffer = true,
           sort_mru = true,
         }
-      }
-    }
+      },
+    })
+    end
   },
 
   {
