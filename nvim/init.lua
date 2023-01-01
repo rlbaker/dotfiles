@@ -93,6 +93,7 @@ function on_attach(client, bufnr)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
 
   vim.keymap.set('n', 'gd', telescope.lsp_definitions, bufopts)
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
   vim.keymap.set('n', 'gr', telescope.lsp_references, bufopts)
   vim.keymap.set('n', 'gi', telescope.lsp_implementations, bufopts)
 
@@ -101,7 +102,6 @@ function on_attach(client, bufnr)
   vim.keymap.set('n', '<LocalLeader>ci', telescope.lsp_incoming_calls, bufopts)
   vim.keymap.set('n', '<LocalLeader>co', telescope.lsp_outgoing_calls, bufopts)
 
-  -- keymap.set('n', '<LocalLeader>D', vim.lsp.buf.declaration, bufopts)
   -- vim.keymap.set('n', '<LocalLeader>s', telescope.lsp_document_symbols, bufopts)
   -- vim.keymap.set('n', '<LocalLeader>S', telescope.lsp_dynamic_workspace_symbols, bufopts)
 

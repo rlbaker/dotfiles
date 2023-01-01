@@ -5,8 +5,8 @@ return {
     config = function()
       vim.opt.termguicolors = true
       require('gruvbox').setup({
-          bold = false,
-          italic = false,
+        bold = false,
+        italic = false,
       })
       vim.cmd('colorscheme gruvbox')
     end
@@ -32,8 +32,11 @@ return {
         ensure_installed = { 'clojure', 'go', 'help', 'lua', 'vim' },
         highlight = {
           enable = true,
-          disable = { 'clojure' },
+          -- disable = { 'clojure' },
         },
+        indent = {
+          enable = true,
+        }
       }
     end
   },
@@ -76,25 +79,42 @@ return {
       require('telescope').load_extension('ui-select')
     end
   },
+  
+  {
+    'windwp/nvim-autopairs',
+    config = function()
+      local npairs = require('nvim-autopairs')
+      npairs.setup({
+        check_ts = true,
+        enable_check_bracket_line = false,
+      })
+      npairs.get_rule("'")[1].not_filetypes = {'clojure', 'lisp'}
+      npairs.get_rule('`').not_filetypes = {'clojure', 'lisp'}
+    end
+  },
 
   {
-    'guns/vim-sexp', ft = 'clojure',
+    'guns/vim-sexp',
+    ft = 'clojure',
     config = function()
-      vim.api.nvim_set_hl(0, 'clojureParen', { fg = '#a89984' })
+      vim.api.nvim_set_hl(0, "@punctuation.bracket", { fg = '#928374' })
+      vim.g.sexp_enable_insert_mode_mappings = 0
       vim.g.sexp_mappings = {
         sexp_insert_at_list_head = '',
-        sexp_insert_at_list_tail = ''
+        sexp_insert_at_list_tail = '',
       }
     end
   },
 
   {
-    'tpope/vim-sexp-mappings-for-regular-people', ft = 'clojure',
+    'tpope/vim-sexp-mappings-for-regular-people',
+    ft = 'clojure',
     dependencies = 'guns/vim-sexp',
   },
 
   {
-    'Olical/conjure', ft = 'clojure',
+    'Olical/conjure',
+    ft = 'clojure',
     config = function()
       vim.g['conjure#filetypes'] = { 'clojure' }
       vim.g['conjure#extract#tree_sitter#enabled'] = true
