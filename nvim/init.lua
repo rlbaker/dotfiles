@@ -55,6 +55,7 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.opt.formatoptions:remove { 'c', 'r', 'o' }
   end
 })
+
 vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
   group = 'rlb',
   pattern = { '*' },
@@ -86,7 +87,6 @@ vim.keymap.set('n', '<Leader>d', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '<Leader>D', telescope.diagnostics, opts)
 vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next, opts)
-
 
 local function on_attach(client, bufnr)
   client.server_capabilities.semanticTokensProvider = nil

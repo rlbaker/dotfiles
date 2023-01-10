@@ -1,18 +1,25 @@
 return {
   {
-    'ellisonleao/gruvbox.nvim',
+    'sainnhe/gruvbox-material',
     priority = 1000,
     config = function()
+      vim.g.gruvbox_material_diagnostic_virtual_text = 'colored'
+      vim.g.gruvbox_material_better_performance = 1
       vim.opt.termguicolors = true
-      require('gruvbox').setup({
-        italic = false,
-        overrides = {
-          luaParenError = { fg = '#fbf1c7', reverse = false },
-          luaError      = { fg = '#fbf1c7', reverse = false },
-        },
-      })
-      vim.cmd('colorscheme gruvbox')
+      vim.cmd([[colorscheme gruvbox-material]])
     end
+  },
+
+  {
+    'nvim-lualine/lualine.nvim',
+    config = {
+      options = {
+        theme = 'gruvbox-material',
+        icons_enabled        = false,
+        section_separators   = '',
+        component_separators = '',
+      },
+    },
   },
 
   { 'tpope/vim-commentary' },
@@ -34,10 +41,11 @@ return {
       require('nvim-treesitter.configs').setup {
         auto_install     = false,
         ensure_installed = { 'clojure', 'go', 'help', 'lua', 'vim' },
-        highlight        = { enable = true },
-        indent           = { enable = true },
-        endwise          = { enable = true },
-        playground       = { enable = true },
+
+        highlight  = { enable = true },
+        indent     = { enable = true },
+        endwise    = { enable = true },
+        playground = { enable = true },
       }
     end
   },
@@ -93,46 +101,46 @@ return {
       npairs.setup {
         check_ts                  = true,
         enable_check_bracket_line = true,
-        map_cr                    = false,
+        map_cr                    = true,
       }
       npairs.get_rule("'")[1].not_filetypes = { 'clojure', 'lisp' }
       npairs.get_rule('`').not_filetypes    = { 'clojure', 'lisp' }
     end
   },
 
-  {
-    'guns/vim-sexp', ft = 'clojure',
-    config = function()
-      -- vim.api.nvim_set_hl(0, "@punctuation.bracket", { fg = '#bdae93' })
+  --   {
+  --     'guns/vim-sexp', ft = 'clojure',
+  --     config = function()
+  --       -- vim.api.nvim_set_hl(0, "@punctuation.bracket", { fg = '#bdae93' })
 
-      vim.g.sexp_enable_insert_mode_mappings = 0
-      vim.g.sexp_mappings = {
-        sexp_insert_at_list_head = '',
-        sexp_insert_at_list_tail = '',
-      }
-    end
-  },
+  --       vim.g.sexp_enable_insert_mode_mappings = 0
+  --       vim.g.sexp_mappings = {
+  --         sexp_insert_at_list_head = '',
+  --         sexp_insert_at_list_tail = '',
+  --       }
+  --     end
+  --   },
 
-  {
-    'tpope/vim-sexp-mappings-for-regular-people',
-    ft = 'clojure', dependencies = 'guns/vim-sexp',
-  },
+  --   {
+  --     'tpope/vim-sexp-mappings-for-regular-people',
+  --     ft = 'clojure', dependencies = 'guns/vim-sexp',
+  --   },
 
-  {
-    'Olical/conjure', ft = 'clojure',
-    config = function()
-      vim.g['conjure#filetypes'] = { 'clojure' }
-      vim.g['conjure#extract#tree_sitter#enabled'] = true
-      vim.g['conjure#log#botright'] = true
-      vim.g['conjure#log#hud#height'] = 0.66
-      vim.g['conjure#log#jump_to_latest#cursor_scroll_position'] = 'center'
-      vim.g['conjure#log#jump_to_latest#enabled'] = true
-      vim.g['conjure#log#wrap'] = true
-      vim.g['conjure#eval#inline_results'] = false
-      vim.g['conjure#client#clojure#nrepl#connection#auto_repl#enabled'] = false
-      vim.g['conjure#completion#omnifunc'] = false
-      -- vim.g['conjure#mapping#def_word'] = false
-      -- vim.g['conjure#mapping#doc_word'] = false
-    end
-  },
+  -- {
+  --   'Olical/conjure', ft = 'clojure',
+  --   config = function()
+  --     vim.g['conjure#filetypes'] = { 'clojure' }
+  --     vim.g['conjure#extract#tree_sitter#enabled'] = true
+  --     vim.g['conjure#log#botright'] = true
+  --     vim.g['conjure#log#hud#height'] = 0.66
+  --     vim.g['conjure#log#jump_to_latest#cursor_scroll_position'] = 'center'
+  --     vim.g['conjure#log#jump_to_latest#enabled'] = true
+  --     vim.g['conjure#log#wrap'] = true
+  --     vim.g['conjure#eval#inline_results'] = false
+  --     vim.g['conjure#client#clojure#nrepl#connection#auto_repl#enabled'] = false
+  --     vim.g['conjure#completion#omnifunc'] = false
+  --     -- vim.g['conjure#mapping#def_word'] = false
+  --     -- vim.g['conjure#mapping#doc_word'] = false
+  --   end
+  -- },
 }

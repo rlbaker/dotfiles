@@ -1,27 +1,6 @@
 set -g fish_greeting           # disable startup message
 
-# gruvbox theme
-set fish_color_normal         normal    # default color
-set fish_color_command        brgreen   # commands like echo
-set fish_color_keyword        normal -o # keywords like if, for
-set fish_color_quote          normal    # quoted text
-set fish_color_redirection    yellow    # io redirections like >/dev/null and 2>&1
-set fish_color_end            brblack   # process separators like ; and &
-set fish_color_error          brred     # syntax errors
-set fish_color_param          normal    # ordinary command parameters
-set fish_color_valid_path     brcyan    # parameters that are filenames (if the file exists)
-set fish_color_option         normal    # - options, up to first --
-set fish_color_comment        white -i  # comments like '# important'
-set fish_color_selection      normal    # selected text in vi visual mode
-set fish_color_operator       purple    # parameter expansion operators like * and ~
-set fish_color_escape         purple    # character escapes like \n and \x70
-set fish_color_autosuggestion brblack   # autosuggestions (the proposed rest of a command)
-set fish_color_cancel         brblack   # '^C' indicator on a canceled command
-set fish_color_search_match   -b yellow # background color for history search matches and selected pager items
-set -g __fish_git_prompt_color purple
-set -g __fish_git_prompt_showupstream auto
-set -g __fish_git_prompt_show_informative_status 1
-set -g __fish_git_prompt_showcolorhints 1
+source $HOME/.config/fish/colors.fish
 
 set -gx COPYFILE_DISABLED 1 # don't copy garbage into tar files
 set -gx HOMEBREW_BUNDLE_FILE $HOME/.config/homebrew/Brewfile
