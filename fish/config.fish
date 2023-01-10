@@ -20,8 +20,8 @@ set fish_color_cancel         brblack   # '^C' indicator on a canceled command
 set fish_color_search_match   -b yellow # background color for history search matches and selected pager items
 set -g __fish_git_prompt_color purple
 set -g __fish_git_prompt_showupstream auto
-set -g __fish_git_prompt_show_informative_status
-set -g __fish_git_prompt_showcolorhints
+set -g __fish_git_prompt_show_informative_status 1
+set -g __fish_git_prompt_showcolorhints 1
 
 set -gx COPYFILE_DISABLED 1 # don't copy garbage into tar files
 set -gx HOMEBREW_BUNDLE_FILE $HOME/.config/homebrew/Brewfile

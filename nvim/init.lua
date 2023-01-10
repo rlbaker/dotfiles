@@ -1,30 +1,30 @@
 vim.g.mapleader = ' '
-vim.g.maplocalleader=','
+vim.g.maplocalleader = ','
 
 -- bootstrap package manager
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git", "clone",
-    "--filter=blob:none", "--single-branch",
-    "https://github.com/folke/lazy.nvim.git",
+  vim.fn.system {
+    'git', 'clone',
+    '--filter=blob:none', '--single-branch',
+    'https://github.com/folke/lazy.nvim.git',
     lazypath,
-  })
+  }
 end
 vim.opt.runtimepath:prepend(lazypath)
 
-require("lazy").setup('plugins', {
+require('lazy').setup('plugins', {
   ui = {
     icons = {
-      cmd = "⌘", config = "🛠", event = "📅",
-      ft = "📂", init = "⚙", keys = "🗝",
-      plugin = "🔌", runtime = "💻", source = "📄",
-      start = "🚀", task = "📌",
+      cmd = '⌘', config = '🛠', event = '📅',
+      ft = '📂', init = '⚙', keys = '🗝',
+      plugin = '🔌', runtime = '💻', source = '📄',
+      start = '🚀', task = '📌',
     }
   }
 })
 
-vim.opt.completeopt = {'menuone', 'noinsert', 'noselect'}
+vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
 vim.opt.confirm = true
 vim.opt.cursorline = true
 vim.opt.ignorecase = true
@@ -35,7 +35,7 @@ vim.opt.signcolumn = 'no'
 vim.opt.smartcase = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.wildmode = {'longest:full', 'full'}
+vim.opt.wildmode = { 'longest:full', 'full' }
 
 -- indentation
 vim.opt.expandtab = true
@@ -55,6 +55,11 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.opt.formatoptions:remove { 'c', 'r', 'o' }
   end
 })
+vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
+  group = 'rlb',
+  pattern = { '*' },
+  command = [[%s/\s\+$//e]],
+})
 
 local opts = { noremap = true, silent = true }
 
@@ -66,7 +71,7 @@ vim.keymap.set('n', '<Leader>q', function()
   vim.cmd('helpclose')
 end, opts)
 
-vim.keymap.set('n', '<Leader>t', ':%s/\\s\\+$//e<CR>', opts) -- trim whitespace
+-- vim.keymap.set('n', '<Leader>t', ':%s/\\s\\+$//e<CR>', opts) -- trim whitespace
 
 local telescope = require('telescope.builtin')
 vim.keymap.set('n', '<Leader><Leader>', telescope.buffers, opts)
@@ -83,12 +88,12 @@ vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next, opts)
 
 
-function on_attach(client, bufnr)
+local function on_attach(client, bufnr)
   client.server_capabilities.semanticTokensProvider = nil
 
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  local bufopts = { noremap = true, silent = true, buffer = bufnr }
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
 
@@ -102,8 +107,8 @@ function on_attach(client, bufnr)
   vim.keymap.set('n', '<LocalLeader>ci', telescope.lsp_incoming_calls, bufopts)
   vim.keymap.set('n', '<LocalLeader>co', telescope.lsp_outgoing_calls, bufopts)
 
-  -- vim.keymap.set('n', '<LocalLeader>s', telescope.lsp_document_symbols, bufopts)
-  -- vim.keymap.set('n', '<LocalLeader>S', telescope.lsp_dynamic_workspace_symbols, bufopts)
+  vim.keymap.set('n', '<LocalLeader>s', telescope.lsp_document_symbols, bufopts)
+  vim.keymap.set('n', '<LocalLeader>S', telescope.lsp_dynamic_workspace_symbols, bufopts)
 
   vim.keymap.set('n', 'gf', function() vim.lsp.buf.format { async = true } end, bufopts)
   vim.keymap.set('n', 'go', function()
@@ -123,13 +128,38 @@ require('lspconfig').gopls.setup {
   }
 }
 
-require('lspconfig').clojure_lsp.setup{
+require('lspconfig').sumneko_lua.setup {
   on_attach = on_attach,
-  root_dir = function(filename, bufnr)
+  settings = {
+    Lua = {
+      completion = { keywordSnippet = 'Disable' },
+      diagnostics = { globals = { 'vim', 'love' } },
+      runtime = { version = 'LuaJIT' },
+      semantic = { enable = false },
+      telemetry = { enable = false },
+      format = {
+        enable = true,
+        defaultConfig = {
+          indent_size = '2',
+          indent_style = 'space',
+          align_call_args = 'true',
+          continuation_indent_size = '2',
+          -- if_condition_align_with_each_other = 'true',
+          if_condition_no_continuation_indent = 'true',
+          local_assign_continuation_align_to_first_expression = 'true',
+          quote_style = 'single',
+          table_append_expression_no_space = 'true',
+        },
+      }
+    },
+  },
+}
+
+require('lspconfig').clojure_lsp.setup {
+  on_attach = on_attach,
+  root_dir = function(fname)
     -- prevent LSP from attaching to conjure buffer
-    if string.match(filename, "conjure%-log%-%d+") then
-      return nil
-    end
-    return require("lspconfig.server_configurations.clojure_lsp").default_config.root_dir(filename, bufnr)
+    if string.match(fname, 'conjure%-log%-%d+') then return nil end
+    return require('lspconfig.server_configurations.clojure_lsp').default_config.root_dir(fname)
   end,
 }
