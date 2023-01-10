@@ -15,7 +15,6 @@ return {
     'nvim-lualine/lualine.nvim',
     config = {
       options = {
-        theme                = 'gruvbox-material',
         icons_enabled        = false,
         section_separators   = '',
         component_separators = '',
