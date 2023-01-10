@@ -5,6 +5,7 @@ return {
     config = function()
       vim.g.gruvbox_material_diagnostic_virtual_text = 'colored'
       vim.g.gruvbox_material_better_performance = 1
+      vim.g.gruvbox_material_enable_bold = 1
       vim.opt.termguicolors = true
       vim.cmd([[colorscheme gruvbox-material]])
     end
@@ -14,7 +15,7 @@ return {
     'nvim-lualine/lualine.nvim',
     config = {
       options = {
-        theme = 'gruvbox-material',
+        theme                = 'gruvbox-material',
         icons_enabled        = false,
         section_separators   = '',
         component_separators = '',
@@ -108,39 +109,45 @@ return {
     end
   },
 
-  --   {
-  --     'guns/vim-sexp', ft = 'clojure',
-  --     config = function()
-  --       -- vim.api.nvim_set_hl(0, "@punctuation.bracket", { fg = '#bdae93' })
+  {
+    'guns/vim-sexp', ft = 'clojure',
+    dependencies = 'windwp/nvim-autopairs',
+    config = function()
+      -- vim.api.nvim_set_hl(0, "@punctuation.bracket", { fg = '#bdae93' })
 
-  --       vim.g.sexp_enable_insert_mode_mappings = 0
-  --       vim.g.sexp_mappings = {
-  --         sexp_insert_at_list_head = '',
-  --         sexp_insert_at_list_tail = '',
-  --       }
-  --     end
-  --   },
+      vim.g.sexp_enable_insert_mode_mappings = 0
+      vim.g.sexp_mappings = {
+        sexp_insert_at_list_head = '',
+        sexp_insert_at_list_tail = '',
+      }
 
-  --   {
-  --     'tpope/vim-sexp-mappings-for-regular-people',
-  --     ft = 'clojure', dependencies = 'guns/vim-sexp',
-  --   },
+      require('nvim-autopairs').setup {
+        enable_check_bracket_line = true,
+        map_cr = false,
+      }
+    end
+  },
 
-  -- {
-  --   'Olical/conjure', ft = 'clojure',
-  --   config = function()
-  --     vim.g['conjure#filetypes'] = { 'clojure' }
-  --     vim.g['conjure#extract#tree_sitter#enabled'] = true
-  --     vim.g['conjure#log#botright'] = true
-  --     vim.g['conjure#log#hud#height'] = 0.66
-  --     vim.g['conjure#log#jump_to_latest#cursor_scroll_position'] = 'center'
-  --     vim.g['conjure#log#jump_to_latest#enabled'] = true
-  --     vim.g['conjure#log#wrap'] = true
-  --     vim.g['conjure#eval#inline_results'] = false
-  --     vim.g['conjure#client#clojure#nrepl#connection#auto_repl#enabled'] = false
-  --     vim.g['conjure#completion#omnifunc'] = false
-  --     -- vim.g['conjure#mapping#def_word'] = false
-  --     -- vim.g['conjure#mapping#doc_word'] = false
-  --   end
-  -- },
+  {
+    'tpope/vim-sexp-mappings-for-regular-people',
+    ft = 'clojure', dependencies = 'guns/vim-sexp',
+  },
+
+  {
+    'Olical/conjure', ft = 'clojure',
+    config = function()
+      vim.g['conjure#filetypes'] = { 'clojure' }
+      vim.g['conjure#extract#tree_sitter#enabled'] = true
+      vim.g['conjure#log#botright'] = true
+      vim.g['conjure#log#hud#height'] = 0.66
+      vim.g['conjure#log#jump_to_latest#cursor_scroll_position'] = 'center'
+      vim.g['conjure#log#jump_to_latest#enabled'] = true
+      vim.g['conjure#log#wrap'] = true
+      vim.g['conjure#eval#inline_results'] = false
+      vim.g['conjure#client#clojure#nrepl#connection#auto_repl#enabled'] = false
+      vim.g['conjure#completion#omnifunc'] = false
+      -- vim.g['conjure#mapping#def_word'] = false
+      -- vim.g['conjure#mapping#doc_word'] = false
+    end
+  },
 }
