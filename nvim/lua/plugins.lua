@@ -1,5 +1,4 @@
-return {
-  {
+return { {
     'sainnhe/gruvbox-material',
     priority = 1000,
     config = function()
@@ -14,6 +13,14 @@ return {
   {
     'nvim-lualine/lualine.nvim',
     config = {
+      tabline = {
+        lualine_a = { 'buffers' },
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = { 'tabs' }
+      },
       options = {
         icons_enabled        = false,
         section_separators   = '',

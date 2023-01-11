@@ -70,10 +70,12 @@ vim.keymap.set('n', '<Leader>q', function()
   vim.cmd('helpclose')
 end, opts)
 
--- vim.keymap.set('n', '<Leader>t', ':%s/\\s\\+$//e<CR>', opts) -- trim whitespace
+vim.keymap.set('n', '<Leader>t', ':%s/\\s\\+$//e<CR>', opts) -- trim whitespace
+
+vim.keymap.set('n', '<Leader><Leader>', '<C-6><CR>', opts)
 
 local telescope = require('telescope.builtin')
-vim.keymap.set('n', '<Leader><Leader>', telescope.buffers, opts)
+vim.keymap.set('n', '<Leader>b', telescope.buffers, opts)
 vim.keymap.set('n', '<Leader>.', telescope.find_files, opts)
 vim.keymap.set('n', '<Leader>m', telescope.marks, opts)
 vim.keymap.set('n', '<Leader>:', telescope.commands, opts)
