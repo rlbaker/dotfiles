@@ -94,12 +94,12 @@ return { {
     end
   },
 
-  {
-    'nvim-telescope/telescope-ui-select.nvim',
-    config = function()
-      require('telescope').load_extension('ui-select')
-    end
-  },
+  -- {
+  --   'nvim-telescope/telescope-ui-select.nvim',
+  --   config = function()
+  --     require('telescope').load_extension('ui-select')
+  --   end
+  -- },
 
   {
     'windwp/nvim-autopairs',
@@ -128,7 +128,7 @@ return { {
       }
 
       require('nvim-autopairs').setup {
-        enable_check_bracket_line = true,
+        enable_check_bracket_line = false,
         map_cr = false,
       }
     end
@@ -145,15 +145,15 @@ return { {
       vim.g['conjure#filetypes'] = { 'clojure' }
       vim.g['conjure#extract#tree_sitter#enabled'] = true
       vim.g['conjure#log#botright'] = true
-      vim.g['conjure#log#hud#height'] = 0.66
+      -- vim.g['conjure#log#hud#height'] = 0.66
       vim.g['conjure#log#jump_to_latest#cursor_scroll_position'] = 'center'
       vim.g['conjure#log#jump_to_latest#enabled'] = true
       vim.g['conjure#log#wrap'] = true
       vim.g['conjure#eval#inline_results'] = false
-      vim.g['conjure#client#clojure#nrepl#connection#auto_repl#enabled'] = false
       vim.g['conjure#completion#omnifunc'] = false
-      -- vim.g['conjure#mapping#def_word'] = false
-      -- vim.g['conjure#mapping#doc_word'] = false
+      vim.g['conjure#mapping#def_word'] = false
+      vim.g['conjure#mapping#doc_word'] = false
+      vim.g['conjure#client#clojure#nrepl#connection#auto_repl#hidden'] = true
     end
   },
 }
