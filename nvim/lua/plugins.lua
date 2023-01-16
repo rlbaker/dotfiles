@@ -1,11 +1,12 @@
-return { {
+return {
+  {
     'sainnhe/gruvbox-material',
     priority = 1000,
     config = function()
-      vim.g.gruvbox_material_diagnostic_virtual_text = 'colored'
-      vim.g.gruvbox_material_better_performance = 1
-      vim.g.gruvbox_material_enable_bold = 1
       vim.opt.termguicolors = true
+      vim.g.gruvbox_material_better_performance = 1
+      -- vim.g.gruvbox_material_enable_bold = 1
+      vim.g.gruvbox_material_diagnostic_virtual_text = 'colored'
       vim.cmd([[colorscheme gruvbox-material]])
     end
   },
@@ -15,10 +16,6 @@ return { {
     config = {
       tabline = {
         lualine_a = { 'buffers' },
-        lualine_b = {},
-        lualine_c = {},
-        lualine_x = {},
-        lualine_y = {},
         lualine_z = { 'tabs' }
       },
       options = {
@@ -47,12 +44,10 @@ return { {
     config = function()
       require('nvim-treesitter.configs').setup {
         auto_install     = false,
-        ensure_installed = { 'clojure', 'go', 'help', 'lua', 'vim' },
-
-        highlight  = { enable = true },
-        indent     = { enable = true },
-        endwise    = { enable = true },
-        playground = { enable = true },
+        ensure_installed = { 'bash', 'go', 'help', 'lua', 'vim' },
+        highlight        = { enable = true },
+        indent           = { enable = true },
+        endwise          = { enable = true },
       }
     end
   },
@@ -79,9 +74,7 @@ return { {
           path_display = { 'smart' },
           sorting_strategy = 'ascending',
           mappings = {
-            i = {
-              ['<ESC>'] = actions.close,
-            },
+            i = { ['<ESC>'] = actions.close },
           },
         },
         pickers = {
@@ -94,66 +87,15 @@ return { {
     end
   },
 
-  -- {
-  --   'nvim-telescope/telescope-ui-select.nvim',
-  --   config = function()
-  --     require('telescope').load_extension('ui-select')
-  --   end
-  -- },
+  {
+    'nvim-telescope/telescope-ui-select.nvim',
+    config = function()
+      require('telescope').load_extension('ui-select')
+    end
+  },
 
   {
     'windwp/nvim-autopairs',
-    config = function()
-      local npairs = require('nvim-autopairs')
-      npairs.setup {
-        check_ts                  = true,
-        enable_check_bracket_line = true,
-        map_cr                    = true,
-      }
-      npairs.get_rule("'")[1].not_filetypes = { 'clojure', 'lisp' }
-      npairs.get_rule('`').not_filetypes    = { 'clojure', 'lisp' }
-    end
-  },
-
-  {
-    'guns/vim-sexp', ft = 'clojure',
-    dependencies = 'windwp/nvim-autopairs',
-    config = function()
-      -- vim.api.nvim_set_hl(0, "@punctuation.bracket", { fg = '#bdae93' })
-
-      vim.g.sexp_enable_insert_mode_mappings = 0
-      vim.g.sexp_mappings = {
-        sexp_insert_at_list_head = '',
-        sexp_insert_at_list_tail = '',
-      }
-
-      require('nvim-autopairs').setup {
-        enable_check_bracket_line = false,
-        map_cr = false,
-      }
-    end
-  },
-
-  {
-    'tpope/vim-sexp-mappings-for-regular-people',
-    ft = 'clojure', dependencies = 'guns/vim-sexp',
-  },
-
-  {
-    'Olical/conjure', ft = 'clojure',
-    config = function()
-      vim.g['conjure#filetypes'] = { 'clojure' }
-      vim.g['conjure#extract#tree_sitter#enabled'] = true
-      vim.g['conjure#log#botright'] = true
-      -- vim.g['conjure#log#hud#height'] = 0.66
-      vim.g['conjure#log#jump_to_latest#cursor_scroll_position'] = 'center'
-      vim.g['conjure#log#jump_to_latest#enabled'] = true
-      vim.g['conjure#log#wrap'] = true
-      vim.g['conjure#eval#inline_results'] = false
-      vim.g['conjure#completion#omnifunc'] = false
-      vim.g['conjure#mapping#def_word'] = false
-      vim.g['conjure#mapping#doc_word'] = false
-      vim.g['conjure#client#clojure#nrepl#connection#auto_repl#hidden'] = true
-    end
+    config = { check_ts = true }
   },
 }

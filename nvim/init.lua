@@ -70,23 +70,22 @@ vim.keymap.set('n', '<Leader>q', function()
   vim.cmd('helpclose')
 end, opts)
 
-vim.keymap.set('n', '<Leader>t', ':%s/\\s\\+$//e<CR>', opts) -- trim whitespace
+local telescope = require('telescope.builtin')
 
 vim.keymap.set('n', '<Leader><Leader>', '<C-6><CR>', opts)
-
-local telescope = require('telescope.builtin')
+vim.keymap.set('n', '<Leader>t', ':%s/\\s\\+$//e<CR>', opts) -- trim whitespace
 vim.keymap.set('n', '<Leader>b', telescope.buffers, opts)
 vim.keymap.set('n', '<Leader>.', telescope.find_files, opts)
 vim.keymap.set('n', '<Leader>m', telescope.marks, opts)
 vim.keymap.set('n', '<Leader>:', telescope.commands, opts)
-
 vim.keymap.set('n', '<Leader>/', telescope.live_grep, opts)
-vim.keymap.set('n', '<LocalLeader>/', telescope.current_buffer_fuzzy_find)
 
 vim.keymap.set('n', '<Leader>d', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '<Leader>D', telescope.diagnostics, opts)
 vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next, opts)
+
+vim.keymap.set('n', '<LocalLeader>/', telescope.current_buffer_fuzzy_find)
 
 local function on_attach(client, bufnr)
   client.server_capabilities.semanticTokensProvider = nil
@@ -110,12 +109,14 @@ local function on_attach(client, bufnr)
   vim.keymap.set('n', '<LocalLeader>s', telescope.lsp_document_symbols, bufopts)
   vim.keymap.set('n', '<LocalLeader>S', telescope.lsp_dynamic_workspace_symbols, bufopts)
 
+  vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gf', function() vim.lsp.buf.format { async = true } end, bufopts)
   vim.keymap.set('n', 'go', function()
-    vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
+    vim.lsp.buf.code_action({
+      context = { only = { 'source.organizeImports' } },
+      apply = true
+    })
   end, bufopts)
-
-  vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, bufopts)
 end
 
 require('lspconfig').gopls.setup {
@@ -136,7 +137,6 @@ require('lspconfig').sumneko_lua.setup {
       diagnostics = { globals = { 'vim', 'love' } },
       runtime = { version = 'LuaJIT' },
       semantic = { enable = false },
-      telemetry = { enable = false },
       format = {
         enable = true,
         defaultConfig = {
@@ -153,13 +153,4 @@ require('lspconfig').sumneko_lua.setup {
       }
     },
   },
-}
-
-require('lspconfig').clojure_lsp.setup {
-  on_attach = on_attach,
-  root_dir = function(fname)
-    -- prevent LSP from attaching to conjure buffer
-    if string.match(fname, 'conjure%-log%-%d+') then return nil end
-    return require('lspconfig.util').root_pattern('deps.edn', 'bb.edn', '.git')(fname)
-  end,
 }
