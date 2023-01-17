@@ -5,7 +5,6 @@ return {
     config = function()
       vim.opt.termguicolors = true
       vim.g.gruvbox_material_better_performance = 1
-      -- vim.g.gruvbox_material_enable_bold = 1
       vim.g.gruvbox_material_diagnostic_virtual_text = 'colored'
       vim.cmd([[colorscheme gruvbox-material]])
     end

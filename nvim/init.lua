@@ -137,6 +137,7 @@ require('lspconfig').sumneko_lua.setup {
       diagnostics = { globals = { 'vim', 'love' } },
       runtime = { version = 'LuaJIT' },
       semantic = { enable = false },
+      telemetry = { enable = false },
       format = {
         enable = true,
         defaultConfig = {
