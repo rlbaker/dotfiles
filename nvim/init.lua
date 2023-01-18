@@ -155,3 +155,12 @@ require('lspconfig').sumneko_lua.setup {
     },
   },
 }
+
+require('lspconfig').clojure_lsp.setup {
+  on_attach = on_attach,
+  root_dir = function(fname)
+    -- prevent LSP from attaching to conjure buffer
+    if string.match(fname, 'conjure%-log%-%d+') then return nil end
+    return require('lspconfig.util').root_pattern('deps.edn', 'bb.edn', '.git')(fname)
+  end,
+}
