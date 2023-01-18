@@ -57,6 +57,11 @@ return {
   },
 
   {
+    'windwp/nvim-autopairs',
+    config = { check_ts = true }
+  },
+
+  {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
     dependencies = 'nvim-lua/plenary.nvim',
@@ -91,10 +96,5 @@ return {
     config = function()
       require('telescope').load_extension('ui-select')
     end
-  },
-
-  {
-    'windwp/nvim-autopairs',
-    config = { check_ts = true }
   },
 }

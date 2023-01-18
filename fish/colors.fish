@@ -1,13 +1,13 @@
 # gruvbox theme
 set fish_color_normal         normal    # default color
-set fish_color_command        brgreen   # commands like echo
+set fish_color_command        green   # commands like echo
 set fish_color_keyword        normal -o # keywords like if, for
 set fish_color_quote          normal    # quoted text
 set fish_color_redirection    yellow    # io redirections like >/dev/null and 2>&1
 set fish_color_end            brblack   # process separators like ; and &
-set fish_color_error          brred     # syntax errors
+set fish_color_error          red     # syntax errors
 set fish_color_param          normal    # ordinary command parameters
-set fish_color_valid_path     brcyan    # parameters that are filenames (if the file exists)
+set fish_color_valid_path     cyan    # parameters that are filenames (if the file exists)
 set fish_color_option         normal    # - options, up to first --
 set fish_color_comment        white -i  # comments like '# important'
 set fish_color_selection      normal    # selected text in vi visual mode
