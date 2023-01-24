@@ -141,8 +141,16 @@ require('lspconfig').gopls.setup {
   on_attach = on_attach,
   settings = {
     gopls = {
+      linksInHover = false,
+      semanticTokens = false,
       gofumpt = true,
       staticcheck = true,
+      analyses = {
+        unusedparams = true,
+        unusedwrite = true,
+        useany = true,
+        unusedvariable = true,
+      },
     }
   }
 }
@@ -159,15 +167,15 @@ require('lspconfig').sumneko_lua.setup {
       format = {
         enable = true,
         defaultConfig = {
-          indent_size = '2',
           indent_style = 'space',
-          align_call_args = 'true',
-          continuation_indent_size = '2',
-          -- if_condition_align_with_each_other = 'true',
-          if_condition_no_continuation_indent = 'true',
-          local_assign_continuation_align_to_first_expression = 'true',
+          indent_size = '2',
           quote_style = 'single',
+          continuation_indent_size = '2',
+          local_assign_continuation_align_to_first_expression = 'true',
+          align_call_args = 'true',
+          if_condition_no_continuation_indent = 'true',
           table_append_expression_no_space = 'true',
+          -- if_condition_align_with_each_other = 'true',
         },
       }
     },

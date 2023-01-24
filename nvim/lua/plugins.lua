@@ -43,9 +43,9 @@ return {
     config = function()
       require('nvim-treesitter.configs').setup {
         auto_install     = false,
-        ensure_installed = { 'bash', 'go', 'help', 'lua', 'vim' },
+        ensure_installed = { 'bash', 'clojure', 'go', 'help', 'lua', 'vim' },
         highlight        = { enable = true },
-        indent           = { enable = true },
+        indent           = { enable = false },
         endwise          = { enable = true },
       }
     end
