@@ -13,10 +13,6 @@ return {
   {
     'nvim-lualine/lualine.nvim',
     config = {
-      tabline = {
-        lualine_a = { 'buffers' },
-        lualine_z = { 'tabs' }
-      },
       options = {
         icons_enabled        = false,
         section_separators   = '',
@@ -50,7 +46,6 @@ return {
       }
     end
   },
-
   { 'nvim-treesitter/playground' },
 
   {
