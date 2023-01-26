@@ -7,6 +7,7 @@ set -gx HOMEBREW_BUNDLE_FILE $HOME/.config/homebrew/Brewfile
 set -gx HOMEBREW_BUNDLE_NO_LOCK 1
 set -gx HOMEBREW_FORCE_BREWED_GIT 1
 set -gx LSCOLORS xXfxgxdxBaahahahahahah
+
 set -gx EDITOR nvim
 alias vim="nvim"
 
@@ -14,11 +15,6 @@ source $HOME/.config/fish/local.fish # load system-specific configuration
 
 alias update-nvim="asdf uninstall neovim nightly; and asdf install neovim nightly"
 
-# populate homebrew vars
-if test (uname -p) = 'arm'
-    /opt/homebrew/bin/brew shellenv | source
-else
-    /usr/local/bin/brew shellenv | source
-end
+/opt/homebrew/bin/brew shellenv | source
 
 source ~/.asdf/asdf.fish
