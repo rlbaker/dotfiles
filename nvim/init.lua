@@ -154,39 +154,3 @@ require('lspconfig').gopls.setup {
     }
   }
 }
-
-require('lspconfig').sumneko_lua.setup {
-  on_attach = on_attach,
-  settings = {
-    Lua = {
-      completion = { keywordSnippet = 'Disable' },
-      diagnostics = { globals = { 'vim', 'love' } },
-      runtime = { version = 'LuaJIT' },
-      semantic = { enable = false },
-      telemetry = { enable = false },
-      format = {
-        enable = true,
-        defaultConfig = {
-          indent_style = 'space',
-          indent_size = '2',
-          quote_style = 'single',
-          continuation_indent_size = '2',
-          local_assign_continuation_align_to_first_expression = 'true',
-          align_call_args = 'true',
-          if_condition_no_continuation_indent = 'true',
-          table_append_expression_no_space = 'true',
-          -- if_condition_align_with_each_other = 'true',
-        },
-      }
-    },
-  },
-}
-
-require('lspconfig').clojure_lsp.setup {
-  on_attach = on_attach,
-  root_dir = function(fname)
-    -- prevent LSP from attaching to conjure buffer
-    if string.match(fname, 'conjure%-log%-%d+') then return nil end
-    return require('lspconfig.util').root_pattern('deps.edn', 'bb.edn', '.git')(fname)
-  end,
-}

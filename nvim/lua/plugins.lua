@@ -43,7 +43,7 @@ return {
     config = function()
       require('nvim-treesitter.configs').setup {
         auto_install     = false,
-        ensure_installed = { 'bash', 'clojure', 'go', 'help', 'lua', 'vim' },
+        ensure_installed = { 'bash', 'go', 'help', 'lua', 'vim' },
         highlight        = { enable = true },
         indent           = { enable = true },
         endwise          = { enable = true },
@@ -97,41 +97,5 @@ return {
     config = function()
       require('telescope').load_extension('ui-select')
     end
-  },
-
-  {
-    'guns/vim-sexp', ft = 'clojure',
-    dependencies = 'windwp/nvim-autopairs',
-    config = function()
-      vim.g.sexp_enable_insert_mode_mappings = 0
-      vim.g.sexp_mappings = {
-        sexp_insert_at_list_head = '',
-        sexp_insert_at_list_tail = '',
-      }
-
-      require('nvim-autopairs').setup {
-        enable_check_bracket_line = false,
-        map_cr = false,
-      }
-    end
-  },
-
-  {
-    'tpope/vim-sexp-mappings-for-regular-people',
-    ft = 'clojure', dependencies = 'guns/vim-sexp',
-  },
-
-  {
-    'Olical/conjure', ft = 'clojure',
-    config = function()
-      vim.g['conjure#filetypes'] = { 'clojure' }
-      vim.g['conjure#extract#tree_sitter#enabled'] = true
-      vim.g['conjure#client#clojure#nrepl#connection#auto_repl#hidden'] = true
-      vim.g['conjure#log#jump_to_latest#cursor_scroll_position'] = 'center'
-      vim.g['conjure#log#jump_to_latest#enabled'] = true
-      vim.g['conjure#log#wrap'] = true
-      vim.g['conjure#eval#inline_results'] = false
-      vim.g['conjure#completion#omnifunc'] = false
-    end
-  },
+  }
 }
