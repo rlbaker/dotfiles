@@ -45,7 +45,7 @@ return {
         auto_install     = false,
         ensure_installed = { 'bash', 'clojure', 'go', 'help', 'lua', 'vim' },
         highlight        = { enable = true },
-        indent           = { enable = false },
+        indent           = { enable = true },
         endwise          = { enable = true },
       }
     end
