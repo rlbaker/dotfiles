@@ -12,7 +12,11 @@ return {
 
   {
     'nvim-lualine/lualine.nvim',
-    config = {
+    opts = {
+      tabline = {
+        lualine_a = { 'buffers' },
+        lualine_z = { 'tabs' }
+      },
       options = {
         icons_enabled        = false,
         section_separators   = '',
@@ -55,7 +59,7 @@ return {
 
   {
     'windwp/nvim-autopairs',
-    config = { check_ts = true }
+    opts = { check_ts = true }
   },
 
   {
