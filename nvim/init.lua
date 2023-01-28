@@ -137,6 +137,10 @@ local function on_attach(client, bufnr)
   end, bufopts)
 end
 
+require('lspconfig').sourcekit.setup {
+  on_attach = on_attach,
+}
+
 require('lspconfig').gopls.setup {
   on_attach = on_attach,
   settings = {

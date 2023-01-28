@@ -10,7 +10,6 @@ brew 'jq'
 brew 'ripgrep'
 brew 'tree'
 
-cask '1password'
 cask 'firefox'
 cask 'font-iosevka'
 cask 'kitty', args: { 'no-quarantine': true }
