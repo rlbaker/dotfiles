@@ -22,12 +22,12 @@ require('lazy').setup('plugins', {
   }
 })
 
-
 vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
 vim.opt.confirm = true
 vim.opt.cursorline = true
 vim.opt.ignorecase = true
 vim.opt.laststatus = 3
+vim.opt.showmode = false
 vim.opt.mouse = 'a'
 vim.opt.shortmess:append 'cI'
 vim.opt.signcolumn = 'no'
@@ -38,8 +38,8 @@ vim.opt.wildmode = { 'longest:full', 'full' }
 
 -- indentation
 vim.opt.expandtab = true
-vim.opt.shiftwidth = 2
 vim.opt.smartindent = true
+vim.opt.shiftwidth = 2
 vim.opt.softtabstop = -1
 vim.opt.tabstop = 2
 
@@ -52,14 +52,6 @@ vim.api.nvim_create_autocmd('FileType', {
   pattern = '*', group = 'rlb',
   callback = function()
     vim.opt.formatoptions:remove { 'c', 'r', 'o' }
-  end
-})
-
--- highlight clojure symbols
-vim.api.nvim_create_autocmd('Filetype', {
-  pattern = 'clojure', group = 'rlb',
-  callback = function()
-    vim.api.nvim_set_hl(0, '@symbol', { fg = '#d3869b' })
   end
 })
 
@@ -103,7 +95,6 @@ vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next, opts)
 vim.keymap.set('n', '<LocalLeader>/', telescope.current_buffer_fuzzy_find, opts)
 
 --- LSP Configuration
-
 local function on_attach(client, bufnr)
   client.server_capabilities.semanticTokensProvider = nil
   -- vim.lsp.codelens.refresh()
@@ -136,10 +127,6 @@ local function on_attach(client, bufnr)
     })
   end, bufopts)
 end
-
-require('lspconfig').sourcekit.setup {
-  on_attach = on_attach,
-}
 
 require('lspconfig').gopls.setup {
   on_attach = on_attach,

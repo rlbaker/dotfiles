@@ -13,13 +13,14 @@ return {
   {
     'nvim-lualine/lualine.nvim',
     opts = {
+      theme = 'gruvbox-material',
       tabline = {
         lualine_a = { 'buffers' },
         lualine_z = { 'tabs' }
       },
       options = {
-        icons_enabled        = false,
-        section_separators   = '',
+        icons_enabled = false,
+        section_separators = '',
         component_separators = '',
       },
     },
@@ -29,7 +30,6 @@ return {
   { 'tpope/vim-surround' },
   { 'tpope/vim-repeat' },
   { 'tpope/vim-fugitive', cmd = 'Git' },
-  { 'marcuscf/vim-lua', ft = 'lua' },
   { 'blankname/vim-fish', ft = 'fish' },
   { 'neovim/nvim-lspconfig' },
 
@@ -42,25 +42,20 @@ return {
     end,
     config = function()
       require('nvim-treesitter.configs').setup {
-        auto_install     = false,
+        auto_install = false,
         ensure_installed = { 'bash', 'go', 'help', 'lua', 'vim' },
-        highlight        = { enable = true },
-        indent           = { enable = true },
-        endwise          = { enable = true },
+        highlight = { enable = true },
+        indent = { enable = true },
+        endwise = { enable = true },
       }
     end
   },
   { 'nvim-treesitter/playground' },
-
   {
     'RRethy/nvim-treesitter-endwise', ft = 'lua',
     dependencies = 'nvim-treesitter/nvim-treesitter'
   },
-
-  {
-    'windwp/nvim-autopairs',
-    opts = { check_ts = true }
-  },
+  { 'windwp/nvim-autopairs', opts = { check_ts = true } },
 
   {
     'nvim-telescope/telescope.nvim',
@@ -73,8 +68,8 @@ return {
           layout_strategy = 'vertical',
           layout_config = {
             prompt_position = 'top',
-            width = { 0.85, max = 130 },
             preview_height = 10,
+            width = { 0.85, max = 130 },
           },
           path_display = { 'smart' },
           sorting_strategy = 'ascending',

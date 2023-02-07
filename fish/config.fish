@@ -13,7 +13,7 @@ alias vim="nvim"
 
 source $HOME/.config/fish/local.fish # load system-specific configuration
 
-alias update-nvim="asdf uninstall neovim nightly; and asdf install neovim nightly"
+alias update-nvim="asdf uninstall neovim nightly; and asdf install neovim nightly; and asdf global neovim nightly"
 
 /opt/homebrew/bin/brew shellenv | source
 
