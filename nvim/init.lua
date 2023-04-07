@@ -4,22 +4,29 @@ vim.g.maplocalleader = ','
 -- bootstrap package manager
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system {
-    'git', 'clone', '--filter=blob:none', '--single-branch',
-    'https://github.com/folke/lazy.nvim.git', lazypath,
-  }
+    vim.fn.system {
+        'git', 'clone', '--filter=blob:none', '--single-branch',
+        'https://github.com/folke/lazy.nvim.git', lazypath,
+    }
 end
 vim.opt.runtimepath:prepend(lazypath)
 
 require('lazy').setup('plugins', {
-  ui = {
-    icons = {
-      cmd = '⌘', config = '🛠', event = '📅',
-      ft = '📂', init = '⚙', keys = '🗝',
-      plugin = '🔌', runtime = '💻', source = '📄',
-      start = '🚀', task = '📌',
+    ui = {
+        icons = {
+            cmd = '⌘',
+            config = '🛠',
+            event = '📅',
+            ft = '📂',
+            init = '⚙',
+            keys = '🗝',
+            plugin = '🔌',
+            runtime = '💻',
+            source = '📄',
+            start = '🚀',
+            task = '📌',
+        }
     }
-  }
 })
 
 vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
@@ -39,9 +46,9 @@ vim.opt.wildmode = { 'longest:full', 'full' }
 -- indentation
 vim.opt.expandtab = true
 vim.opt.smartindent = true
-vim.opt.shiftwidth = 2
-vim.opt.softtabstop = -1
-vim.opt.tabstop = 2
+vim.opt.shiftwidth = 0
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
 
 vim.g.html_indent_autotags = 'html,head,body'
 
@@ -49,24 +56,27 @@ vim.api.nvim_create_augroup('rlb', { clear = true })
 
 -- disable comment continuations
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = '*', group = 'rlb',
-  callback = function()
-    vim.opt.formatoptions:remove { 'c', 'r', 'o' }
-  end
+    pattern = '*',
+    group = 'rlb',
+    callback = function()
+        vim.opt.formatoptions:remove { 'c', 'r', 'o' }
+    end
 })
 
 -- disable lua table bracket highlighting
 vim.api.nvim_create_autocmd('Filetype', {
-  pattern = 'lua', group = 'rlb',
-  callback = function()
-    vim.api.nvim_set_hl(0, '@constructor', { fg = '#d4be98' })
-  end
+    pattern = 'lua',
+    group = 'rlb',
+    callback = function()
+        vim.api.nvim_set_hl(0, '@constructor', { fg = '#d4be98' })
+    end
 })
 
 -- auto-trim whitespace
 vim.api.nvim_create_autocmd('BufWritePre', {
-  pattern = '*', group = 'rlb',
-  command = [[%s/\s\+$//e]],
+    pattern = '*',
+    group = 'rlb',
+    command = [[%s/\s\+$//e]],
 })
 
 --- Keybindings
@@ -74,10 +84,10 @@ local opts = { noremap = true, silent = true }
 
 -- close all helper windows
 vim.keymap.set('n', '<Leader>q', function()
-  vim.cmd('pclose')
-  vim.cmd('cclose')
-  vim.cmd('lclose')
-  vim.cmd('helpclose')
+    vim.cmd('pclose')
+    vim.cmd('cclose')
+    vim.cmd('lclose')
+    vim.cmd('helpclose')
 end, opts)
 
 local telescope = require('telescope.builtin')
@@ -96,52 +106,65 @@ vim.keymap.set('n', '<LocalLeader>/', telescope.current_buffer_fuzzy_find, opts)
 
 --- LSP Configuration
 local function on_attach(client, bufnr)
-  client.server_capabilities.semanticTokensProvider = nil
-  -- vim.lsp.codelens.refresh()
+    client.server_capabilities.semanticTokensProvider = nil
+    -- vim.lsp.codelens.refresh()
 
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  local bufopts = { noremap = true, silent = true, buffer = bufnr }
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+    local bufopts = { noremap = true, silent = true, buffer = bufnr }
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+    -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
 
-  vim.keymap.set('n', 'gd', telescope.lsp_definitions, bufopts)
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'gr', telescope.lsp_references, bufopts)
-  vim.keymap.set('n', 'gi', telescope.lsp_implementations, bufopts)
+    vim.keymap.set('n', 'gd', telescope.lsp_definitions, bufopts)
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+    vim.keymap.set('n', 'gr', telescope.lsp_references, bufopts)
+    vim.keymap.set('n', 'gi', telescope.lsp_implementations, bufopts)
 
-  vim.keymap.set('n', 'gR', vim.lsp.buf.rename, bufopts)
+    vim.keymap.set('n', 'gR', vim.lsp.buf.rename, bufopts)
 
-  vim.keymap.set('n', '<LocalLeader>ci', telescope.lsp_incoming_calls, bufopts)
-  vim.keymap.set('n', '<LocalLeader>co', telescope.lsp_outgoing_calls, bufopts)
+    vim.keymap.set('n', '<LocalLeader>ci', telescope.lsp_incoming_calls, bufopts)
+    vim.keymap.set('n', '<LocalLeader>co', telescope.lsp_outgoing_calls, bufopts)
 
-  vim.keymap.set('n', '<LocalLeader>s', telescope.lsp_document_symbols, bufopts)
-  vim.keymap.set('n', '<LocalLeader>S', telescope.lsp_dynamic_workspace_symbols, bufopts)
+    vim.keymap.set('n', '<LocalLeader>s', telescope.lsp_document_symbols, bufopts)
+    vim.keymap.set('n', '<LocalLeader>S', telescope.lsp_dynamic_workspace_symbols, bufopts)
 
-  vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', 'gf', function() vim.lsp.buf.format { async = true } end, bufopts)
-  vim.keymap.set('n', 'go', function()
-    vim.lsp.buf.code_action({
-      context = { only = { 'source.organizeImports' } },
-      apply = true
-    })
-  end, bufopts)
+    vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, bufopts)
+    vim.keymap.set('n', 'gf', function() vim.lsp.buf.format { async = true } end, bufopts)
+    vim.keymap.set('n', 'go', function()
+        vim.lsp.buf.code_action({
+            context = { only = { 'source.organizeImports' } },
+            apply = true
+        })
+    end, bufopts)
 end
 
 require('lspconfig').gopls.setup {
-  on_attach = on_attach,
-  settings = {
-    gopls = {
-      linksInHover = false,
-      semanticTokens = false,
-      gofumpt = true,
-      staticcheck = true,
-      analyses = {
-        unusedparams = true,
-        unusedwrite = true,
-        useany = true,
-        unusedvariable = true,
-      },
+    on_attach = on_attach,
+    settings = {
+        gopls = {
+            gofumpt = true,
+            linksInHover = false,
+            semanticTokens = false,
+            staticcheck = true,
+            analyses = {
+                unusedparams = true,
+                unusedwrite = true,
+                useany = true,
+                unusedvariable = true,
+            },
+        }
     }
-  }
+}
+
+require('lspconfig').lua_ls.setup {
+    on_attach = on_attach,
+    settings = {
+        Lua = {
+            completion = { keywordSnippet = 'Disable' },
+            diagnostics = { globals = { 'vim' } },
+            runtime = { version = 'LuaJIT' },
+            semantic = { enable = false },
+            format = { enable = true },
+        },
+    },
 }
