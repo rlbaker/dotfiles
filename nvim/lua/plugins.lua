@@ -1,12 +1,14 @@
 return {
     {
         'sainnhe/gruvbox-material',
+        lazy = false,
         priority = 1000,
         config = function()
             vim.opt.termguicolors = true
             vim.g.gruvbox_material_better_performance = 1
             vim.g.gruvbox_material_diagnostic_virtual_text = 'colored'
             vim.cmd([[colorscheme gruvbox-material]])
+            vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FF0000' })
         end
     },
 
@@ -16,97 +18,37 @@ return {
             theme = 'gruvbox-material',
             tabline = {
                 lualine_a = { 'buffers' },
-                lualine_z = { 'tabs' }
+                lualine_z = { 'tabs' },
             },
-            options = {
-                icons_enabled = false,
-                section_separators = '',
-                component_separators = '',
-            },
+            options = { icons_enabled = false },
         },
     },
 
+    { 'tpope/vim-repeat' },
     { 'tpope/vim-commentary' },
     { 'tpope/vim-surround' },
-    { 'tpope/vim-repeat' },
-    { 'tpope/vim-fugitive',  cmd = 'Git' },
-    { 'blankname/vim-fish',  ft = 'fish' },
-    {
-        'keith/swift.vim',
-        ft = 'swift',
-        config = function()
-            vim.api.nvim_create_autocmd('Filetype', {
-                pattern = 'swift',
-                group = 'rlb',
-                callback = function()
-                    vim.opt.shiftwidth = 0
-                    vim.opt.tabstop = 2
-                    vim.opt.softtabstop = 2
-                end
-            })
-        end
-    },
+    { 'tpope/vim-fugitive',   cmd = 'Git' },
     { 'neovim/nvim-lspconfig' },
 
     {
         'nvim-treesitter/nvim-treesitter',
         build = function()
-            local ts = require('nvim-treesitter.install')
-            local ts_update = ts.update({ with_sync = true })
-            ts_update()
+            local update = require('nvim-treesitter.install').update { with_sync = true }
+            update()
         end,
         config = function()
             require('nvim-treesitter.configs').setup {
-                auto_install = false,
-                ensure_installed = { 'bash', 'go', 'help', 'lua', 'vim' },
                 highlight = { enable = true },
-                -- indent = { enable = true },
-                endwise = { enable = true },
-            }
-        end
-    },
-    { 'nvim-treesitter/playground' },
-    {
-        'RRethy/nvim-treesitter-endwise',
-        ft = 'lua',
-        dependencies = 'nvim-treesitter/nvim-treesitter'
-    },
-    { 'windwp/nvim-autopairs', opts = { check_ts = true } },
-
-    {
-        'nvim-telescope/telescope.nvim',
-        branch = '0.1.x',
-        dependencies = 'nvim-lua/plenary.nvim',
-        config = function()
-            local actions = require('telescope.actions')
-            require('telescope').setup {
-                defaults = {
-                    layout_strategy = 'vertical',
-                    layout_config = {
-                        prompt_position = 'top',
-                        preview_height = 10,
-                        width = { 0.85, max = 130 },
-                    },
-                    path_display = { 'smart' },
-                    sorting_strategy = 'ascending',
-                    mappings = {
-                        i = { ['<ESC>'] = actions.close },
-                    },
-                },
-                pickers = {
-                    buffers = {
-                        ignore_current_buffer = true,
-                        sort_mru = true,
-                    }
-                },
+                indent = { enabled = true, disable = { 'go' } },
             }
         end
     },
 
     {
-        'nvim-telescope/telescope-ui-select.nvim',
+        'Olical/conjure',
         config = function()
-            require('telescope').load_extension('ui-select')
+            vim.g['conjure#filetypes'] = { 'clojure' }
+            vim.g['conjure#highlight#enabled'] = true
         end
-    }
+    },
 }

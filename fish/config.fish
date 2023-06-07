@@ -18,3 +18,5 @@ alias update-nvim="asdf uninstall neovim nightly; and asdf install neovim nightl
 /opt/homebrew/bin/brew shellenv | source
 
 source ~/.asdf/asdf.fish
+
+fish_add_path ~/.local/bin
