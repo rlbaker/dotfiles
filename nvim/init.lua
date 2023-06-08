@@ -1,15 +1,21 @@
-vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
-vim.opt.confirm = true
-vim.opt.cursorline = true
-vim.opt.ignorecase = true
-vim.opt.laststatus = 3
-vim.opt.showmode = false
+vim.opt.termguicolors = true
 vim.opt.mouse = 'a'
-vim.opt.shortmess:append 'cI'
-vim.opt.signcolumn = 'no'
+vim.opt.cursorline = true
+
+vim.opt.ignorecase = true
 vim.opt.smartcase = true
+
+vim.opt.shortmess:append 'cI'
+vim.opt.showmode = false
+vim.opt.showcmd = false
+vim.opt.laststatus = 3
+vim.opt.signcolumn = 'no'
+vim.opt.confirm = true
+
 vim.opt.splitbelow = true
 vim.opt.splitright = true
+
+vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
 vim.opt.wildmode = { 'longest:full', 'full' }
 
 -- indentation
