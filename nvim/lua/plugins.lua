@@ -15,17 +15,21 @@ return {
     {
         'nvim-lualine/lualine.nvim',
         opts = {
-            theme = 'gruvbox-material',
             tabline = {
                 lualine_a = { 'buffers' },
                 lualine_z = { 'tabs' },
             },
-            options = { icons_enabled = false },
+            sections = { lualine_b = { 'diagnostics' } },
+            options = {
+                icons_enabled = false,
+                section_separators = '',
+                component_separators = '',
+            },
         },
     },
 
-    { 'tpope/vim-repeat' },
     { 'tpope/vim-commentary' },
+    { 'tpope/vim-repeat' },
     { 'tpope/vim-surround' },
     { 'tpope/vim-fugitive',   cmd = 'Git' },
     { 'neovim/nvim-lspconfig' },
@@ -39,7 +43,7 @@ return {
         config = function()
             require('nvim-treesitter.configs').setup {
                 highlight = { enable = true },
-                indent = { enabled = true, disable = { 'go' } },
+                indent = { enable = true, disable = { 'go' } },
             }
         end
     },
@@ -49,6 +53,7 @@ return {
         config = function()
             vim.g['conjure#filetypes'] = { 'clojure' }
             vim.g['conjure#highlight#enabled'] = true
+            vim.g['conjure#log#wrap'] = true
         end
     },
 }

@@ -54,53 +54,49 @@ require('lazy').setup('plugins', {
     }
 })
 
-local opts = { noremap = true, silent = true }
-
-vim.keymap.set('n', '\\', ':noh<CR>', opts)
-vim.keymap.set('n', '<Leader>.', '<C-6>', opts)
-vim.keymap.set('n', '<Leader>b', [[:ls<CR>:b<Space>]], opts)
-vim.keymap.set('n', '<Leader>h', ':bp<CR>', opts)
-vim.keymap.set('n', '<Leader>l', ':bn<CR>', opts)
-vim.keymap.set('n', '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]], opts)
-vim.keymap.set('n', '<Leader>d', vim.diagnostic.open_float, opts)
+vim.keymap.set('n', '\\', ':noh<CR>')
+vim.keymap.set('n', '<Leader>.', '<C-6>')
+vim.keymap.set('n', '<Leader>b', [[:ls<CR>:b<Space>]])
+vim.keymap.set('n', '<Leader>h', ':bp<CR>')
+vim.keymap.set('n', '<Leader>l', ':bn<CR>')
+vim.keymap.set('n', '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]])
+vim.keymap.set('n', '<Leader>d', vim.diagnostic.open_float)
 vim.keymap.set('n', '<Leader>D', vim.diagnostic.setloclist)
-vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next, opts)
+vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev)
+vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next)
 
-vim.api.nvim_create_augroup('rlb', { clear = true })
+local rlb = vim.api.nvim_create_augroup('rlb', { clear = true })
 
 -- disable comment continuations
 vim.api.nvim_create_autocmd('FileType', {
-    group = 'rlb',
+    group = rlb,
     pattern = '*',
     callback = function()
         vim.opt.formatoptions:remove { 'c', 'r', 'o' }
     end
 })
 
-vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
-    group = 'rlb', pattern = '*.fut', command = [[ set filetype=futhark ]]
-})
-
 -- trim whitespace
 function TrimWhitespace() vim.cmd [[ :%s/\s\+$//e ]] end
 
-vim.api.nvim_create_autocmd('BufWritePre', { group = 'rlb', pattern = '*', callback = TrimWhitespace })
-vim.keymap.set('n', '<Leader>t', TrimWhitespace, opts)
+vim.api.nvim_create_autocmd('BufWritePre', { group = rlb, pattern = '*', callback = TrimWhitespace })
+vim.keymap.set('n', '<Leader>t', TrimWhitespace)
 
 -- lsp configs
 
 local lsp = require('lspconfig')
 
+local function lsp_fmt_org()
+    vim.lsp.buf.format()
+    vim.lsp.buf.code_action {
+        context = { only = { 'source.organizeImports' } },
+        apply = true
+    }
+end
+
 lsp.gopls.setup {
     on_attach = function(_, bufnr)
-        vim.keymap.set('n', 'gf', function()
-            vim.lsp.buf.format()
-            vim.lsp.buf.code_action {
-                context = { only = { 'source.organizeImports' } },
-                apply = true
-            }
-        end, { buffer = bufnr })
+        vim.keymap.set('n', 'gf', lsp_fmt_org, { buffer = bufnr })
     end,
     settings = {
         gopls = {
@@ -131,24 +127,36 @@ lsp.lua_ls.setup {
     }
 }
 
-vim.api.nvim_create_autocmd('LspAttach', {
-    group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-    callback = function(ev)
-        vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+lsp.clojure_lsp.setup {
+  root_dir = function(fname)
+    -- prevent LSP from attaching to conjure buffer
+    if string.match(fname, 'conjure%-log%-%d+') then return nil end
+    return require('lspconfig.util').root_pattern('deps.edn', 'bb.edn', '.git')(fname)
+  end,
+}
 
-        local bopts = { buffer = ev.buf }
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, bopts)
-        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bopts)
-        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bopts)
-        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bopts)
-        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bopts)
-        vim.keymap.set('n', 'gr', vim.lsp.buf.references, bopts)
-        vim.keymap.set('n', 'gR', vim.lsp.buf.rename, bopts)
-        vim.keymap.set('n', 'gf', function() vim.lsp.buf.format { async = true } end, bopts)
-        vim.keymap.set('n', '<LocalLeader>ci', vim.lsp.buf.incoming_calls, bopts)
-        vim.keymap.set('n', '<LocalLeader>co', vim.lsp.buf.incoming_calls, bopts)
-        vim.keymap.set('n', '<LocalLeader>t', vim.lsp.buf.type_definition, bopts)
-        vim.keymap.set('n', '<LocalLeader>s', vim.lsp.buf.workspace_symbol, bopts)
-        vim.keymap.set({ 'n', 'v' }, 'ga', vim.lsp.buf.code_action, bopts)
+vim.api.nvim_create_autocmd('LspAttach', {
+    group = rlb,
+    callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        client.server_capabilities.semanticTokensProvider = nil
+
+        local buf = args.buf
+        vim.bo[buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+        local opts = { buffer = buf }
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+        vim.keymap.set('n', 'gR', vim.lsp.buf.rename, opts)
+        vim.keymap.set('n', 'gf', function() vim.lsp.buf.format { async = true } end, opts)
+        vim.keymap.set('n', '<LocalLeader>ci', vim.lsp.buf.incoming_calls, opts)
+        vim.keymap.set('n', '<LocalLeader>co', vim.lsp.buf.incoming_calls, opts)
+        vim.keymap.set('n', '<LocalLeader>t', vim.lsp.buf.type_definition, opts)
+        vim.keymap.set('n', '<LocalLeader>s', vim.lsp.buf.workspace_symbol, opts)
+        vim.keymap.set({ 'n', 'v' }, 'ga', vim.lsp.buf.code_action, opts)
     end,
 })
