@@ -25,3 +25,8 @@ kitty:
 homebrew:
 	@mkdir -p $$HOME/.config/homebrew/
 	ln -s -f $(dotfiles)/homebrew/Brewfile $$HOME/.config/homebrew/Brewfile
+
+.PHONY: clojure-lsp
+clojure-lsp:
+	@mkdir -p $$HOME/.config/clojure-lsp/
+	ln -s -f $(dotfiles)/clojure-lsp/config.edn $$HOME/.config/clojure-lsp/config.edn
