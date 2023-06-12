@@ -63,14 +63,6 @@ require('lazy').setup('plugins', {
 local ts = require('telescope.builtin')
 
 vim.keymap.set('n', '\\', ':noh<CR>')
-vim.keymap.set('n', '<Leader>.', ts.find_files)
-vim.keymap.set('n', '<Leader>b', ts.buffers)
-vim.keymap.set('n', '<Leader>m', ts.marks)
-vim.keymap.set('n', '<Leader>h', ':bp<CR>')
-vim.keymap.set('n', '<Leader>l', ':bn<CR>')
-vim.keymap.set('n', '<Leader>c', ts.commands)
-vim.keymap.set('n', '<Leader>r', ts.registers)
-vim.keymap.set('n', '<Leader>/', ts.current_buffer_fuzzy_find)
 
 vim.keymap.set('n', '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]])
 
@@ -147,6 +139,14 @@ lsp.clojure_lsp.setup {
   end,
 }
 
+vim.keymap.set('n', '<Leader>f', ts.find_files)
+vim.keymap.set('n', '<Leader><Leader>', ts.buffers)
+vim.keymap.set('n', '<Leader>m', ts.marks)
+-- vim.keymap.set('n', '<Leader>h', ':bp<CR>')
+-- vim.keymap.set('n', '<Leader>l', ':bn<CR>')
+vim.keymap.set('n', '<Leader>r', ts.registers)
+vim.keymap.set('n', '<Leader>/', ts.current_buffer_fuzzy_find)
+
 vim.keymap.set('n', '<Leader>d', ts.diagnostics)
 vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev)
 vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next)
@@ -168,9 +168,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', 'gt', ts.lsp_type_definitions, opts)
         vim.keymap.set('n', 'gi', ts.lsp_implementations, opts)
         vim.keymap.set('n', 'gr', ts.lsp_references, opts)
-        vim.keymap.set('n', '<LocalLeader>ci', ts.lsp_incoming_calls, opts)
-        vim.keymap.set('n', '<LocalLeader>co', ts.lsp_outgoing_calls, opts)
-        vim.keymap.set('n', '<LocalLeader>s', ts.lsp_document_symbols, opts)
+        vim.keymap.set('n', '<Leader>s', ts.lsp_document_symbols, opts)
+        vim.keymap.set('n', '<Leader>ci', ts.lsp_incoming_calls, opts)
+        vim.keymap.set('n', '<Leader>co', ts.lsp_outgoing_calls, opts)
         vim.keymap.set('n', 'gR', vim.lsp.buf.rename, opts)
         vim.keymap.set('n', 'gf', function() vim.lsp.buf.format { async = true } end, opts)
         vim.keymap.set({ 'n', 'v' }, 'ga', vim.lsp.buf.code_action, opts)

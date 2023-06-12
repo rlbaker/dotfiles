@@ -28,29 +28,24 @@ return {
 
     {
         'nvim-treesitter/nvim-treesitter',
-        dependencies = { 'RRethy/nvim-treesitter-endwise' },
         build = function()
             local update = require('nvim-treesitter.install').update { with_sync = true }
             update()
         end,
         config = function()
             require('nvim-treesitter.configs').setup {
-                highlight = { enable = true },
-                endwise = { enable = true },
+                highlight             = { enable = true },
+                indent                = { enable = true },
+                incremental_selection = {
+                    enable = true,
+                    keymaps = {
+                        init_selection = "gs",
+                        node_incremental = "gs",
+                        scope_incremental = "gS",
+                        node_decremental = false,
+                    },
+                },
             }
-        end
-    },
-    {
-        'windwp/nvim-autopairs',
-        config = function()
-            require('nvim-autopairs').setup {
-                check_ts = true,
-                map_cr = false,
-            }
-
-            local cond = require('nvim-autopairs.conds')
-            require("nvim-autopairs").get_rules("'")[1].not_filetypes = { 'clojure', 'lisp' }
-            require("nvim-autopairs").get_rules("'")[1]:with_pair(cond.not_after_text("["))
         end
     },
 
@@ -58,7 +53,16 @@ return {
     { 'tpope/vim-commentary' },
     { 'tpope/vim-repeat' },
     { 'tpope/vim-surround' },
-    { 'tpope/vim-fugitive',   cmd = 'Git' },
+    { 'tpope/vim-fugitive' },
+
+    {
+        'Olical/conjure',
+        config = function()
+            vim.g['conjure#filetypes'] = { 'clojure' }
+            vim.g['conjure#highlight#enabled'] = true
+            vim.g['conjure#log#wrap'] = true
+        end
+    },
 
     {
         'nvim-telescope/telescope.nvim',
@@ -72,9 +76,7 @@ return {
             telescope.setup {
                 defaults = {
                     layout_strategy = 'vertical',
-                    layout_config = {
-                        prompt_position = 'top',
-                    },
+                    layout_config = { prompt_position = 'top' },
                     mappings = {
                         i = { ['<ESC>'] = require('telescope.actions').close },
                     },
@@ -86,14 +88,5 @@ return {
             }
             telescope.load_extension('ui-select')
         end
-    },
-
-    {
-        'Olical/conjure',
-        config = function()
-            vim.g['conjure#filetypes'] = { 'clojure' }
-            vim.g['conjure#highlight#enabled'] = true
-            vim.g['conjure#log#wrap'] = true
-        end
-    },
+    }
 }
