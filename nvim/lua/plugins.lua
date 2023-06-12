@@ -42,9 +42,16 @@ return {
     },
     {
         'windwp/nvim-autopairs',
-        opts = {
-            check_ts = true
-        }
+        config = function()
+            require('nvim-autopairs').setup {
+                check_ts = true,
+                map_cr = false,
+            }
+
+            local cond = require('nvim-autopairs.conds')
+            require("nvim-autopairs").get_rules("'")[1].not_filetypes = { 'clojure', 'lisp' }
+            require("nvim-autopairs").get_rules("'")[1]:with_pair(cond.not_after_text("["))
+        end
     },
 
     { 'neovim/nvim-lspconfig' },
@@ -79,5 +86,14 @@ return {
             }
             telescope.load_extension('ui-select')
         end
-    }
+    },
+
+    {
+        'Olical/conjure',
+        config = function()
+            vim.g['conjure#filetypes'] = { 'clojure' }
+            vim.g['conjure#highlight#enabled'] = true
+            vim.g['conjure#log#wrap'] = true
+        end
+    },
 }

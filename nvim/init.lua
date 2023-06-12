@@ -118,7 +118,6 @@ lsp.gopls.setup {
     end,
     settings = {
         gopls = {
-            gofumpt = true,
             linksInHover = false,
             staticcheck = true,
             analyses = gopls_analyses,
@@ -138,6 +137,14 @@ lsp.lua_ls.setup {
             -- },
         }
     }
+}
+
+lsp.clojure_lsp.setup {
+  root_dir = function(fname)
+    -- prevent LSP from attaching to conjure buffer
+    if string.match(fname, 'conjure%-log%-%d+') then return nil end
+    return require('lspconfig.util').root_pattern('deps.edn', 'bb.edn', '.git')(fname)
+  end,
 }
 
 vim.keymap.set('n', '<Leader>d', ts.diagnostics)
