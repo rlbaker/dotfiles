@@ -11,6 +11,8 @@ return {
         end
     },
 
+    { 'neovim/nvim-lspconfig' },
+
     {
         'nvim-lualine/lualine.nvim',
         opts = {
@@ -32,36 +34,29 @@ return {
             local update = require('nvim-treesitter.install').update { with_sync = true }
             update()
         end,
+        dependencies = { 'RRethy/nvim-treesitter-endwise' },
         config = function()
             require('nvim-treesitter.configs').setup {
-                highlight             = { enable = true },
-                indent                = { enable = true },
-                incremental_selection = {
-                    enable = true,
-                    keymaps = {
-                        init_selection = "gs",
-                        node_incremental = "gs",
-                        scope_incremental = "gS",
-                        node_decremental = false,
-                    },
+                auto_install = false,
+                ensure_installed = {
+                    'bash',
+                    'fish',
+                    'go',
+                    'lua',
+                    'vim',
+                    'vimdoc',
                 },
+                highlight = { enable = true },
+                endwise = { enable = true },
             }
         end
     },
 
-    { 'neovim/nvim-lspconfig' },
-    { 'tpope/vim-commentary' },
-    { 'tpope/vim-repeat' },
-    { 'tpope/vim-surround' },
-    { 'tpope/vim-fugitive' },
-
     {
-        'Olical/conjure',
-        config = function()
-            vim.g['conjure#filetypes'] = { 'clojure' }
-            vim.g['conjure#highlight#enabled'] = true
-            vim.g['conjure#log#wrap'] = true
-        end
+        'windwp/nvim-autopairs',
+        opts = {
+            check_ts = true
+        }
     },
 
     {
@@ -88,5 +83,13 @@ return {
             }
             telescope.load_extension('ui-select')
         end
-    }
+    },
+
+    { 'tpope/vim-repeat' },
+    { 'tpope/vim-commentary' },
+    { 'tpope/vim-surround' },
+    {
+        'tpope/vim-fugitive',
+        cmd = 'Git'
+    },
 }

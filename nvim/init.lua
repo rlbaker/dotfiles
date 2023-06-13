@@ -77,67 +77,24 @@ vim.api.nvim_create_autocmd('FileType', {
     end
 })
 
+
+vim.api.nvim_create_autocmd('FileType', {
+    group = rlb,
+    pattern = 'ocaml',
+    callback = function()
+        vim.opt.shiftwidth = 2
+        vim.opt.softtabstop = 2
+        vim.opt.tabstop = 2
+    end
+})
+
+
 -- trim whitespace
 function TrimWhitespace() vim.cmd [[ :%s/\s\+$//e ]] end
 
 vim.api.nvim_create_autocmd('BufWritePre', { group = rlb, pattern = '*', callback = TrimWhitespace })
 vim.keymap.set('n', '<Leader>t', TrimWhitespace)
 
--- lsp configs
-
-local lsp = require('lspconfig')
-
-local function gopls_fmt()
-    vim.lsp.buf.format()
-    vim.lsp.buf.code_action {
-        context = { only = { 'source.organizeImports' } },
-        apply = true
-    }
-end
-
-local gopls_analyses = {
-    fieldalignment = true,
-    nilness = true,
-    unusedparams = true,
-    unusedvariable = true,
-    unusedwrite = true,
-    useany = true,
-}
-
-lsp.gopls.setup {
-    on_attach = function(_, buf)
-        vim.keymap.set('n', 'gf', gopls_fmt, { buffer = buf })
-    end,
-    settings = {
-        gopls = {
-            linksInHover = false,
-            staticcheck = true,
-            analyses = gopls_analyses,
-        }
-    }
-}
-
-lsp.lua_ls.setup {
-    settings = {
-        Lua = {
-            completion = { keywordSnippet = 'Disable' },
-            diagnostics = { globals = { 'vim' } },
-            runtime = { version = 'LuaJIT' },
-            format = { enable = true },
-            -- workspace = {
-            --     library = vim.api.nvim_get_runtime_file("", true),
-            -- },
-        }
-    }
-}
-
-lsp.clojure_lsp.setup {
-  root_dir = function(fname)
-    -- prevent LSP from attaching to conjure buffer
-    if string.match(fname, 'conjure%-log%-%d+') then return nil end
-    return require('lspconfig.util').root_pattern('deps.edn', 'bb.edn', '.git')(fname)
-  end,
-}
 
 vim.keymap.set('n', '<Leader>f', ts.find_files)
 vim.keymap.set('n', '<Leader><Leader>', ts.buffers)
@@ -176,3 +133,45 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set({ 'n', 'v' }, 'ga', vim.lsp.buf.code_action, opts)
     end,
 })
+
+local lspconfig = require('lspconfig')
+
+lspconfig.lua_ls.setup {
+    settings = {
+        Lua = {
+            completion = { keywordSnippet = 'Disable' },
+            diagnostics = { globals = { 'vim' } },
+            runtime = { version = 'LuaJIT' },
+            format = { enable = true },
+        }
+    }
+}
+
+local function gopls_fmt()
+    vim.lsp.buf.format()
+    vim.lsp.buf.code_action {
+        context = { only = { 'source.organizeImports' } },
+        apply = true
+    }
+end
+
+lspconfig.gopls.setup {
+    on_attach = function(_, buf)
+        vim.keymap.set('n', 'gf', gopls_fmt, { buffer = buf })
+    end,
+    settings = {
+        gopls = {
+            linksInHover = false,
+            staticcheck = true,
+            analyses = {
+                fieldalignment = true,
+                nilness = true,
+                unusedparams = true,
+                unusedvariable = true,
+                unusedwrite = true,
+                useany = true,
+            }
+        }
+    }
+}
+

@@ -1,3 +1,0 @@
-{:semantic-tokens? false
- :hover {:hide-file-location? true
-         :clojuredocs false}}
