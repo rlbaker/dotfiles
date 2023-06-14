@@ -12,10 +12,9 @@ fish:
 
 .PHONY: nvim
 nvim:
-	@mkdir -p $$HOME/.config/nvim/lua/
+	@mkdir -p $$HOME/.config/nvim/lua/plugins
 	ln -s -f $(dotfiles)/nvim/init.lua $$HOME/.config/nvim/init.lua
-	ln -s -f $(dotfiles)/nvim/lua/plugins $$HOME/.config/nvim/lua/plugins
-	# ln -s -f $(dotfiles)/nvim/lua/plugins.lua $$HOME/.config/nvim/lua/plugins.lua
+	fd . 'nvim/lua/plugins' -x ln -s $(dotfiles)/{} "$$HOME/.config/nvim/lua/plugins/{/}"
 
 .PHONY: kitty
 kitty:
