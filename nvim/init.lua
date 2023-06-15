@@ -33,18 +33,19 @@ vim.g.loaded_python3_provider = 0
 vim.g.html_indent_autotags = 'html,head,body'
 
 local rlb = vim.api.nvim_create_augroup('rlb', { clear = true })
-
-vim.keymap.set('n', '\\', ':noh<CR>')
 vim.keymap.set('n', '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]])
+vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev)
+vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next)
+vim.keymap.set('n', '\\', ':noh<CR>')
 vim.keymap.set('c', 'bn', '<Nop><CR>')
 vim.keymap.set('c', 'bp', '<Nop><CR>')
 
-local trim = function()
-    vim.cmd [[ :%s/\s\+$//e ]]
-end
-
-vim.api.nvim_create_autocmd('BufWritePre', { group = 'rlb', pattern = '*', callback = trim })
+local trim = function() vim.cmd [[ :%s/\s\+$//e ]] end
 vim.keymap.set('n', '<Leader>t', trim)
+vim.api.nvim_create_autocmd('BufWritePre', {
+    group = rlb, pattern = '*', callback = trim,
+})
+
 
 -- disable comment continuations
 vim.api.nvim_create_autocmd('FileType', {

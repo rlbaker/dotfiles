@@ -7,14 +7,12 @@ return {
         'nvim-telescope/telescope-ui-select.nvim',
     },
     keys = {
-        { '<Leader>.', '<Cmd>Telescope find_files<CR>' },
         { '<Leader><Leader>', '<Cmd>Telescope buffers<CR>' },
+        { '<Leader>.', '<Cmd>Telescope find_files<CR>' },
         { '<Leader>m', '<Cmd>Telescope marks<CR>' },
         { '<Leader>r', '<Cmd>Telescope registers<CR>' },
         { '<Leader>/', '<Cmd>Telescope current_buffer_fuzzy_find<CR>' },
         { '<Leader>d', '<Cmd>Telescope diagnostics<CR>' },
-        { '<Leader>[', vim.diagnostic.goto_prev },
-        { '<Leader>]', vim.diagnostic.goto_next },
     },
     config = function()
         local telescope = require('telescope')
