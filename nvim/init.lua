@@ -37,8 +37,8 @@ vim.keymap.set('n', '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]]
 vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev)
 vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next)
 vim.keymap.set('n', '\\', ':noh<CR>')
-vim.keymap.set('c', 'bn', '<Nop><CR>')
-vim.keymap.set('c', 'bp', '<Nop><CR>')
+vim.keymap.set('c', 'bn', '<CR>')
+vim.keymap.set('c', 'bp', '<CR>')
 
 local trim = function() vim.cmd [[ :%s/\s\+$//e ]] end
 vim.keymap.set('n', '<Leader>t', trim)

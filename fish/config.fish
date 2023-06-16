@@ -20,3 +20,4 @@ alias update-nvim="asdf uninstall neovim nightly; and asdf install neovim nightl
 source ~/.asdf/asdf.fish
 
 fish_add_path ~/.local/bin
+fish_add_path ~/src/kitty/kitty.app/Contents/MacOS
