@@ -41,6 +41,7 @@ local lua = {
 local gopls = {
     gopls = {
         linksInHover = false,
+        gofumpt = true,
         staticcheck = true,
         analyses = {
             fieldalignment = true,
@@ -68,14 +69,12 @@ return {
         local lspconfig = require('lspconfig')
 
         lspconfig.ocamllsp.setup {}
-
         lspconfig.lua_ls.setup { settings = lua }
-
         lspconfig.gopls.setup {
+            settings = gopls,
             on_attach = function(_, buf)
                 vim.keymap.set('n', 'gf', gopls_fmt, { buffer = buf })
             end,
-            settings = gopls,
         }
 
         vim.api.nvim_create_autocmd('LspAttach', {
