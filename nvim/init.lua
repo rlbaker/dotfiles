@@ -1,35 +1,27 @@
-vim.opt.termguicolors = true
-
-vim.opt.mouse = 'a'
-vim.opt.cursorline = true
-
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-
-vim.opt.shortmess:append 'cI'
-vim.opt.showmode = false
-vim.opt.showcmd = false
-vim.opt.laststatus = 3
-vim.opt.signcolumn = 'no'
-vim.opt.confirm = true
-
-vim.opt.splitbelow = true
-vim.opt.splitright = true
-
-vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
-vim.opt.wildmode = { 'longest:full', 'full' }
-
--- indentation
-vim.opt.expandtab = true
-vim.opt.smartindent = true
-vim.opt.shiftwidth = 2
-vim.opt.softtabstop = -1
-
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 
-vim.g.loaded_python3_provider = 0
-vim.g.html_indent_autotags = 'html'
+local opt = vim.opt
+opt.completeopt = { 'menu', 'menuone', 'noinsert', 'noselect' }
+opt.confirm = true
+opt.cursorline = true
+opt.expandtab = true
+opt.ignorecase = true
+opt.laststatus = 3
+opt.mouse = 'a'
+opt.shiftwidth = 2
+opt.shortmess:append { W = true, I = true, c = true, C = true }
+opt.showcmd = false
+opt.showmode = false
+opt.signcolumn = 'no'
+opt.smartcase = true
+opt.smartindent = true
+opt.softtabstop = -1
+opt.splitbelow = true
+opt.splitkeep = 'screen'
+opt.splitright = true
+opt.termguicolors = true
+opt.wildmode = { 'longest:full', 'full' }
 
 local rlb = vim.api.nvim_create_augroup('rlb', { clear = true })
 vim.keymap.set('n', '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]])
@@ -72,6 +64,9 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.runtimepath:prepend(lazypath)
 
+vim.g.loaded_python3_provider = 0
+vim.g.html_indent_autotags = 'html'
+
 require('lazy').setup('plugins', {
   ui = {
     icons = {
@@ -90,3 +85,8 @@ require('lazy').setup('plugins', {
     },
   },
 })
+
+vim.g.gruvbox_material_better_performance = 1
+vim.g.gruvbox_material_diagnostic_virtual_text = 'colored'
+vim.cmd [[colorscheme gruvbox-material]]
+vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FF0000' })
