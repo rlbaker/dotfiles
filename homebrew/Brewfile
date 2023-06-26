@@ -12,7 +12,6 @@ brew 'gron'
 brew 'jq'
 brew 'ripgrep'
 brew 'tree'
-brew 'tree-sitter'
 brew 'xz'
 
 cask 'firefox'

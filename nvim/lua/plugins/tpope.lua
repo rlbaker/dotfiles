@@ -1,15 +1,13 @@
 return {
-    -- { 'tpope/vim-surround' },
-    -- { 'tpope/vim-repeat' },
-    {
-        'tpope/vim-fugitive',
-        cmd = 'Git',
+  { 'tpope/vim-surround', keys = { 'ys', 'ds', 'cs' } },
+  { 'tpope/vim-repeat', keys = { '.' } },
+  { 'tpope/vim-fugitive', cmd = 'Git' },
+  {
+    'tpope/vim-commentary',
+    keys = {
+      'gcc',
+      'gcu',
+      { 'gc', mode = { 'o', 'n', 'x' } },
     },
-    {
-        'tpope/vim-commentary',
-        keys = {
-            'gcc', 'gcu',
-            { 'gc', mode = { 'o', 'n', 'x' } },
-        },
-    },
+  },
 }
