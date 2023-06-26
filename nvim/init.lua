@@ -29,7 +29,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 
 vim.g.loaded_python3_provider = 0
-vim.g.html_indent_autotags = 'html,head,body'
+vim.g.html_indent_autotags = 'html'
 
 local rlb = vim.api.nvim_create_augroup('rlb', { clear = true })
 vim.keymap.set('n', '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]])
