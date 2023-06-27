@@ -9,8 +9,9 @@ return {
     config = function()
       require('nvim-treesitter.configs').setup {
         auto_install = true,
+        ensure_installed = { 'fish', 'go', 'lua' },
         highlight = { enable = true },
-        -- indent = { enable = true },
+        indent = { enable = true },
         incremental_selection = {
           enable = true,
           keymaps = {
@@ -22,10 +23,5 @@ return {
         },
       }
     end,
-  },
-  {
-    'windwp/nvim-autopairs',
-    event = 'InsertEnter',
-    opts = { check_ts = true },
   },
 }
