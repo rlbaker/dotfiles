@@ -5,7 +5,7 @@ return {
   { 'echasnovski/mini.comment', event = 'VeryLazy', opts = {} },
   {
     'echasnovski/mini.completion',
-    event = 'InsertEnter',
+    event = 'LspAttach',
     opts = {
       lsp_completion = { source_func = 'omnifunc', auto_setup = false },
       delay = { completion = 250, signature = 100, info = 250 },
