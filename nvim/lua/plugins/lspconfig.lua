@@ -37,16 +37,15 @@ local lsp_mappings = function(args)
   local client = vim.lsp.get_client_by_id(args.data.client_id)
   client.server_capabilities.semanticTokensProvider = nil
 
-  -- vim.bo[args.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-  vim.bo[args.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
+  vim.bo[args.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
   local opts = { buffer = args.buf }
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-  -- vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, opts)
+  vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, opts)
   vim.keymap.set('n', 'gd', '<Cmd>Telescope lsp_definitions<CR>', opts)
   vim.keymap.set('n', 'gr', '<Cmd>Telescope lsp_references<CR>', opts)
   vim.keymap.set('n', 'gR', vim.lsp.buf.rename, opts)
-  -- vim.keymap.set('n', '<LocalLeader>d', vim.lsp.buf.declaration, opts)
+  vim.keymap.set('n', '<LocalLeader>d', vim.lsp.buf.declaration, opts)
   vim.keymap.set('n', '<LocalLeader>t', '<Cmd>Telescope lsp_type_definitions<CR>', opts)
   vim.keymap.set('n', '<LocalLeader>i', '<Cmd>Telescope lsp_implementations<CR>', opts)
   vim.keymap.set('n', '<LocalLeader>s', '<Cmd>Telescope lsp_document_symbols<CR>', opts)
