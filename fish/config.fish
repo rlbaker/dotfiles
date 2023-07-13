@@ -5,6 +5,7 @@ set -gx LSCOLORS xXfxgxdxBaahahahahahah
 
 source $HOME/.config/fish/local.fish # load system-specific configuration
 
+set -gx COPYFILE_DISABLED 1 # don't copy garbage into tar files
 set -gx HOMEBREW_BUNDLE_FILE $HOME/.config/homebrew/Brewfile
 set -gx HOMEBREW_BUNDLE_NO_LOCK 1
 set -gx HOMEBREW_FORCE_BREWED_GIT 1
@@ -14,7 +15,5 @@ source ~/.asdf/asdf.fish
 fish_add_path ~/.local/bin
 
 alias vim="nvim"
-alias update-nvim="asdf uninstall neovim nightly; and asdf install neovim nightly; and asdf global neovim nightly"
-
 set -gx EDITOR nvim
-set -gx COPYFILE_DISABLED 1 # don't copy garbage into tar files
+
