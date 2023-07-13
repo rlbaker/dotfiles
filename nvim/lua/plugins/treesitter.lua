@@ -11,7 +11,6 @@ return {
         auto_install = true,
         ensure_installed = { 'fish', 'go', 'lua' },
         highlight = { enable = true },
-        indent = { enable = true },
         incremental_selection = {
           enable = true,
           keymaps = {
