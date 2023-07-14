@@ -13,6 +13,7 @@ set -gx HOMEBREW_FORCE_BREWED_GIT 1
 
 source ~/.asdf/asdf.fish
 fish_add_path ~/.local/bin
+fish_add_path ~/src/zig/zls/zig-out/bin
 
 alias vim="nvim"
 set -gx EDITOR nvim
