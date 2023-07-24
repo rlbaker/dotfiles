@@ -83,8 +83,6 @@ end
 
 vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'go', callback = tabsize(4) })
 
+vim.g.zig_fmt_autosave = 0
 vim.g.loaded_python3_provider = 0
 vim.g.html_indent_autotags = 'html'
-
-vim.cmd [[colorscheme gruvbox-material]]
-vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FF0000' })

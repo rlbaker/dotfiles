@@ -52,10 +52,13 @@ local lsp_mappings = function(args)
   vim.keymap.set('n', '<LocalLeader>i', '<Cmd>Telescope lsp_incoming_calls<CR>', opts)
   vim.keymap.set('n', '<LocalLeader>o', '<Cmd>Telescope lsp_outgoing_calls<CR>', opts)
 
-  vim.keymap.set({ 'n', 'v' }, 'ga', vim.lsp.buf.code_action, opts)
+  vim.keymap.set({ 'n', 'v', 'x' }, 'ga', vim.lsp.buf.code_action, opts)
+  vim.keymap.set('i', '<C-a>', vim.lsp.buf.code_action, opts)
+
   vim.keymap.set('n', 'gf', function()
     vim.lsp.buf.format { async = true }
   end, opts)
+
   vim.keymap.set('n', 'go', function()
     vim.lsp.buf.code_action { context = { only = { 'source.organizeImports' } }, apply = true }
   end, opts)

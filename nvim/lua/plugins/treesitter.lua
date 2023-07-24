@@ -9,7 +9,7 @@ return {
     config = function()
       require('nvim-treesitter.configs').setup {
         auto_install = true,
-        ensure_installed = { 'fish', 'go', 'lua' },
+        ensure_installed = { 'fish', 'go', 'lua', 'zig' },
         highlight = { enable = true },
         incremental_selection = {
           enable = true,
