@@ -19,6 +19,7 @@ nvim:
 kitty:
 	@mkdir -p $$HOME/.config/kitty/
 	ln -s -f $(dotfiles)/kitty/kitty.conf $$HOME/.config/kitty/kitty.conf
+	ln -s -f $(dotfiles)/kitty/everforest.conf $$HOME/.config/kitty/everforest.conf
 
 .PHONY: homebrew
 homebrew:

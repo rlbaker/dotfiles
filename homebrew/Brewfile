@@ -15,7 +15,7 @@ brew 'tree'
 brew 'xz'
 
 cask 'firefox'
-cask 'font-iosevka'
+# cask 'font-iosevka'
 cask 'kitty', args: { 'no-quarantine': true }
 cask 'rectangle'
 cask 'skype'

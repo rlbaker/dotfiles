@@ -1,6 +1,10 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 
+vim.g.zig_fmt_autosave = 0
+vim.g.loaded_python3_provider = 0
+vim.g.html_indent_autotags = 'html'
+
 -- bootstrap package manager
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
@@ -11,24 +15,7 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.runtimepath:prepend(lazypath)
 
-require('lazy').setup('plugins', {
-  ui = {
-    icons = {
-      cmd = '⌘',
-      config = '🛠',
-      event = '📅',
-      ft = '📂',
-      init = '⚙',
-      keys = '🗝',
-      plugin = '🔌',
-      runtime = '💻',
-      source = '📄',
-      start = '🚀',
-      task = '📌',
-      lazy = '💤 ',
-    },
-  },
-})
+require('lazy').setup('plugins')
 
 local opt = vim.opt
 opt.completeopt = { 'menu', 'menuone', 'noinsert', 'noselect' }
@@ -80,9 +67,7 @@ local function tabsize(n)
     vim.opt.shiftwidth = n
   end
 end
-
 vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'go', callback = tabsize(4) })
 
-vim.g.zig_fmt_autosave = 0
-vim.g.loaded_python3_provider = 0
-vim.g.html_indent_autotags = 'html'
+vim.cmd [[colorscheme everforest]]
+vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FF0000' })
