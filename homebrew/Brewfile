@@ -12,12 +12,10 @@ brew 'gron'
 brew 'jq'
 brew 'ripgrep'
 brew 'tree'
+brew 'ttfautohint'
 brew 'xz'
 
 cask 'firefox'
-# cask 'font-iosevka'
-cask 'font-jetbrains-mono'
-cask 'font-jetbrains-mono-nerd-font'
 cask 'kitty', args: { 'no-quarantine': true }
 cask 'rectangle'
 cask 'skype'
