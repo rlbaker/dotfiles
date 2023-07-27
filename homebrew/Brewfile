@@ -1,7 +1,6 @@
 # vim:syntax=ruby:
 
 tap 'homebrew/cask'
-tap 'homebrew/cask-fonts'
 
 brew 'entr'
 brew 'fd'
