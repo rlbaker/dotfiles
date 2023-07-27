@@ -27,7 +27,12 @@ return {
         },
         sorting_strategy = 'ascending',
       },
-      pickers = { buffers = { sort_lastused = true } },
+      pickers = {
+        buffers = {
+          sort_lastused = true,
+          sort_mru = true,
+        },
+      },
     }
     telescope.load_extension('ui-select')
   end,
