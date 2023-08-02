@@ -1,7 +1,6 @@
 return {
     'sainnhe/everforest',
     priority = 1000,
-    lazy = false,
     init = function()
         vim.g.everforest_better_performance = 1
         vim.g.everforest_diagnostic_virtual_text = 'highlight'

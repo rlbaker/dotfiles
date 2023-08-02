@@ -20,13 +20,6 @@
     { "before": ["K"], "after": ["g", "h"], "silent": true }
   ],
 
-  "[go]": {
-    "editor.insertSpaces": false,
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": { "source.organizeImports": true },
-    "editor.tabSize": 8
-  },
-
   "gopls": {
     "formatting.gofumpt": true,
     "ui.diagnostic.analyses": {
@@ -44,8 +37,8 @@
   },
 
   "[jsonc]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
   },
 
   "zig.zigPath": "/Users/rlbaker/.asdf/shims/zig",
