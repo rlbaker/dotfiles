@@ -25,3 +25,9 @@ kitty:
 homebrew:
 	@mkdir -p $$HOME/.config/homebrew/
 	ln -s -f $(dotfiles)/homebrew/Brewfile $$HOME/.config/homebrew/Brewfile
+
+.PHONY: vscodium
+vscodium:
+	@mkdir -p $$HOME/Library/Application\ Support/VSCodium/User/
+	ln -s -f $(dotfiles)/vscodium/settings.json $$HOME/Library/Application\ Support/VSCodium/User/
+	./vscodium/install_extensions.sh

@@ -20,4 +20,4 @@ cask 'rectangle'
 cask 'skype'
 cask 'spotify'
 cask 'transmission'
-cask 'visual-studio-code'
+cask 'vscodium', args: { 'no-quarantine': true }

@@ -1,0 +1,53 @@
+{
+  "breadcrumbs.enabled": false,
+  "editor.bracketPairColorization.enabled": false,
+  "editor.fontFamily": "Iosevka RLB Light",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 13,
+  "editor.minimap.enabled": false,
+  "editor.minimap.renderCharacters": false,
+  "editor.quickSuggestions": { "other": "off" },
+  "everforest.darkWorkbench": "high-contrast",
+  "files.trimTrailingWhitespace": true,
+  "git.openRepositoryInParentFolders": "never",
+  "window.restoreWindows": "none",
+  "workbench.colorTheme": "Everforest Dark",
+  "workbench.settings.editor": "json",
+  "workbench.startupEditor": "none",
+
+  "vim.leader": "<Space>",
+  "vim.normalModeKeyBindingsNonRecursive": [
+    { "before": ["K"], "after": ["g", "h"], "silent": true }
+  ],
+
+  "[go]": {
+    "editor.insertSpaces": false,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": { "source.organizeImports": true },
+    "editor.tabSize": 8
+  },
+
+  "gopls": {
+    "formatting.gofumpt": true,
+    "ui.diagnostic.analyses": {
+      "nilness": true,
+      "unusedparams": true,
+      "useany": true,
+      "unusedwrite": true,
+      "unusedvariable": true
+    },
+    "ui.diagnostic.staticcheck": true,
+    "ui.documentation.linksInHover": false,
+    "ui.codelenses": {
+      "gc_details": true
+    }
+  },
+
+  "[jsonc]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  "zig.zigPath": "/Users/rlbaker/.asdf/shims/zig",
+  "zig.zls.path": "/Users/rlbaker/src/zig/zls/zig-out/bin/zls"
+}
