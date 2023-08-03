@@ -33,7 +33,7 @@ if not vim.uv.fs_stat(lazypath) then
     }
 end
 vim.opt.runtimepath:prepend(lazypath)
-require('lazy').setup('plugins')
+require('lazy').setup('plugins', { change_detection = { enabled = false } })
 
 vim.keymap.set('n', '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]])
 vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev)

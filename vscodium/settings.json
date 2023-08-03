@@ -17,7 +17,22 @@
 
   "vim.leader": "<Space>",
   "vim.normalModeKeyBindingsNonRecursive": [
-    { "before": ["K"], "after": ["g", "h"], "silent": true }
+    { "before": ["K"], "after": ["g", "h"], "silent": true },
+    {
+      "before": ["<Leader>", "]"],
+      "commands": ["editor.action.marker.next"],
+      "silent": true
+    },
+    {
+      "before": ["<Leader>", "["],
+      "commands": ["editor.action.marker.prev"],
+      "silent": true
+    },
+    {
+      "before": ["<Leader>", "."],
+      "commands": ["workbench.action.quickOpen"],
+      "silent": true
+    }
   ],
 
   "gopls": {
@@ -31,9 +46,7 @@
     },
     "ui.diagnostic.staticcheck": true,
     "ui.documentation.linksInHover": false,
-    "ui.codelenses": {
-      "gc_details": true
-    }
+    "ui.codelenses": { "gc_details": true }
   },
 
   "[jsonc]": {

@@ -1,5 +1,12 @@
 return {
-    { 'nvim-lualine/lualine.nvim', event = 'VeryLazy', opts = { sections = { lualine_x = { 'filetype' } } } },
+    {
+        'nvim-lualine/lualine.nvim',
+        event = 'VeryLazy',
+        opts = {
+            sections = { lualine_x = { 'filetype' } },
+        },
+    },
+
     { 'tpope/vim-commentary', event = 'VeryLazy' },
     { 'tpope/vim-surround', event = 'VeryLazy' },
     { 'tpope/vim-fugitive', cmd = 'Git' },
