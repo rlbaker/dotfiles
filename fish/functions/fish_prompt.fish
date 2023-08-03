@@ -25,5 +25,4 @@ function fish_prompt --description 'Write out the prompt'
             $status_color ' $' \
             "$normal "
     end
-
 end

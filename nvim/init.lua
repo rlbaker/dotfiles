@@ -36,12 +36,20 @@ vim.opt.runtimepath:prepend(lazypath)
 require('lazy').setup('plugins', { change_detection = { enabled = false } })
 
 vim.keymap.set('n', '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]])
+vim.keymap.set('n', '\\', ':noh<CR>')
+vim.keymap.set('n', '<Leader>p', '"+p') -- paste from clipboard
+vim.keymap.set('v', '<Leader>y', '"+y') -- copy to clipboard
+vim.keymap.set('i', '<C-Space>', '<C-X><C-O>')
+
+vim.keymap.set('n', '<Leader>.', '<Cmd>Telescope find_files<CR>')
+vim.keymap.set('n', '<Leader>/', '<Cmd>Telescope current_buffer_fuzzy_find<CR>')
+vim.keymap.set('n', '<Leader><Leader>', '<Cmd>Telescope buffers<CR>')
+vim.keymap.set('n', '<Leader>m', '<Cmd>Telescope marks<CR>')
+vim.keymap.set('n', '<Leader>r', '<Cmd>Telescope registers<CR>')
+
+vim.keymap.set('n', '<Leader>d', '<Cmd>Telescope diagnostics<CR>')
 vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev)
 vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next)
-vim.keymap.set('n', '\\', ':noh<CR>')
-vim.keymap.set('v', '<Leader>y', '"+y') -- copy to clipboard
-vim.keymap.set('n', '<Leader>p', '"+p') -- paste from clipboard
-vim.keymap.set('i', '<C-Space>', '<C-X><C-O>')
 
 vim.api.nvim_create_augroup('rlb', { clear = true })
 
