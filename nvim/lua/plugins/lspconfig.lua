@@ -58,8 +58,6 @@ local lsp_mappings = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     client.server_capabilities.semanticTokensProvider = nil
 
-    vim.bo[args.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
     local opts = { buffer = args.buf }
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, opts)
