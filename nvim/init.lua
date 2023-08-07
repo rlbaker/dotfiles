@@ -50,6 +50,7 @@ vim.keymap.set('n', '<Leader>r', '<Cmd>Telescope registers<CR>')
 vim.keymap.set('n', '<Leader>d', '<Cmd>Telescope diagnostics<CR>')
 vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev)
 vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next)
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
 
 vim.api.nvim_create_augroup('rlb', { clear = true })
 
