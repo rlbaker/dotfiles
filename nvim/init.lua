@@ -1,6 +1,11 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
+vim.opt.expandtab = true
+
 vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'noselect' }
 vim.opt.confirm = true
 vim.opt.cursorline = true
@@ -18,22 +23,6 @@ vim.opt.splitkeep = 'screen'
 vim.opt.splitright = true
 vim.opt.termguicolors = true
 vim.opt.wildmode = { 'longest:full', 'full' }
-
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.softtabstop = 4
-vim.opt.expandtab = true
-
--- bootstrap package manager
-local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
-if not vim.uv.fs_stat(lazypath) then
-    vim.fn.system {
-        'git', 'clone', '--filter=blob:none', '--single-branch',
-        'https://github.com/folke/lazy.nvim.git', lazypath,
-    }
-end
-vim.opt.runtimepath:prepend(lazypath)
-require('lazy').setup('plugins')
 
 vim.keymap.set('n', '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]])
 vim.keymap.set('n', '\\', ':noh<CR>')
@@ -65,10 +54,17 @@ vim.api.nvim_create_autocmd('FileType', { group = 'rlb', pattern = 'go', callbac
 
 vim.g.html_indent_autotags = 'html'
 vim.g.loaded_python3_provider = 0
-vim.g.zig_fmt_autosave = 0
 
-vim.g.everforest_diagnostic_virtual_text = 'highlight'
-vim.g.everforest_better_performance = 1
+-- bootstrap package manager
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+if not vim.uv.fs_stat(lazypath) then
+    vim.fn.system {
+        'git', 'clone', '--filter=blob:none', '--single-branch',
+        'https://github.com/folke/lazy.nvim.git', lazypath,
+    }
+end
+vim.opt.runtimepath:prepend(lazypath)
+require('lazy').setup('plugins')
+
 vim.cmd [[colorscheme everforest]]
-
 vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FF0000' })
