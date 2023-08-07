@@ -33,7 +33,7 @@ if not vim.uv.fs_stat(lazypath) then
     }
 end
 vim.opt.runtimepath:prepend(lazypath)
-require('lazy').setup('plugins', { change_detection = { enabled = false } })
+require('lazy').setup('plugins')
 
 vim.keymap.set('n', '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]])
 vim.keymap.set('n', '\\', ':noh<CR>')
@@ -65,3 +65,9 @@ vim.api.nvim_create_autocmd('FileType', { group = 'rlb', pattern = 'go', callbac
 vim.g.html_indent_autotags = 'html'
 vim.g.loaded_python3_provider = 0
 vim.g.zig_fmt_autosave = 0
+
+vim.g.everforest_diagnostic_virtual_text = 'highlight'
+vim.g.everforest_better_performance = 1
+vim.cmd [[colorscheme everforest]]
+
+vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FF0000' })

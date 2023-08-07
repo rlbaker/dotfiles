@@ -1,3 +1,5 @@
+#!/usr/bin/fish
+
 # gruvbox theme
 set fish_color_normal         normal    # default color
 set fish_color_command        green   # commands like echo

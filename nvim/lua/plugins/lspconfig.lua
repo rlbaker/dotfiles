@@ -100,7 +100,13 @@ return {
 
         lspconfig.lua_ls.setup { settings = lua_settings }
         lspconfig.gopls.setup { settings = gopls_settings }
-        lspconfig.zls.setup {}
+        lspconfig.zls.setup {
+            settings = {
+                include_at_in_builtins = true,
+                enable_autofix = false,
+                warn_style = true,
+            },
+        }
 
         vim.api.nvim_create_autocmd('LspAttach', {
             group = vim.api.nvim_create_augroup('UserLspConfig', {}),
