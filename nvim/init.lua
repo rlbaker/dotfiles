@@ -41,17 +41,6 @@ vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev)
 vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next)
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
 
-vim.api.nvim_create_augroup('rlb', { clear = true })
-
-local trim = function() vim.cmd [[ :%s/\s\+$//e ]] end
-vim.api.nvim_create_autocmd('BufWritePre', { group = 'rlb', pattern = '*', callback = trim })
-
-local formatoptions = function() vim.opt.formatoptions:remove { 'c', 'r', 'o' } end
-vim.api.nvim_create_autocmd('FileType', { group = 'rlb', pattern = '*', callback = formatoptions })
-
-local tabs = function() vim.opt.expandtab = false end
-vim.api.nvim_create_autocmd('FileType', { group = 'rlb', pattern = 'go', callback = tabs })
-
 vim.g.html_indent_autotags = 'html'
 vim.g.loaded_python3_provider = 0
 
@@ -65,6 +54,17 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.runtimepath:prepend(lazypath)
 require('lazy').setup('plugins')
+
+vim.api.nvim_create_augroup('rlb', { clear = true })
+
+local trim = function() vim.cmd [[ :%s/\s\+$//e ]] end
+vim.api.nvim_create_autocmd('BufWritePre', { group = 'rlb', pattern = '*', callback = trim })
+
+local formatoptions = function() vim.opt.formatoptions:remove { 'c', 'r', 'o' } end
+vim.api.nvim_create_autocmd('FileType', { group = 'rlb', pattern = '*', callback = formatoptions })
+
+local tabs = function() vim.opt.expandtab = false end
+vim.api.nvim_create_autocmd('FileType', { group = 'rlb', pattern = 'go', callback = tabs })
 
 vim.cmd [[colorscheme everforest]]
 vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FF0000' })
