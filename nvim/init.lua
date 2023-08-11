@@ -46,8 +46,8 @@ keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev)
 keymap.set('n', '<Leader>]', vim.diagnostic.goto_next)
 keymap.set('t', '<Esc>', '<C-\\><C-n>')
 
-keymap.set('i', '<C-;>', '<Esc>ms<S-A>;<Esc>`sa')
-keymap.set('n', '<C-;>', '<S-A>;<Esc>')
+keymap.set('i', '<C-;>', '<Esc>ms<S-a>;<Esc>`sa')
+keymap.set('n', '<C-;>', '<S-a>;<Esc>')
 
 -- bootstrap package manager
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
