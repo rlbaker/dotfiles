@@ -17,10 +17,9 @@ return {
     },
     { 'dstein64/vim-startuptime', cmd = 'StartupTime', init = function() vim.g.startuptime_tries = 10 end },
     { 'echasnovski/mini.comment', keys = { { 'gc', mode = { 'n', 'v' } }, { 'gcc' } }, opts = {} },
-    { 'echasnovski/mini.trailspace', event = 'BufWritePre', version = '*', opts = {} },
     { 'echasnovski/mini.surround', event = 'VeryLazy', opts = {} },
-    { 'echasnovski/mini.pairs', event = 'InsertEnter', opts = {} },
+    { 'echasnovski/mini.trailspace', event = 'BufWritePre', version = '*', opts = {} },
     { 'tpope/vim-fugitive', cmd = 'Git' },
-    -- { 'tpope/vim-surround', event = 'VeryLazy' },
+    { 'windwp/nvim-autopairs', event = 'InsertEnter', opts = { check_ts = true } },
     { 'ziglang/zig.vim', ft = 'zig', init = function() vim.g.zig_fmt_autosave = 0 end },
 }
