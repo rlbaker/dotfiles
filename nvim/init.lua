@@ -1,48 +1,53 @@
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ','
+local api = vim.api
+local g = vim.g
+local keymap = vim.keymap
+local opt = vim.opt
 
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.softtabstop = 4
-vim.opt.expandtab = true
+g.mapleader = ' '
+g.maplocalleader = ','
 
-vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'noselect' }
-vim.opt.confirm = true
-vim.opt.cursorline = true
-vim.opt.ignorecase = true
-vim.opt.laststatus = 3
-vim.opt.mouse = 'a'
-vim.opt.shortmess:append { W = true, I = true, c = true, C = true }
-vim.opt.showcmd = false
-vim.opt.showmode = false
-vim.opt.signcolumn = 'no'
-vim.opt.smartcase = true
-vim.opt.smartindent = true
-vim.opt.splitbelow = true
-vim.opt.splitkeep = 'screen'
-vim.opt.splitright = true
-vim.opt.termguicolors = true
-vim.opt.wildmode = { 'longest:full', 'full' }
+opt.tabstop = 4
+opt.shiftwidth = 4
+opt.softtabstop = 4
+opt.expandtab = true
+opt.completeopt = { 'menu', 'menuone', 'noinsert', 'noselect' }
+opt.confirm = true
+opt.cursorline = true
+opt.ignorecase = true
+opt.laststatus = 3
+opt.mouse = 'a'
+opt.shortmess:append { W = true, I = true, c = true, C = true }
+opt.showcmd = false
+opt.showmode = false
+opt.signcolumn = 'no'
+opt.smartcase = true
+opt.smartindent = true
+opt.splitbelow = true
+opt.splitkeep = 'screen'
+opt.splitright = true
+opt.termguicolors = true
+opt.wildmode = { 'longest:full', 'full' }
 
-vim.keymap.set('n', '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]])
-vim.keymap.set('n', '\\', ':noh<CR>')
-vim.keymap.set('n', '<Leader>p', '"+p') -- paste from clipboard
-vim.keymap.set('v', '<Leader>y', '"+y') -- copy to clipboard
-vim.keymap.set('i', '<C-Space>', '<C-X><C-O>')
+g.html_indent_autotags = 'html'
+g.loaded_python3_provider = 0
 
-vim.keymap.set('n', '<Leader>.', '<Cmd>Telescope find_files<CR>')
-vim.keymap.set('n', '<Leader>/', '<Cmd>Telescope current_buffer_fuzzy_find<CR>')
-vim.keymap.set('n', '<Leader><Leader>', '<Cmd>Telescope buffers<CR>')
-vim.keymap.set('n', '<Leader>m', '<Cmd>Telescope marks<CR>')
-vim.keymap.set('n', '<Leader>r', '<Cmd>Telescope registers<CR>')
+keymap.set('n', '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]])
+keymap.set('n', '\\', ':noh<CR>')
+keymap.set('i', '<C-Space>', '<C-X><C-O>')
 
-vim.keymap.set('n', '<Leader>d', '<Cmd>Telescope diagnostics<CR>')
-vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev)
-vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next)
-vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
+keymap.set('n', '<Leader>.', '<Cmd>Telescope find_files<CR>')
+keymap.set('n', '<Leader>/', '<Cmd>Telescope current_buffer_fuzzy_find<CR>')
+keymap.set('n', '<Leader><Leader>', '<Cmd>Telescope buffers<CR>')
+keymap.set('n', '<Leader>m', '<Cmd>Telescope marks<CR>')
+keymap.set('n', '<Leader>r', '<Cmd>Telescope registers<CR>')
 
-vim.g.html_indent_autotags = 'html'
-vim.g.loaded_python3_provider = 0
+keymap.set('n', '<Leader>d', '<Cmd>Telescope diagnostics<CR>')
+keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev)
+keymap.set('n', '<Leader>]', vim.diagnostic.goto_next)
+keymap.set('t', '<Esc>', '<C-\\><C-n>')
+
+keymap.set('i', '<C-;>', '<Esc>ms<S-A>;<Esc>`sa')
+keymap.set('n', '<C-;>', '<S-A>;<Esc>')
 
 -- bootstrap package manager
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
@@ -52,19 +57,9 @@ if not vim.uv.fs_stat(lazypath) then
         'https://github.com/folke/lazy.nvim.git', lazypath,
     }
 end
-vim.opt.runtimepath:prepend(lazypath)
+opt.runtimepath:prepend(lazypath)
 require('lazy').setup('plugins')
 
-vim.api.nvim_create_augroup('rlb', { clear = true })
-
-local trim = function() vim.cmd [[ :%s/\s\+$//e ]] end
-vim.api.nvim_create_autocmd('BufWritePre', { group = 'rlb', pattern = '*', callback = trim })
-
-local formatoptions = function() vim.opt.formatoptions:remove { 'c', 'r', 'o' } end
-vim.api.nvim_create_autocmd('FileType', { group = 'rlb', pattern = '*', callback = formatoptions })
-
-local tabs = function() vim.opt.expandtab = false end
-vim.api.nvim_create_autocmd('FileType', { group = 'rlb', pattern = 'go', callback = tabs })
-
-vim.cmd [[colorscheme everforest]]
-vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FF0000' })
+api.nvim_create_augroup('rlb', { clear = true })
+api.nvim_create_autocmd('FileType', { group = 'rlb', pattern = '*', command = [[set formatoptions-=cro]] })
+api.nvim_create_autocmd('FileType', { group = 'rlb', pattern = 'go', command = [[set noexpandtab]] })
