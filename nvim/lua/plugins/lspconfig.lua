@@ -19,6 +19,9 @@ local lua_settings = {
         completion = { keywordSnippet = 'Disable' },
         diagnostics = { globals = { 'vim' } },
         runtime = { version = 'LuaJIT' },
+        workspace = {
+            library = { vim.env.VIMRUNTIME },
+        },
         format = {
             enable = true,
             defaultConfig = {
@@ -35,7 +38,8 @@ local lua_settings = {
 
 -- gross hackery to emulate goimports
 local function goimports()
-    local clients = vim.lsp.buf_get_clients()
+    -- local clients = vim.lsp.buf_get_clients()
+    local clients = vim.lsp.get_clients()
 
     for _, client in pairs(clients) do
         local params = vim.lsp.util.make_range_params(nil, client.offset_encoding)
@@ -56,7 +60,9 @@ end
 
 local lsp_mappings = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
-    client.server_capabilities.semanticTokensProvider = nil
+    if client ~= nil then
+        client.server_capabilities.semanticTokensProvider = nil
+    end
 
     local opts = { buffer = args.buf }
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
