@@ -27,6 +27,7 @@ opt.splitkeep = 'screen'
 opt.splitright = true
 opt.termguicolors = true
 opt.wildmode = { 'longest:full', 'full' }
+opt.switchbuf = { 'useopen', 'uselast' }
 
 g.html_indent_autotags = 'html'
 g.loaded_python3_provider = 0
