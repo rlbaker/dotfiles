@@ -1,11 +1,4 @@
-local api = vim.api
-local g = vim.g
-local keymap = vim.keymap
 local opt = vim.opt
-
-g.mapleader = ' '
-g.maplocalleader = ','
-
 opt.tabstop = 4
 opt.shiftwidth = 4
 opt.softtabstop = 4
@@ -29,9 +22,13 @@ opt.termguicolors = true
 opt.wildmode = { 'longest:full', 'full' }
 opt.switchbuf = { 'useopen', 'uselast' }
 
+local g = vim.g
+g.mapleader = ' '
+g.maplocalleader = ','
 g.html_indent_autotags = 'html'
 g.loaded_python3_provider = 0
 
+local keymap = vim.keymap
 keymap.set('n', '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]])
 keymap.set('n', '\\', ':noh<CR>')
 keymap.set('i', '<C-Space>', '<C-X><C-O>')
@@ -52,7 +49,7 @@ keymap.set('n', '<C-;>', '<Esc><S-a>;<Esc>')
 
 -- bootstrap package manager
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
-if not vim.uv.fs_stat(lazypath) then
+if not vim.loop.fs_stat(lazypath) then
     vim.fn.system {
         'git', 'clone', '--filter=blob:none', '--single-branch',
         'https://github.com/folke/lazy.nvim.git', lazypath,
@@ -61,6 +58,6 @@ end
 opt.runtimepath:prepend(lazypath)
 require('lazy').setup('plugins')
 
-api.nvim_create_augroup('rlb', { clear = true })
-api.nvim_create_autocmd('FileType', { group = 'rlb', pattern = '*', command = [[set formatoptions-=cro]] })
-api.nvim_create_autocmd('FileType', { group = 'rlb', pattern = 'go', command = [[set noexpandtab]] })
+local rlb = vim.api.nvim_create_augroup('rlb', { clear = true })
+vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = '*', command = [[set formatoptions-=cro]] })
+vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'go', command = [[set noexpandtab]] })
