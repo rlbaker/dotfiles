@@ -32,6 +32,16 @@
       "before": ["<Leader>", "."],
       "commands": ["workbench.action.quickOpen"],
       "silent": true
+    },
+    {
+      "before": ["g", "R"],
+      "commands": ["editor.action.rename"],
+      "silent": true
+    },
+    {
+      "before": ["g", "r"],
+      "commands": ["editor.action.goToReferences"],
+      "silent": true
     }
   ],
 

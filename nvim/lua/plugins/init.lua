@@ -15,11 +15,11 @@ return {
         event = 'VeryLazy',
         opts = { sections = { lualine_x = { 'encoding', 'filetype' } } },
     },
-    { 'dstein64/vim-startuptime', cmd = 'StartupTime', init = function() vim.g.startuptime_tries = 10 end },
+    { 'tpope/vim-fugitive', cmd = 'Git' },
     { 'echasnovski/mini.comment', keys = { { 'gc', mode = { 'n', 'v' } }, { 'gcc' } }, opts = {} },
     { 'echasnovski/mini.surround', event = 'VeryLazy', opts = {} },
     { 'echasnovski/mini.trailspace', event = 'BufWritePre', version = '*', opts = {} },
-    { 'tpope/vim-fugitive', cmd = 'Git' },
+    { 'dstein64/vim-startuptime', cmd = 'StartupTime', init = function() vim.g.startuptime_tries = 10 end },
     { 'windwp/nvim-autopairs', event = 'InsertEnter', opts = { check_ts = true } },
     { 'ziglang/zig.vim', ft = 'zig', init = function() vim.g.zig_fmt_autosave = 0 end },
 }
