@@ -15,7 +15,7 @@ vim.opt.mouse = 'a'
 vim.opt.shortmess:append { W = true, I = true, c = true, C = true }
 vim.opt.showcmd = false
 vim.opt.showmode = false
-vim.opt.signcolumn = 'yes'
+vim.opt.signcolumn = 'no'
 vim.opt.smartcase = true
 vim.opt.smartindent = true
 vim.opt.splitbelow = true
