@@ -2,6 +2,7 @@ return {
     {
         'nvim-treesitter/nvim-treesitter',
         event = { 'BufReadPost', 'BufNewFile' },
+        dependencies = { 'RRethy/nvim-treesitter-endwise' },
         build = function()
             local update = require('nvim-treesitter.install').update { with_sync = true }
             update()
@@ -9,7 +10,7 @@ return {
         config = function()
             require('nvim-treesitter.configs').setup {
                 auto_install = true,
-                ensure_installed = { 'fish', 'go', 'lua', 'zig' },
+                ensure_installed = { 'fish', 'go', 'lua' },
                 highlight = { enable = true },
                 incremental_selection = {
                     enable = true,
@@ -20,6 +21,7 @@ return {
                         node_decremental = '<bs>',
                     },
                 },
+                endwise = { enable = true },
             }
         end,
     },

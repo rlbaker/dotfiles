@@ -36,11 +36,10 @@ local function lsp_mappings(args)
     vim.keymap.set('n', 'gi', '<Cmd>Telescope lsp_implementations<CR>', opts)
     vim.keymap.set('n', 'gr', '<Cmd>Telescope lsp_references<CR>', opts)
     vim.keymap.set('n', 'gs', '<Cmd>Telescope lsp_document_symbols<CR>', opts)
-    vim.keymap.set('n', '<LocalLeader>t', '<Cmd>Telescope lsp_type_definitions<CR>', opts)
-    vim.keymap.set('n', '<LocalLeader>i', '<Cmd>Telescope lsp_incoming_calls<CR>', opts)
-    vim.keymap.set('n', '<LocalLeader>o', '<Cmd>Telescope lsp_outgoing_calls<CR>', opts)
-    vim.keymap.set('n', '<LocalLeader>s', '<Cmd>Telescope lsp_document_symbols<CR>', opts)
-    vim.keymap.set('n', '<LocalLeader>S', '<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>', opts)
+    vim.keymap.set('n', 'gS', '<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>', opts)
+    -- vim.keymap.set('n', '<LocalLeader>t', '<Cmd>Telescope lsp_type_definitions<CR>', opts)
+    -- vim.keymap.set('n', '<LocalLeader>i', '<Cmd>Telescope lsp_incoming_calls<CR>', opts)
+    -- vim.keymap.set('n', '<LocalLeader>o', '<Cmd>Telescope lsp_outgoing_calls<CR>', opts)
     vim.keymap.set({ 'n', 'v', 'x' }, 'ga', vim.lsp.buf.code_action, opts)
     vim.keymap.set('i', '<C-a>', vim.lsp.buf.code_action, opts)
 
@@ -90,6 +89,7 @@ return {
                     analyses = {
                         loopclosure = false,
                     },
+                    codelenses = { gc_details = true },
                 },
             },
         }
