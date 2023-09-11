@@ -1,6 +1,7 @@
 {
   "breadcrumbs.enabled": false,
   "editor.bracketPairColorization.enabled": false,
+  "editor.cursorBlinking": "solid",
   "editor.fontFamily": "Iosevka RLB Light",
   "editor.fontLigatures": true,
   "editor.fontSize": 13,
@@ -15,36 +16,6 @@
   "workbench.settings.editor": "json",
   "workbench.startupEditor": "none",
 
-  "vim.leader": "<Space>",
-  "vim.normalModeKeyBindingsNonRecursive": [
-    { "before": ["K"], "after": ["g", "h"], "silent": true },
-    {
-      "before": ["<Leader>", "]"],
-      "commands": ["editor.action.marker.next"],
-      "silent": true
-    },
-    {
-      "before": ["<Leader>", "["],
-      "commands": ["editor.action.marker.prev"],
-      "silent": true
-    },
-    {
-      "before": ["<Leader>", "."],
-      "commands": ["workbench.action.quickOpen"],
-      "silent": true
-    },
-    {
-      "before": ["g", "R"],
-      "commands": ["editor.action.rename"],
-      "silent": true
-    },
-    {
-      "before": ["g", "r"],
-      "commands": ["editor.action.goToReferences"],
-      "silent": true
-    }
-  ],
-
   "gopls": {
     "formatting.gofumpt": true,
     "ui.diagnostic.analyses": {
@@ -55,15 +26,24 @@
       "unusedvariable": true
     },
     "ui.diagnostic.staticcheck": true,
-    "ui.documentation.linksInHover": false,
     "ui.codelenses": { "gc_details": true }
   },
+
+  "[lua]": {
+    "editor.formatOnSave": true
+  },
+  "Lua.runtime.version": "LuaJIT",
+  "Lua.format.defaultConfig": {
+    "indent_style": "space",
+    "quote_style": "single",
+    "call_arg_parentheses": "remove_table_only",
+    "trailing_table_separator": "smart",
+    "align_array_table": "false"
+  },
+  "Lua.format.enable": true,
 
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
-  },
-
-  "zig.zigPath": "/Users/rlbaker/.asdf/shims/zig",
-  "zig.zls.path": "/Users/rlbaker/src/zig/zls/zig-out/bin/zls"
+  }
 }

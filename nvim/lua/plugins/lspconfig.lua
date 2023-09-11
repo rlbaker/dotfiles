@@ -1,5 +1,5 @@
 -- gross hackery to emulate goimports
-local function goimports()
+local function goimports(bufnr)
     local clients = vim.lsp.buf_get_clients()
 
     for _, client in pairs(clients) do
@@ -17,6 +17,8 @@ local function goimports()
             end
         end
     end
+
+    vim.diagnostic.enable(bufnr)
 end
 
 local function lsp_mappings(args)
@@ -37,9 +39,9 @@ local function lsp_mappings(args)
     vim.keymap.set('n', 'gr', '<Cmd>Telescope lsp_references<CR>', opts)
     vim.keymap.set('n', 'gs', '<Cmd>Telescope lsp_document_symbols<CR>', opts)
     vim.keymap.set('n', 'gS', '<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>', opts)
-    -- vim.keymap.set('n', '<LocalLeader>t', '<Cmd>Telescope lsp_type_definitions<CR>', opts)
-    -- vim.keymap.set('n', '<LocalLeader>i', '<Cmd>Telescope lsp_incoming_calls<CR>', opts)
-    -- vim.keymap.set('n', '<LocalLeader>o', '<Cmd>Telescope lsp_outgoing_calls<CR>', opts)
+    vim.keymap.set('n', 'gt', '<Cmd>Telescope lsp_type_definitions<CR>', opts)
+    vim.keymap.set('n', 'gI', '<Cmd>Telescope lsp_incoming_calls<CR>', opts)
+    vim.keymap.set('n', 'gO', '<Cmd>Telescope lsp_outgoing_calls<CR>', opts)
     vim.keymap.set({ 'n', 'v', 'x' }, 'ga', vim.lsp.buf.code_action, opts)
     vim.keymap.set('i', '<C-a>', vim.lsp.buf.code_action, opts)
 
@@ -58,15 +60,61 @@ local function lsp_mappings(args)
     vim.api.nvim_create_autocmd('BufWritePre', {
         pattern = '*.go',
         group = vim.api.nvim_create_augroup('GoImports', { clear = true }),
-        callback = goimports,
+        callback = goimports(args.buf),
     })
 
     -- format on save
     vim.api.nvim_create_autocmd('BufWritePre', {
         buffer = args.buf,
-        callback = function() vim.lsp.buf.format { async = false } end,
+        callback = function()
+            vim.lsp.buf.format { async = false }
+            vim.diagnostic.enable(args.buf)
+        end,
     })
 end
+
+local go_setup = {
+    settings = {
+        gopls = {
+            linksInHover = false,
+            gofumpt = true,
+            staticcheck = true,
+            analyses = {
+                loopclosure = false,
+            },
+            codelenses = { gc_details = true },
+        },
+    },
+}
+
+local zig_setup = {
+    settings = {
+        include_at_in_builtins = true,
+        enable_autofix = false,
+        warn_style = true,
+    },
+}
+
+local lua_setup = {
+    settings = {
+        Lua = {
+            completion = { keywordSnippet = 'Disable' },
+            diagnostics = { globals = { 'vim' } },
+            runtime = { version = 'LuaJIT' },
+            -- workspace = { library = { vim.env.VIMRUNTIME } },
+            format = {
+                enable = true,
+                defaultConfig = {
+                    indent_style = 'space',
+                    quote_style = 'single',
+                    call_arg_parentheses = 'remove_table_only',
+                    trailing_table_separator = 'smart',
+                    align_array_table = 'false',
+                },
+            },
+        },
+    },
+}
 
 
 return {
@@ -80,47 +128,8 @@ return {
             callback = lsp_mappings,
         })
 
-        lspconfig.gopls.setup {
-            settings = {
-                gopls = {
-                    linksInHover = false,
-                    gofumpt = true,
-                    staticcheck = true,
-                    analyses = {
-                        loopclosure = false,
-                    },
-                    codelenses = { gc_details = true },
-                },
-            },
-        }
-
-        lspconfig.zls.setup {
-            settings = {
-                include_at_in_builtins = true,
-                enable_autofix = false,
-                warn_style = true,
-            },
-        }
-
-        lspconfig.lua_ls.setup {
-            settings = {
-                Lua = {
-                    completion = { keywordSnippet = 'Disable' },
-                    diagnostics = { globals = { 'vim' } },
-                    runtime = { version = 'LuaJIT' },
-                    workspace = { library = { vim.env.VIMRUNTIME } },
-                    format = {
-                        enable = true,
-                        defaultConfig = {
-                            indent_style = 'space',
-                            quote_style = 'single',
-                            call_arg_parentheses = 'remove_table_only',
-                            trailing_table_separator = 'smart',
-                            align_array_table = 'false',
-                        },
-                    },
-                },
-            },
-        }
+        lspconfig.gopls.setup(go_setup)
+        lspconfig.zls.setup(zig_setup)
+        lspconfig.lua_ls.setup(lua_setup)
     end,
 }
