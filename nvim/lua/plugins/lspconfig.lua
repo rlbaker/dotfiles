@@ -1,5 +1,5 @@
 -- gross hackery to emulate goimports
-local function goimports(bufnr)
+local function goimports()
     local clients = vim.lsp.buf_get_clients()
 
     for _, client in pairs(clients) do
@@ -18,7 +18,7 @@ local function goimports(bufnr)
         end
     end
 
-    vim.diagnostic.enable(bufnr)
+    vim.diagnostic.enable(0)
 end
 
 local function lsp_mappings(args)
@@ -60,7 +60,7 @@ local function lsp_mappings(args)
     vim.api.nvim_create_autocmd('BufWritePre', {
         pattern = '*.go',
         group = vim.api.nvim_create_augroup('GoImports', { clear = true }),
-        callback = goimports(args.buf),
+        callback = goimports,
     })
 
     -- format on save
@@ -68,7 +68,7 @@ local function lsp_mappings(args)
         buffer = args.buf,
         callback = function()
             vim.lsp.buf.format { async = false }
-            vim.diagnostic.enable(args.buf)
+            vim.diagnostic.enable(0)
         end,
     })
 end
