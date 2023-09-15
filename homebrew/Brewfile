@@ -19,5 +19,4 @@ cask 'kitty', args: { 'no-quarantine': true }
 cask 'rectangle'
 cask 'skype'
 cask 'spotify'
-cask 'transmission'
 cask 'vscodium', args: { 'no-quarantine': true }

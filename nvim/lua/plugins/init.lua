@@ -11,43 +11,15 @@ return {
             vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FF0000' })
         end,
     },
-
     {
         'nvim-lualine/lualine.nvim',
         event = 'VeryLazy',
         opts = { sections = { lualine_x = { 'encoding', 'filetype' } } },
     },
-
     { 'tpope/vim-fugitive', cmd = 'Git' },
-
-    { 'echasnovski/mini.surround', version = '*', event = 'VeryLazy', opts = {}, },
-    { 'echasnovski/mini.trailspace', version = '*', event = 'BufWritePre', opts = {}, },
-    {
-        'echasnovski/mini.comment',
-        version = '*',
-        keys = {
-            { 'gc', mode = { 'n', 'v' } },
-            { 'gcc' } },
-        opts = {},
-    },
-
-
-
-    {
-        'dstein64/vim-startuptime',
-        cmd = 'StartupTime',
-        init = function() vim.g.startuptime_tries = 10 end,
-    },
-
-    {
-        'windwp/nvim-autopairs',
-        event = 'InsertEnter',
-        opts = { check_ts = true },
-    },
-
-    {
-        'ziglang/zig.vim',
-        ft = 'zig',
-        init = function() vim.g.zig_fmt_autosave = 0 end,
-    },
+    { 'kylechui/nvim-surround', version = '*', event = 'VeryLazy', opts = {} },
+    { 'echasnovski/mini.trailspace', version = '*', event = 'BufWritePre', opts = {} },
+    { 'echasnovski/mini.comment', version = '*', opts = {}, keys = { { 'gc', mode = { 'n', 'v' }, { 'gcc' } } } },
+    { 'windwp/nvim-autopairs', event = 'InsertEnter', opts = { check_ts = true } },
+    { 'ziglang/zig.vim', ft = 'zig', init = function() vim.g.zig_fmt_autosave = 0 end },
 }
