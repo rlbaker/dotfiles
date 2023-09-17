@@ -1,3 +1,48 @@
+local go_setup = {
+    settings = {
+        gopls = {
+            linksInHover = false,
+            gofumpt = true,
+            staticcheck = true,
+            analyses = {
+                loopclosure = false,
+            },
+            codelenses = { gc_details = true },
+        },
+    },
+}
+
+local zig_setup = {
+    settings = {
+        enable_autofix = true,
+        enable_build_on_save = true,
+        include_at_in_builtins = true,
+        semantic_tokens = 'none',
+        warn_style = true,
+    },
+}
+
+local lua_setup = {
+    settings = {
+        Lua = {
+            completion = { keywordSnippet = 'Disable' },
+            diagnostics = { globals = { 'vim' } },
+            runtime = { version = 'LuaJIT' },
+            -- workspace = { library = { vim.env.VIMRUNTIME } },
+            format = {
+                enable = true,
+                defaultConfig = {
+                    indent_style = 'space',
+                    quote_style = 'single',
+                    call_arg_parentheses = 'remove_table_only',
+                    trailing_table_separator = 'smart',
+                    align_array_table = 'false',
+                },
+            },
+        },
+    },
+}
+
 local function goimports()
     local params = vim.lsp.util.make_range_params()
     params.context = { only = { 'source.organizeImports' } }
@@ -67,52 +112,6 @@ local function lsp_mappings(args)
         end,
     })
 end
-
-local go_setup = {
-    settings = {
-        gopls = {
-            linksInHover = false,
-            gofumpt = true,
-            staticcheck = true,
-            analyses = {
-                loopclosure = false,
-            },
-            codelenses = { gc_details = true },
-        },
-    },
-}
-
-local zig_setup = {
-    settings = {
-        semantic_tokens = 'none',
-        enable_build_on_save = true,
-        include_at_in_builtins = true,
-        enable_autofix = true,
-        warn_style = true,
-    },
-}
-
-local lua_setup = {
-    settings = {
-        Lua = {
-            completion = { keywordSnippet = 'Disable' },
-            diagnostics = { globals = { 'vim' } },
-            runtime = { version = 'LuaJIT' },
-            -- workspace = { library = { vim.env.VIMRUNTIME } },
-            format = {
-                enable = true,
-                defaultConfig = {
-                    indent_style = 'space',
-                    quote_style = 'single',
-                    call_arg_parentheses = 'remove_table_only',
-                    trailing_table_separator = 'smart',
-                    align_array_table = 'false',
-                },
-            },
-        },
-    },
-}
-
 
 return {
     'neovim/nvim-lspconfig',
