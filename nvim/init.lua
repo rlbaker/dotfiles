@@ -31,19 +31,6 @@ vim.g.maplocalleader = ','
 vim.g.html_indent_autotags = 'html'
 vim.g.loaded_python3_provider = 0
 
-vim.keymap.set('n', '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]])
-vim.keymap.set('n', '\\', ':noh<CR>')
-vim.keymap.set('n', '<Leader>.', '<Cmd>Telescope find_files<CR>')
-vim.keymap.set('n', '<Leader>/', '<Cmd>Telescope current_buffer_fuzzy_find<CR>')
-vim.keymap.set('n', '<Leader><Leader>', '<Cmd>Telescope buffers<CR>')
-vim.keymap.set('n', '<Leader>[', vim.diagnostic.goto_prev)
-vim.keymap.set('n', '<Leader>]', vim.diagnostic.goto_next)
-vim.keymap.set('n', '<Leader>d', '<Cmd>Telescope diagnostics<CR>')
-vim.keymap.set('n', '<Leader>m', '<Cmd>Telescope marks<CR>')
-vim.keymap.set('n', '<Leader>r', '<Cmd>Telescope registers<CR>')
-vim.keymap.set('i', '<C-Space>', '<C-X><C-O>')
-vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
-
 -- bootstrap package manager
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then

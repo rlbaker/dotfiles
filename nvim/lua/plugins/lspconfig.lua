@@ -1,24 +1,15 @@
--- gross hackery to emulate goimports
 local function goimports()
-    local clients = vim.lsp.buf_get_clients()
-
-    for _, client in pairs(clients) do
-        local params = vim.lsp.util.make_range_params(nil, client.offset_encoding)
-        params.context = { only = { 'source.organizeImports' } }
-
-        local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, 3000)
-        for _, res in pairs(result or {}) do
-            for _, r in pairs(res.result or {}) do
-                if r.edit then
-                    vim.lsp.util.apply_workspace_edit(r.edit, client.offset_encoding)
-                else
-                    vim.lsp.buf.execute_command(r.command)
-                end
+    local params = vim.lsp.util.make_range_params()
+    params.context = { only = { 'source.organizeImports' } }
+    local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, 1500)
+    for cid, res in pairs(result or {}) do
+        for _, r in pairs(res.result or {}) do
+            if r.edit then
+                local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or 'utf-16'
+                vim.lsp.util.apply_workspace_edit(r.edit, enc)
             end
         end
     end
-
-    vim.diagnostic.enable(0)
 end
 
 local function lsp_mappings(args)
@@ -32,29 +23,33 @@ local function lsp_mappings(args)
     local opts = { buffer = args.buf }
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', 'gd', '<Cmd>Telescope lsp_definitions<CR>', opts)
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', 'gR', vim.lsp.buf.rename, opts)
-    vim.keymap.set('n', 'gi', '<Cmd>Telescope lsp_implementations<CR>', opts)
-    vim.keymap.set('n', 'gr', '<Cmd>Telescope lsp_references<CR>', opts)
-    vim.keymap.set('n', 'gs', '<Cmd>Telescope lsp_document_symbols<CR>', opts)
-    vim.keymap.set('n', 'gS', '<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>', opts)
-    vim.keymap.set('n', 'gt', '<Cmd>Telescope lsp_type_definitions<CR>', opts)
-    vim.keymap.set('n', 'gI', '<Cmd>Telescope lsp_incoming_calls<CR>', opts)
-    vim.keymap.set('n', 'gO', '<Cmd>Telescope lsp_outgoing_calls<CR>', opts)
-    vim.keymap.set({ 'n', 'v', 'x' }, 'ga', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('i', '<C-a>', vim.lsp.buf.code_action, opts)
 
-    vim.keymap.set('n', 'go', function()
-        vim.lsp.buf.code_action {
-            context = { only = { 'source.organizeImports' } },
-            apply = true,
-        }
-    end, opts)
+    local wk = require('which-key')
 
-    vim.keymap.set('n', 'gf', function()
-        vim.lsp.buf.format { async = true }
-    end, opts)
+    wk.register({
+        a = { vim.lsp.buf.code_action, 'Code Actions', mode = { 'n', 'v', 'x' } },
+        d = { '<Cmd>Telescope lsp_definitions<CR>', 'Go to Definition' },
+        D = { vim.lsp.buf.declaration, 'Go to Declaration' },
+        f = { function() vim.lsp.buf.format { async = true } end, 'Format' },
+        i = { '<Cmd>Telescope lsp_implementations<CR>', 'Go to Implementation' },
+        I = { '<Cmd>Telescope lsp_incoming_calls<CR>', 'Incoming Calls' },
+        o = { function()
+            vim.lsp.buf.code_action {
+                context = { only = { 'source.organizeImports' } },
+                apply = true,
+            }
+        end, 'Organize Imports' },
+        O = { '<Cmd>Telescope lsp_outgoing_calls<CR>', 'Outgoing Calls' },
+        r = { '<Cmd>Telescope references<CR>', 'List References' },
+        R = { vim.lsp.buf.rename, 'List References' },
+        s = { '<Cmd>Telescope lsp_document_symbols<CR>', 'Document Symbols' },
+        S = { '<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>', 'Workspace Symbols' },
+        t = { '<Cmd>Telescope lsp_type_definitions<CR>', 'Go to Type Definition' },
+    }, { prefix = '<LocalLeader>', buffer = args.buf })
+
+    wk.register {
+        ['<C-a>'] = { vim.lsp.buf.code_action, 'Code Actions', mode = 'i' },
+    }
 
     -- organize go imports on save
     vim.api.nvim_create_autocmd('BufWritePre', {
@@ -89,8 +84,10 @@ local go_setup = {
 
 local zig_setup = {
     settings = {
+        semantic_tokens = 'none',
+        enable_build_on_save = true,
         include_at_in_builtins = true,
-        enable_autofix = false,
+        enable_autofix = true,
         warn_style = true,
     },
 }
