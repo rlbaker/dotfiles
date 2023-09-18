@@ -16,7 +16,7 @@ brew 'xz'
 
 cask 'firefox'
 cask 'kitty', args: { 'no-quarantine': true }
+cask 'rapidapi'
 cask 'rectangle'
 cask 'skype'
 cask 'spotify'
-cask 'vscodium', args: { 'no-quarantine': true }

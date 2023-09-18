@@ -85,7 +85,7 @@ local function lsp_mappings(args)
             }
         end, 'Organize Imports' },
         O = { '<Cmd>Telescope lsp_outgoing_calls<CR>', 'Outgoing Calls' },
-        r = { '<Cmd>Telescope references<CR>', 'List References' },
+        r = { '<Cmd>Telescope lsp_references<CR>', 'List References' },
         R = { vim.lsp.buf.rename, 'List References' },
         s = { '<Cmd>Telescope lsp_document_symbols<CR>', 'Document Symbols' },
         S = { '<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>', 'Workspace Symbols' },
