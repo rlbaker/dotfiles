@@ -25,6 +25,8 @@ vim.opt.termguicolors = true
 vim.opt.wildmode = { 'longest:full', 'full' }
 vim.opt.switchbuf = { 'useopen', 'uselast' }
 vim.opt.updatetime = 1000
+vim.opt.timeout = true
+vim.opt.timeoutlen = 300
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','

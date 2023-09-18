@@ -1,6 +1,14 @@
 local function keymaps()
     local wk = require('which-key')
-    wk.setup()
+
+    wk.setup {
+        layout = { spacing = 1 },
+        window = {
+            border = 'single',
+            margin = { 0, 0, 0, 0 },
+            padding = { 0, 0, 0, 0 },
+        },
+    }
 
     wk.register({
         b = { '<Cmd>Telescope git_branches<CR>', 'Git Branches' },
@@ -8,9 +16,7 @@ local function keymaps()
         d = { '<Cmd>Telescope diagnostics<CR>', 'Diagnostic List' },
         g = { '<Cmd>Telescope live_grep<CR>', 'Live Grep' },
         h = { '<Cmd>Telescope command_history<CR>', 'Command History' },
-        -- m = { '<Cmd>Telescope marks<CR>', 'Mark List' },
         q = { [[ :pclose | cclose | lclose | helpclose<CR> ]], 'Close All Helper Windows' },
-        -- r = { '<Cmd>Telescope registers<CR>', 'Register List' },
         s = { '<Cmd>Telescope git_status<CR>', 'Git Status' },
         t = { '<Cmd>Telescope treesitter<CR>', 'Treesitter Nodes' },
         ['.'] = { '<Cmd>Telescope find_files<CR>', 'Find Files' },
@@ -21,6 +27,7 @@ local function keymaps()
     }, { prefix = '<Leader>' })
 
     wk.register {
+        gc = { 'Comment', mode = { 'v', 'n' } },
         ['\\'] = { ':noh<CR>', 'Clear Search Highlights' },
         ['<C-Space>'] = { '<C-X><C-O>', 'Completion', mode = 'i' },
         ['<Esc>'] = { '<C-\\><C-n>', 'Leave Terminal Input Mode', mode = 't' },
@@ -40,20 +47,15 @@ return {
             vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FF0000' })
         end,
     },
+
+
     {
         'nvim-lualine/lualine.nvim',
         event = 'VeryLazy',
         opts = { sections = { lualine_x = { 'encoding', 'filetype' } } },
     },
-    {
-        'folke/which-key.nvim',
-        init = function()
-            vim.o.timeout = true
-            vim.o.timeoutlen = 300
-        end,
-        config = keymaps,
-        event = 'VeryLazy',
-    },
+
+    { 'folke/which-key.nvim', event = 'VeryLazy', config = keymaps },
     { 'tpope/vim-fugitive', cmd = 'Git' },
     { 'kylechui/nvim-surround', version = '*', event = 'VeryLazy', opts = {} },
     { 'echasnovski/mini.trailspace', event = 'BufWritePre', opts = {} },
