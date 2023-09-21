@@ -14,8 +14,8 @@ local go_setup = {
 
 local zig_setup = {
     settings = {
-        enable_autofix = true,
-        enable_build_on_save = true,
+        enable_autofix = false,
+        enable_build_on_save = false,
         include_at_in_builtins = true,
         semantic_tokens = 'none',
         warn_style = true,

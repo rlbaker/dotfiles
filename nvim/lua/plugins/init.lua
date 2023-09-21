@@ -26,12 +26,9 @@ local function keymaps()
         [']'] = { vim.diagnostic.goto_next, 'Next Diagnostic' },
     }, { prefix = '<Leader>' })
 
-    wk.register {
-        gc = { 'Comment', mode = { 'v', 'n' } },
-        ['\\'] = { ':noh<CR>', 'Clear Search Highlights' },
-        ['<C-Space>'] = { '<C-X><C-O>', 'Completion', mode = 'i' },
-        ['<Esc>'] = { '<C-\\><C-n>', 'Leave Terminal Input Mode', mode = 't' },
-    }
+    wk.register { ['\\'] = { ':noh<CR>', 'Clear Search Highlights' } }
+    wk.register({ ['<C-Space>'] = { '<C-X><C-O>', 'Completion' } }, { mode = 'i' })
+    wk.register({ ['<Esc>'] = { '<C-\\><C-n>', 'Leave Terminal Input Mode' } }, { mode = 't' })
 end
 
 return {
@@ -48,7 +45,6 @@ return {
         end,
     },
 
-
     {
         'nvim-lualine/lualine.nvim',
         event = 'VeryLazy',
@@ -58,8 +54,8 @@ return {
     { 'folke/which-key.nvim', event = 'VeryLazy', config = keymaps },
     { 'tpope/vim-fugitive', cmd = 'Git' },
     { 'kylechui/nvim-surround', version = '*', event = 'VeryLazy', opts = {} },
+    { 'echasnovski/mini.comment', opts = {}, event = 'VeryLazy' },
     { 'echasnovski/mini.trailspace', event = 'BufWritePre', opts = {} },
-    { 'echasnovski/mini.comment', opts = {}, keys = { { 'gc', mode = { 'n', 'v' } }, { 'gcc' } } },
     { 'windwp/nvim-autopairs', event = 'InsertEnter', opts = { check_ts = true } },
     { 'ziglang/zig.vim', ft = 'zig', init = function() vim.g.zig_fmt_autosave = 0 end },
 }
