@@ -15,8 +15,8 @@ brew 'ttfautohint'
 brew 'xz'
 
 cask 'firefox'
+cask 'godot'
 cask 'kitty', args: { 'no-quarantine': true }
-cask 'rapidapi'
 cask 'rectangle'
 cask 'skype'
 cask 'spotify'

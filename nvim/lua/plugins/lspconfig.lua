@@ -14,10 +14,8 @@ local go_setup = {
 
 local zig_setup = {
     settings = {
-        enable_autofix = false,
-        enable_build_on_save = false,
+        -- enable_build_on_save = true,
         include_at_in_builtins = true,
-        semantic_tokens = 'none',
         warn_style = true,
     },
 }
@@ -28,7 +26,7 @@ local lua_setup = {
             completion = { keywordSnippet = 'Disable' },
             diagnostics = { globals = { 'vim' } },
             runtime = { version = 'LuaJIT' },
-            -- workspace = { library = { vim.env.VIMRUNTIME } },
+            workspace = { library = { vim.env.VIMRUNTIME } },
             format = {
                 enable = true,
                 defaultConfig = {
@@ -79,10 +77,7 @@ local function lsp_mappings(args)
         i = { '<Cmd>Telescope lsp_implementations<CR>', 'Go to Implementation' },
         I = { '<Cmd>Telescope lsp_incoming_calls<CR>', 'Incoming Calls' },
         o = { function()
-            vim.lsp.buf.code_action {
-                context = { only = { 'source.organizeImports' } },
-                apply = true,
-            }
+            vim.lsp.buf.code_action { context = { only = { 'source.organizeImports' } }, apply = true }
         end, 'Organize Imports' },
         O = { '<Cmd>Telescope lsp_outgoing_calls<CR>', 'Outgoing Calls' },
         r = { '<Cmd>Telescope lsp_references<CR>', 'List References' },
@@ -108,7 +103,7 @@ local function lsp_mappings(args)
         buffer = args.buf,
         callback = function()
             vim.lsp.buf.format { async = false }
-            vim.diagnostic.enable(0)
+            vim.diagnostic.show()
         end,
     })
 end
@@ -124,8 +119,9 @@ return {
             callback = lsp_mappings,
         })
 
+        lspconfig.lua_ls.setup(lua_setup)
         lspconfig.gopls.setup(go_setup)
         lspconfig.zls.setup(zig_setup)
-        lspconfig.lua_ls.setup(lua_setup)
+        lspconfig.gdscript.setup {}
     end,
 }
