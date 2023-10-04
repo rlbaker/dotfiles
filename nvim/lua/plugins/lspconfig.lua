@@ -12,13 +12,7 @@ local go_setup = {
     },
 }
 
-local zig_setup = {
-    settings = {
-        -- enable_build_on_save = true,
-        include_at_in_builtins = true,
-        warn_style = true,
-    },
-}
+local zig_setup = { settings = { warn_style = true } }
 
 local lua_setup = {
     settings = {

@@ -18,7 +18,8 @@ local function keymaps()
         h = { '<Cmd>Telescope command_history<CR>', 'Command History' },
         q = { [[ :pclose | cclose | lclose | helpclose<CR> ]], 'Close All Helper Windows' },
         s = { '<Cmd>Telescope git_status<CR>', 'Git Status' },
-        t = { '<Cmd>Telescope treesitter<CR>', 'Treesitter Nodes' },
+        t = { '<Cmd>StripWhitespace<CR>', 'Strip Whitespace' },
+        T = { '<Cmd>Telescope treesitter<CR>', 'Treesitter Nodes' },
         ['.'] = { '<Cmd>Telescope find_files<CR>', 'Find Files' },
         ['/'] = { '<Cmd>Telescope current_buffer_fuzzy_find<CR>', 'Fuzzy Find in Buffer' },
         ['<Leader>'] = { '<Cmd>Telescope buffers<CR>', 'Buffer List' },
@@ -53,9 +54,9 @@ return {
 
     { 'folke/which-key.nvim', event = 'VeryLazy', config = keymaps },
     { 'tpope/vim-fugitive', cmd = 'Git' },
+    { 'ntpeters/vim-better-whitespace', event = 'VeryLazy' },
     { 'kylechui/nvim-surround', version = '*', event = 'VeryLazy', opts = {} },
-    { 'echasnovski/mini.comment', opts = {}, event = 'VeryLazy' },
-    { 'echasnovski/mini.trailspace', event = 'BufWritePre', opts = {} },
+    { 'echasnovski/mini.comment', event = 'VeryLazy', opts = {} },
     { 'windwp/nvim-autopairs', event = 'InsertEnter', opts = { check_ts = true } },
     { 'ziglang/zig.vim', ft = 'zig', init = function() vim.g.zig_fmt_autosave = 0 end },
 }

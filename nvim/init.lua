@@ -1,7 +1,3 @@
-if vim.g.vscode then
-    return
-end
-
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
@@ -26,7 +22,7 @@ vim.opt.wildmode = { 'longest:full', 'full' }
 vim.opt.switchbuf = { 'useopen', 'uselast' }
 vim.opt.updatetime = 1000
 vim.opt.timeout = true
-vim.opt.timeoutlen = 300
+vim.opt.timeoutlen = 500
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
@@ -47,3 +43,6 @@ require('lazy').setup('plugins')
 local rlb = vim.api.nvim_create_augroup('rlb', { clear = true })
 vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = '*', command = [[set formatoptions-=cro]] })
 vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'go', command = [[set noexpandtab]] })
+
+-- Fix lsp completion not working for zig builtins
+vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'zig', command = [[ set iskeyword-=@-@ ]] })
