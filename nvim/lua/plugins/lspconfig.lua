@@ -97,7 +97,7 @@ local function lsp_mappings(args)
         buffer = args.buf,
         callback = function()
             vim.lsp.buf.format { async = false }
-            vim.diagnostic.show()
+            -- vim.diagnostic.show()
         end,
     })
 end
