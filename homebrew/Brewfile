@@ -1,6 +1,7 @@
 # vim:syntax=ruby:
 
 tap 'homebrew/cask'
+tap 'nextdns/tap'
 
 brew 'entr'
 brew 'fd'
@@ -9,6 +10,7 @@ brew 'git'
 brew 'git-lfs'
 brew 'gron'
 brew 'jq'
+brew 'nextdns/tap/nextdns'
 brew 'ripgrep'
 brew 'tree'
 brew 'ttfautohint'

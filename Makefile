@@ -1,26 +1,18 @@
-dotfiles = $(shell pwd)
+.PHONY: fish nvim kitty homebrew demo
 
-.PHONY: fish
+pwd = $(shell pwd)
+
 fish:
-	@mkdir -p $$HOME/.config/fish/
-	ln -s -f $(dotfiles)/fish/config.fish $$HOME/.config/fish/config.fish
-	ln -s -f $(dotfiles)/fish/colors.fish $$HOME/.config/fish/colors.fish
-	@mkdir -p $$HOME/.config/fish/functions/
-	fd . 'fish/functions' -x ln -s $(dotfiles)/{} "$$HOME/.config/fish/functions/{/}"
-	@touch $$HOME/.config/fish/local.fish
+	ln -vis $(pwd)/fish $$HOME/.config/fish
 
-.PHONY: nvim
 nvim:
-	@mkdir -p $$HOME/.config/nvim/lua/plugins
-	ln -s -f $(dotfiles)/nvim/init.lua $$HOME/.config/nvim/init.lua
-	fd . 'nvim/lua/plugins' -x ln -s $(dotfiles)/{} "$$HOME/.config/nvim/lua/plugins/{/}"
+	ln -vis $(pwd)/nvim $$HOME/.config/nvim
 
-.PHONY: kitty
 kitty:
-	@mkdir -p $$HOME/.config/kitty/
-	fd . 'kitty' -x ln -s $(dotfiles)/{} "$$HOME/.config/kitty/{/}"
+	ln -vis $(pwd)/kitty $$HOME/.config/kitty
 
-.PHONY: homebrew
 homebrew:
-	@mkdir -p $$HOME/.config/homebrew/
-	ln -s -f $(dotfiles)/homebrew/Brewfile $$HOME/.config/homebrew/Brewfile
+	ln -vis $(pwd)/homebrew $$HOME/.config/homebrew
+
+demo:
+	ln -vis $(pwd)/demo $$HOME/.config/demo
