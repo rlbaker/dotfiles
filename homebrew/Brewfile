@@ -10,7 +10,6 @@ brew 'git'
 brew 'git-lfs'
 brew 'gron'
 brew 'jq'
-brew 'nextdns/tap/nextdns'
 brew 'ripgrep'
 brew 'tree'
 brew 'ttfautohint'
@@ -18,7 +17,8 @@ brew 'xz'
 
 cask 'firefox'
 cask 'godot'
-cask 'kitty', args: { 'no-quarantine': true }
+# cask 'kitty', args: { 'no-quarantine': true }
 cask 'rectangle'
 cask 'skype'
 cask 'spotify'
+cask 'wezterm', args: { 'no-quarantine': true }

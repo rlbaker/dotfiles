@@ -8,11 +8,23 @@ local go_setup = {
                 loopclosure = false,
             },
             codelenses = { gc_details = true },
+            hints = {
+                assignVariableTypes = true,
+                compositeLiteralFields = true,
+                constantValues = true,
+                functionTypeParameters = true,
+                parameterNames = true,
+                rangeVariableTypes = true,
+            },
         },
     },
 }
 
-local zig_setup = { settings = { warn_style = true } }
+local zig_setup = {
+    settings = {
+        warn_style = true,
+    },
+}
 
 local lua_setup = {
     settings = {
@@ -85,6 +97,10 @@ local function lsp_mappings(args)
         ['<C-a>'] = { vim.lsp.buf.code_action, 'Code Actions', mode = 'i' },
     }
 
+    if vim.lsp.inlay_hint then
+        vim.lsp.inlay_hint(args.buf, true)
+    end
+
     -- organize go imports on save
     vim.api.nvim_create_autocmd('BufWritePre', {
         pattern = '*.go',
@@ -97,7 +113,7 @@ local function lsp_mappings(args)
         buffer = args.buf,
         callback = function()
             vim.lsp.buf.format { async = false }
-            -- vim.diagnostic.show()
+            vim.diagnostic.show(nil, args.buf)
         end,
     })
 end

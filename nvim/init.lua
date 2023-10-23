@@ -8,7 +8,7 @@ vim.opt.cursorline = true
 vim.opt.ignorecase = true
 vim.opt.laststatus = 3
 vim.opt.mouse = 'a'
-vim.opt.shortmess:append { W = true, I = true, c = true, C = true }
+vim.opt.shortmess:append { W = true, I = true, c = true }
 vim.opt.showcmd = false
 vim.opt.showmode = false
 vim.opt.signcolumn = 'no'

@@ -38,11 +38,12 @@ return {
         priority = 1000,
         init = function()
             vim.g.everforest_better_performance = 1
-            vim.g.everforest_diagnostic_virtual_text = 'highlight'
+            vim.g.everforest_diagnostic_virtual_text = 'highlighted'
             vim.g.everforest_disable_terminal_colors = 1
             vim.g.everforest_sign_column_background = 'grey'
             vim.cmd [[colorscheme everforest]]
             vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FF0000' })
+            -- vim.api.nvim_set_hl(0, 'NonText', { fg = '#FF0000' })
         end,
     },
 

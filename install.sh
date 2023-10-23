@@ -20,6 +20,10 @@ case $1 in
         mkdir -p "$CONFIG_DIR/kitty"
         fd --type file . kitty --exec ln -vs "$(pwd)/{}" "$CONFIG_DIR/{}"
         ;;
+    wezterm)
+        mkdir -p "$CONFIG_DIR/wezterm"
+        fd --type file --extension lua . wezterm --exec ln -vs "$(pwd)/{}" "$HOME/.config/{}"
+        ;;
     homebrew)
         mkdir -p "$CONFIG_DIR/homebrew"
         fd --type file . homebrew --exec ln -vs "$(pwd)/{}" "$CONFIG_DIR/{}"
