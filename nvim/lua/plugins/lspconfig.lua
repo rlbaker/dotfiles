@@ -9,8 +9,9 @@ local go_setup = {
             },
             codelenses = { gc_details = true },
             hints = {
-                assignVariableTypes = true,
+                -- assignVariableTypes = true,
                 compositeLiteralFields = true,
+                compositeLiteralTypes = true,
                 constantValues = true,
                 functionTypeParameters = true,
                 parameterNames = true,
@@ -22,6 +23,7 @@ local go_setup = {
 
 local zig_setup = {
     settings = {
+        -- enable_build_on_save = true,
         warn_style = true,
     },
 }
@@ -91,15 +93,12 @@ local function lsp_mappings(args)
         s = { '<Cmd>Telescope lsp_document_symbols<CR>', 'Document Symbols' },
         S = { '<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>', 'Workspace Symbols' },
         t = { '<Cmd>Telescope lsp_type_definitions<CR>', 'Go to Type Definition' },
+        h = { function() vim.lsp.inlay_hint(args.buf) end, 'Toggle Inlay Hints' },
     }, { prefix = '<LocalLeader>', buffer = args.buf })
 
     wk.register {
         ['<C-a>'] = { vim.lsp.buf.code_action, 'Code Actions', mode = 'i' },
     }
-
-    if vim.lsp.inlay_hint then
-        vim.lsp.inlay_hint(args.buf, true)
-    end
 
     -- organize go imports on save
     vim.api.nvim_create_autocmd('BufWritePre', {

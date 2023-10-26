@@ -46,3 +46,5 @@ vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'go', command =
 
 -- Fix lsp completion not working for zig builtins
 vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'zig', command = [[ set iskeyword-=@-@ ]] })
+
+vim.opt.conceallevel = 2
