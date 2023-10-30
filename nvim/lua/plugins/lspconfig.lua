@@ -6,8 +6,13 @@ local go_setup = {
             staticcheck = true,
             analyses = {
                 loopclosure = false,
+                nilness = true,
+                unusedparams = true,
+                unusedvariable = true,
+                unusedwrite = true,
+                useany = true,
             },
-            codelenses = { gc_details = true },
+            -- codelenses = { gc_details = true },
             hints = {
                 -- assignVariableTypes = true,
                 compositeLiteralFields = true,

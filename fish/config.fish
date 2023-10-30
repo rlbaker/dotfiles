@@ -13,13 +13,16 @@ set -gx HOMEBREW_FORCE_BREWED_GIT 1
 set -gx HOMEBREW_PREFIX "/opt/homebrew"
 set -gx HOMEBREW_CELLAR "/opt/homebrew/Cellar"
 set -gx HOMEBREW_REPOSITORY "/opt/homebrew"
-set -gx MANPATH "$HOMEBREW_PREFIX/share/man" $MANPATH
-set -gx INFOPATH "$HOMEBREW_PREFIX/share/info" $INFOPATH
 
-fish_add_path $HOMEBREW_PREFIX/bin $HOMEBREW_PREFIX/sbin
-fish_add_path ~/.asdf/bin
-fish_add_path ~/.asdf/shims
-fish_add_path ~/src/zig/zls/zig-out/bin
+# ! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "/opt/homebrew/share/man" $MANPATH;
+# ! set -q INFOPATH; and set INFOPATH ''; set -gx INFOPATH "/opt/homebrew/share/info" $INFOPATH;
+# set -gx MANPATH "$HOMEBREW_PREFIX/share/man" $MANPATH
+# set -gx INFOPATH "$HOMEBREW_PREFIX/share/info" $INFOPATH
+
+fish_add_path -g $HOMEBREW_PREFIX/bin $HOMEBREW_PREFIX/sbin
+fish_add_path -g ~/.asdf/bin
+# fish_add_path ~/.asdf/shims
+fish_add_path -g ~/src/zig/zls/zig-out/bin
 
 alias vim="nvim"
 set -gx EDITOR nvim
