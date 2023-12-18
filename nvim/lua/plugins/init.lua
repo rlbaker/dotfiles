@@ -28,7 +28,10 @@ local function keymaps()
     }, { prefix = '<Leader>' })
 
     wk.register { ['\\'] = { ':noh<CR>', 'Clear Search Highlights' } }
-    wk.register({ ['<C-Space>'] = { '<C-X><C-O>', 'Completion' } }, { mode = 'i' })
+    wk.register({
+        ['<C-Space>'] = { '<C-X><C-O>', 'Completion' },
+        ['<C-;>'] = { '<C-o>A;', 'Semicolon Insertion' },
+    }, { mode = 'i' })
     wk.register({ ['<Esc>'] = { '<C-\\><C-n>', 'Leave Terminal Input Mode' } }, { mode = 't' })
 end
 
@@ -43,7 +46,6 @@ return {
             vim.g.everforest_sign_column_background = 'grey'
             vim.cmd [[colorscheme everforest]]
             vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FF0000' })
-            -- vim.api.nvim_set_hl(0, 'NonText', { fg = '#FF0000' })
         end,
     },
 
@@ -55,9 +57,13 @@ return {
 
     { 'folke/which-key.nvim', event = 'VeryLazy', config = keymaps },
     { 'tpope/vim-fugitive', cmd = 'Git' },
+    { 'tpope/vim-commentary', event = 'VeryLazy' },
     { 'ntpeters/vim-better-whitespace', event = 'VeryLazy' },
     { 'kylechui/nvim-surround', version = '*', event = 'VeryLazy', opts = {} },
-    { 'echasnovski/mini.comment', event = 'VeryLazy', opts = {} },
-    { 'windwp/nvim-autopairs', event = 'InsertEnter', opts = { check_ts = true } },
-    { 'ziglang/zig.vim', ft = 'zig', init = function() vim.g.zig_fmt_autosave = 0 end },
+    { 'windwp/nvim-autopairs', event = 'InsertEnter', opts = { check_ts = true, enable_check_bracket_line = false } },
+    {
+        'ziglang/zig.vim',
+        ft = 'zig',
+        config = function() vim.g.zig_fmt_autosave = 0 end,
+    },
 }

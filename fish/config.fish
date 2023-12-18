@@ -19,14 +19,14 @@ set -gx HOMEBREW_REPOSITORY "/opt/homebrew"
 # set -gx MANPATH "$HOMEBREW_PREFIX/share/man" $MANPATH
 # set -gx INFOPATH "$HOMEBREW_PREFIX/share/info" $INFOPATH
 
+set -gx ASDF_DIRENV_IGNORE_MISSING_PLUGINS 1
+
 fish_add_path -g $HOMEBREW_PREFIX/bin $HOMEBREW_PREFIX/sbin
 fish_add_path -g ~/.asdf/bin
-# fish_add_path ~/.asdf/shims
 fish_add_path -g ~/src/zig/zls/zig-out/bin
+fish_add_path -g ~/.local/bin
 
 alias vim="nvim"
 set -gx EDITOR nvim
 
-# set -l dim (set_color brblack)
-# set -l normal (set_color normal)
-set -gx DIRENV_LOG_FORMAT ""; # $dim"direnv: %s"$normal
+set -gx DIRENV_LOG_FORMAT ""

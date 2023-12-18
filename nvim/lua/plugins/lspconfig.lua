@@ -1,58 +1,43 @@
-local go_setup = {
-    settings = {
-        gopls = {
-            linksInHover = false,
-            gofumpt = true,
-            staticcheck = true,
-            analyses = {
-                loopclosure = false,
-                nilness = true,
-                unusedparams = true,
-                unusedvariable = true,
-                unusedwrite = true,
-                useany = true,
-            },
-            -- codelenses = { gc_details = true },
-            hints = {
-                -- assignVariableTypes = true,
-                compositeLiteralFields = true,
-                compositeLiteralTypes = true,
-                constantValues = true,
-                functionTypeParameters = true,
-                parameterNames = true,
-                rangeVariableTypes = true,
+local settings = {}
+
+settings.gopls = {
+    gopls = {
+        linksInHover = false,
+        gofumpt = true,
+        staticcheck = true,
+        symbolScope = 'workspace',
+        analyses = {
+            loopclosure = false,
+            unusedparams = true,
+            unusedvariable = true,
+            unusedwrite = true,
+            useany = true,
+        },
+        codelenses = { gc_details = true },
+        templateExtensions = { 'tmpl' },
+    },
+}
+
+settings.lua_ls = {
+    Lua = {
+        completion = { keywordSnippet = 'Disable' },
+        diagnostics = { globals = { 'vim' } },
+        runtime = { version = 'LuaJIT' },
+        workspace = { library = { vim.env.VIMRUNTIME } },
+        format = {
+            enable = true,
+            defaultConfig = {
+                indent_style = 'space',
+                quote_style = 'single',
+                call_arg_parentheses = 'remove_table_only',
+                trailing_table_separator = 'smart',
+                align_array_table = 'false',
             },
         },
     },
 }
 
-local zig_setup = {
-    settings = {
-        -- enable_build_on_save = true,
-        warn_style = true,
-    },
-}
-
-local lua_setup = {
-    settings = {
-        Lua = {
-            completion = { keywordSnippet = 'Disable' },
-            diagnostics = { globals = { 'vim' } },
-            runtime = { version = 'LuaJIT' },
-            workspace = { library = { vim.env.VIMRUNTIME } },
-            format = {
-                enable = true,
-                defaultConfig = {
-                    indent_style = 'space',
-                    quote_style = 'single',
-                    call_arg_parentheses = 'remove_table_only',
-                    trailing_table_separator = 'smart',
-                    align_array_table = 'false',
-                },
-            },
-        },
-    },
-}
+settings.zls = {}
 
 local function goimports()
     local params = vim.lsp.util.make_range_params()
@@ -70,9 +55,12 @@ end
 
 local function lsp_mappings(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client ~= nil then
-        client.server_capabilities.semanticTokensProvider = nil
+    if client == nil then
+        return
     end
+
+    client.server_capabilities.semanticTokensProvider = nil
+
 
     vim.bo[args.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
@@ -99,6 +87,8 @@ local function lsp_mappings(args)
         S = { '<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>', 'Workspace Symbols' },
         t = { '<Cmd>Telescope lsp_type_definitions<CR>', 'Go to Type Definition' },
         h = { function() vim.lsp.inlay_hint(args.buf) end, 'Toggle Inlay Hints' },
+        lr = { '<Cmd>lua vim.lsp.codelens.refresh()<CR>', 'Refresh Code Lens' },
+        la = { '<Cmd>lua vim.lsp.codelens.run()<CR>', 'Run Code Lens' },
     }, { prefix = '<LocalLeader>', buffer = args.buf })
 
     wk.register {
@@ -133,9 +123,8 @@ return {
             callback = lsp_mappings,
         })
 
-        lspconfig.lua_ls.setup(lua_setup)
-        lspconfig.gopls.setup(go_setup)
-        lspconfig.zls.setup(zig_setup)
-        lspconfig.gdscript.setup {}
+        lspconfig.lua_ls.setup { settings = settings.lua_ls }
+        lspconfig.gopls.setup { settings = settings.gopls }
+        lspconfig.zls.setup { settings = settings.zls }
     end,
 }

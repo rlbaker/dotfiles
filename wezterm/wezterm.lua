@@ -3,7 +3,7 @@ local wezterm = require('wezterm')
 local config = {}
 
 config.font = wezterm.font { family = 'Iosevka RLB', weight = 'Light' }
-config.font_size = 13.0
+config.font_size = 12.0
 
 config.cursor_blink_rate = 0
 
