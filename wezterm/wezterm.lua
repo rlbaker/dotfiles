@@ -2,11 +2,15 @@ local wezterm = require('wezterm')
 
 local config = {}
 
+
+config.animation_fps = 1
+config.audible_bell = 'Disabled'
+config.cursor_blink_ease_in = 'Constant'
+config.cursor_blink_ease_out = 'Constant'
+config.cursor_blink_rate = 0
 config.font = wezterm.font { family = 'Iosevka RLB', weight = 'Light' }
 config.font_size = 12.0
-
-config.cursor_blink_rate = 0
-
+config.visual_bell = { target = 'CursorColor' }
 config.window_decorations = 'RESIZE'
 config.window_padding = { left = 6, right = 0, top = 0, bottom = 0 }
 

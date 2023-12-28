@@ -1,3 +1,12 @@
+local ts_langs = {
+    'bash', 'fish',
+    'go', 'gomod', 'gosum', 'gowork',
+    'json',
+    'make',
+    'sql',
+    'vim', 'vimdoc',
+    'zig',
+}
 return {
     {
         'nvim-treesitter/nvim-treesitter',
@@ -10,7 +19,7 @@ return {
         config = function()
             require('nvim-treesitter.configs').setup {
                 auto_install = true,
-                ensure_installed = { 'fish', 'go', 'lua' },
+                ensure_installed = ts_langs,
                 highlight = { enable = true },
                 incremental_selection = {
                     enable = true,
