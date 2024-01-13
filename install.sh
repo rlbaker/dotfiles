@@ -23,10 +23,6 @@ case $1 in
         touch "$CONFIG_DIR/fish/local.fish"
         fd --type file --extension fish . fish --exec ln -vs "$(pwd)/{}" "$CONFIG_DIR/{}"
         ;;
-    kitty)
-        mkdir -p "$CONFIG_DIR/kitty"
-        fd --type file . kitty --exec ln -vs "$(pwd)/{}" "$CONFIG_DIR/{}"
-        ;;
     wezterm)
         mkdir -p "$CONFIG_DIR/wezterm"
         fd --type file --extension lua . wezterm --exec ln -vs "$(pwd)/{}" "$HOME/.config/{}"

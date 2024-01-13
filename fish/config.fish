@@ -25,6 +25,7 @@ fish_add_path -g $HOMEBREW_PREFIX/bin $HOMEBREW_PREFIX/sbin
 fish_add_path -g ~/.asdf/bin
 fish_add_path -g ~/src/zig/zls/zig-out/bin
 fish_add_path -g ~/.local/bin
+fish_add_path -g ~/.bun/bin
 
 alias vim="nvim"
 set -gx EDITOR nvim

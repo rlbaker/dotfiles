@@ -3,7 +3,7 @@ local settings = {}
 settings.gopls = {
     gopls = {
         linksInHover = false,
-        gofumpt = true,
+        gofumpt = false,
         staticcheck = true,
         symbolScope = 'workspace',
         analyses = {
@@ -126,5 +126,7 @@ return {
         lspconfig.lua_ls.setup { settings = settings.lua_ls }
         lspconfig.gopls.setup { settings = settings.gopls }
         lspconfig.zls.setup { settings = settings.zls }
+        lspconfig.gdscript.setup {}
+        lspconfig.astro.setup {}
     end,
 }

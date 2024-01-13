@@ -1,6 +1,7 @@
 # vim:syntax=ruby:
 
 tap 'homebrew/cask'
+tap 'homebrew/cask-fonts'
 
 brew 'entr'
 brew 'fd'
@@ -13,10 +14,11 @@ brew 'jq'
 brew 'neovim'
 brew 'ripgrep'
 brew 'tree'
-brew 'ttfautohint'
+# brew 'ttfautohint'
 brew 'xz'
 
 cask 'firefox'
+cask 'font-iosevka'
 cask 'godot'
 cask 'rectangle'
 cask 'skype'
