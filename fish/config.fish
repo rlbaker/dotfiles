@@ -5,6 +5,9 @@ set -gx LSCOLORS xXfxgxdxBaahahahahahah
 
 source $HOME/.config/fish/local.fish # load system-specific configuration
 
+set -gx EDITOR nvim
+set -gx DIRENV_LOG_FORMAT ""
+
 set -gx COPYFILE_DISABLED 1 # don't copy garbage into tar files
 
 set -gx HOMEBREW_BUNDLE_FILE $HOME/.config/homebrew/Brewfile
@@ -21,13 +24,13 @@ set -gx HOMEBREW_REPOSITORY "/opt/homebrew"
 
 set -gx ASDF_DIRENV_IGNORE_MISSING_PLUGINS 1
 
+set -gx PNPM_HOME "/Users/rlbaker/Library/pnpm"
+fish_add_path -g $PNPM_HOME
+
 fish_add_path -g $HOMEBREW_PREFIX/bin $HOMEBREW_PREFIX/sbin
 fish_add_path -g ~/.asdf/bin
 fish_add_path -g ~/src/zig/zls/zig-out/bin
 fish_add_path -g ~/.local/bin
-fish_add_path -g ~/.bun/bin
 
 alias vim="nvim"
-set -gx EDITOR nvim
-
-set -gx DIRENV_LOG_FORMAT ""
+alias npm="pnpm"

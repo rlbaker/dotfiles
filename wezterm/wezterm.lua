@@ -1,25 +1,20 @@
 local wezterm = require('wezterm')
 
-local config = {
-    animation_fps = 1,
-    audible_bell = 'Disabled',
-    cursor_blink_ease_in = 'Constant',
-    cursor_blink_ease_out = 'Constant',
-    cursor_blink_rate = 0,
-    -- config.dpi = 92
-    foreground_text_hsb = { brightness = 0.9 },
-    front_end = 'WebGpu',
-    visual_bell = { target = 'CursorColor' },
-    window_decorations = 'RESIZE',
-    -- window_padding = { left = 6, right = 0, top = 6, bottom = 0 },
-}
+local config = wezterm.config_builder()
 
+-- config.dpi = 92
 
-config.font = wezterm.font {
-    family = 'Iosevka Term',
-    weight = 'Light',
-    -- harfbuzz_features = { 'dlig' },
-}
+config.font_size = 15
+config.font = wezterm.font { family = 'Iosevka Term', weight = 'Light' }
+
+config.animation_fps = 1
+config.audible_bell = 'Disabled'
+config.cursor_blink_ease_in = 'Constant'
+config.cursor_blink_ease_out = 'Constant'
+config.cursor_blink_rate = 0
+config.visual_bell = { target = 'CursorColor' }
+config.window_decorations = 'RESIZE'
+config.window_padding = { left = 4, right = 0, top = 4, bottom = 0 }
 
 config.colors = {
     foreground = '#d3c6aa',
