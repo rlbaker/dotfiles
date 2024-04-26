@@ -5,16 +5,13 @@ settings.gopls = {
         linksInHover = false,
         gofumpt = false,
         staticcheck = true,
-        symbolScope = 'workspace',
         analyses = {
-            loopclosure = false,
             unusedparams = true,
             unusedvariable = true,
             unusedwrite = true,
             useany = true,
         },
         codelenses = { gc_details = true },
-        templateExtensions = { 'tmpl' },
     },
 }
 
@@ -113,20 +110,33 @@ local function lsp_mappings(args)
 end
 
 return {
-    'neovim/nvim-lspconfig',
-    event = { 'BufReadPre', 'BufNewFile' },
-    config = function()
-        local lspconfig = require('lspconfig')
+    { 'nvimtools/none-ls.nvim' },
 
-        vim.api.nvim_create_autocmd('LspAttach', {
-            group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true }),
-            callback = lsp_mappings,
-        })
+    {
+        'neovim/nvim-lspconfig',
+        event = { 'BufReadPre', 'BufNewFile' },
+        config = function()
+            local lspconfig = require('lspconfig')
 
-        lspconfig.lua_ls.setup { settings = settings.lua_ls }
-        lspconfig.gopls.setup { settings = settings.gopls }
-        lspconfig.zls.setup { settings = settings.zls }
-        lspconfig.gdscript.setup {}
-        lspconfig.astro.setup {}
-    end,
+            vim.api.nvim_create_autocmd('LspAttach', {
+                group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true }),
+                callback = lsp_mappings,
+            })
+
+            lspconfig.lua_ls.setup { settings = settings.lua_ls }
+            lspconfig.gopls.setup { settings = settings.gopls }
+            lspconfig.gdscript.setup {}
+            lspconfig.bqnlsp.setup {}
+
+            local none_ls = require('null-ls')
+            none_ls.setup {
+                sources = {
+                    none_ls.builtins.diagnostics.golangci_lint,
+                    none_ls.builtins.code_actions.impl,
+                    none_ls.builtins.code_actions.gomodifytags,
+                    none_ls.builtins.diagnostics.fish,
+                },
+            }
+        end,
+    },
 }
