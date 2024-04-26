@@ -1,12 +1,17 @@
 local ts_langs = {
-    'bash', 'fish',
-    'go', 'gomod', 'gosum', 'gowork',
+    'bash',
+    'fish',
+    'go',
+    'gomod',
+    'gosum',
+    'gowork',
     'json',
     'make',
     'sql',
-    'vim', 'vimdoc',
-    'zig',
+    'vim',
+    'vimdoc',
 }
+
 return {
     {
         'nvim-treesitter/nvim-treesitter',

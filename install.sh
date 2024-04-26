@@ -30,4 +30,5 @@ case $1 in
     homebrew)
         mkdir -p "$CONFIG_DIR/homebrew"
         fd --type file . homebrew --exec ln -vs "$(pwd)/{}" "$CONFIG_DIR/{}"
+        ;;
 esac

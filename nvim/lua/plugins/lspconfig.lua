@@ -125,8 +125,6 @@ return {
 
             lspconfig.lua_ls.setup { settings = settings.lua_ls }
             lspconfig.gopls.setup { settings = settings.gopls }
-            lspconfig.gdscript.setup {}
-            lspconfig.bqnlsp.setup {}
 
             local none_ls = require('null-ls')
             none_ls.setup {

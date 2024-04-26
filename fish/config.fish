@@ -27,11 +27,6 @@ set -gx ASDF_DIRENV_IGNORE_MISSING_PLUGINS 1
 
 fish_add_path -g $HOMEBREW_PREFIX/bin $HOMEBREW_PREFIX/sbin
 fish_add_path -g ~/.asdf/bin
-fish_add_path -g ~/src/zig/zls/zig-out/bin
 fish_add_path -g ~/.local/bin
 
 alias vim="nvim"
-
-alias npm="pnpm"
-set -gx PNPM_HOME "/Users/rlbaker/.pnpm"
-fish_add_path -g $PNPM_HOME
