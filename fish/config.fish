@@ -5,6 +5,9 @@ set -gx LSCOLORS xXfxgxdxBaahahahahahah
 
 source $HOME/.config/fish/local.fish # load system-specific configuration
 
+set __fish_git_prompt_show_informative_status 1
+set __fish_git_prompt_showuntrackedfiles 1
+
 set -gx EDITOR nvim
 set -gx DIRENV_LOG_FORMAT ""
 
@@ -23,7 +26,6 @@ set -gx HOMEBREW_REPOSITORY "/opt/homebrew"
 # set -gx INFOPATH "$HOMEBREW_PREFIX/share/info" $INFOPATH
 
 set -gx ASDF_DIRENV_IGNORE_MISSING_PLUGINS 1
-
 
 fish_add_path -g $HOMEBREW_PREFIX/bin $HOMEBREW_PREFIX/sbin
 fish_add_path -g ~/.asdf/bin
