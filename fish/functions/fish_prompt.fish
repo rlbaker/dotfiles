@@ -12,20 +12,10 @@ function fish_prompt --description 'Write out the prompt'
         set prompt_status ' ' $status_color $last_status
     end
 
-    if test -n "$DIRENV_FILE"
-        echo -n -s \
-            $direnv_color "["(prompt_pwd $DIRENV_FILE)"] " $normal \
-            $cwd_color (prompt_pwd) $normal \
-            (fish_git_prompt) $normal \
-            $status_color $prompt_status $normal \
-            $status_color ' $' \
-            "$normal "
-    else
-        echo -n -s \
-            $cwd_color (prompt_pwd) $normal \
-            (fish_git_prompt) $normal \
-            $status_color $prompt_status $normal \
-            $status_color ' $' \
-            "$normal "
-    end
+    echo -n -s \
+        $cwd_color (prompt_pwd) $normal \
+        (fish_git_prompt) $normal \
+        $status_color $prompt_status $normal \
+        $status_color ' $' \
+        "$normal "
 end

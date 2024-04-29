@@ -44,3 +44,6 @@ local rlb = vim.api.nvim_create_augroup('rlb', { clear = true })
 
 vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = '*', command = [[ set formatoptions-=cro ]] })
 vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'go', command = [[ set noexpandtab ]] })
+vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = '*', command = [[ set formatoptions-=cro ]] })
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' },
+    { group = rlb, pattern = 'justfile', command = [[ setfiletype just ]] })

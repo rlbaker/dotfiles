@@ -1,13 +1,11 @@
 local ts_langs = {
     'bash',
     'fish',
-    'go',
-    'gomod',
-    'gosum',
-    'gowork',
+    'go', 'gomod', 'gosum', 'gowork',
     'json',
+    'just',
+    'lua',
     'make',
-    'sql',
     'vim',
     'vimdoc',
 }

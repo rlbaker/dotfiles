@@ -5,12 +5,8 @@ set -euo pipefail
 CONFIG_DIR="$HOME/.config"
 
 case $1 in
-    asdf)
-        git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.13.1
-        mkdir -p ~/.config/fish/completions
-        ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
-        asdf plugin-add direnv
-        asdf direnv setup --shell fish --version latest
+    mise)
+        curl https://mise.run | sh
         ;;
     nvim)
         mkdir -p "$CONFIG_DIR/nvim"

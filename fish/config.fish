@@ -3,13 +3,11 @@ set -g fish_greeting           # disable startup message
 source $HOME/.config/fish/colors.fish
 set -gx LSCOLORS xXfxgxdxBaahahahahahah
 
-source $HOME/.config/fish/local.fish # load system-specific configuration
-
 set __fish_git_prompt_show_informative_status 1
 set __fish_git_prompt_showuntrackedfiles 1
 
 set -gx EDITOR nvim
-set -gx DIRENV_LOG_FORMAT ""
+alias vim="nvim"
 
 set -gx COPYFILE_DISABLED 1 # don't copy garbage into tar files
 
@@ -25,10 +23,13 @@ set -gx HOMEBREW_REPOSITORY "/opt/homebrew"
 # set -gx MANPATH "$HOMEBREW_PREFIX/share/man" $MANPATH
 # set -gx INFOPATH "$HOMEBREW_PREFIX/share/info" $INFOPATH
 
-set -gx ASDF_DIRENV_IGNORE_MISSING_PLUGINS 1
-
 fish_add_path -g $HOMEBREW_PREFIX/bin $HOMEBREW_PREFIX/sbin
-fish_add_path -g ~/.asdf/bin
 fish_add_path -g ~/.local/bin
 
-alias vim="nvim"
+if status is-interactive
+  mise activate fish | source
+else
+  mise activate fish --shims | source
+end
+
+source $HOME/.config/fish/local.fish # load system-specific configuration
