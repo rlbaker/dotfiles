@@ -29,4 +29,4 @@ cask 'google-chrome'
 cask 'rectangle'
 cask 'skype'
 cask 'spotify'
-cask 'wezterm-nightly', args: { 'no-quarantine': true }
+cask 'wezterm@nightly', args: { 'no-quarantine': true }

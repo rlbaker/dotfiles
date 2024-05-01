@@ -6,9 +6,7 @@ settings.gopls = {
         gofumpt = false,
         staticcheck = true,
         analyses = {
-            unusedparams = true,
             unusedvariable = true,
-            unusedwrite = true,
             useany = true,
         },
         codelenses = { gc_details = true },
@@ -34,7 +32,11 @@ settings.lua_ls = {
     },
 }
 
-settings.zls = {}
+settings.zls = {
+    enable_build_on_save = true,
+    warn_style = true,
+    highlight_global_var_declarations = true,
+}
 
 local function goimports()
     local params = vim.lsp.util.make_range_params()
@@ -125,6 +127,8 @@ return {
 
             lspconfig.lua_ls.setup { settings = settings.lua_ls }
             lspconfig.gopls.setup { settings = settings.gopls }
+            lspconfig.clangd.setup { cmd = { 'clangd', '--log=error' } }
+            lspconfig.zls.setup { settings = settings.zls }
 
             local none_ls = require('null-ls')
             none_ls.setup {

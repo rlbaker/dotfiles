@@ -17,7 +17,6 @@ wezterm:
     mkdir -p "{{cfgdir}}/wezterm"
     -fd --type file --extension lua . wezterm --exec ln -vs "{{pwd}}/{}" "{{cfgdir}}/{}"
 
-
 homebrew:
     mkdir -p "{{cfgdir}}/homebrew"
     -fd --type file . homebrew --exec ln -vs "{{pwd}}/{}" "{{cfgdir}}/{}"
