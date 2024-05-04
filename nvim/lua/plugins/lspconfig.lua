@@ -9,6 +9,12 @@ settings.gopls = {
             unusedvariable = true,
             useany = true,
         },
+        annotations = {
+            bounds = true,
+            escape = false,
+            inline = true,
+            ['nil'] = true,
+        },
         codelenses = { gc_details = true },
     },
 }
@@ -33,9 +39,9 @@ settings.lua_ls = {
 }
 
 settings.zls = {
-    enable_build_on_save = true,
-    warn_style = true,
-    highlight_global_var_declarations = true,
+    enable_build_on_save = false,
+    warn_style = false,
+    highlight_global_var_declarations = false,
 }
 
 local function goimports()
