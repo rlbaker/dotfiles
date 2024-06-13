@@ -8,6 +8,7 @@ settings.gopls = {
         analyses = {
             unusedvariable = true,
             useany = true,
+            loopclosure = false,
         },
         annotations = {
             bounds = true,
@@ -16,6 +17,15 @@ settings.gopls = {
             ['nil'] = true,
         },
         codelenses = { gc_details = true },
+        hints = {
+            -- assignVariableTypes = true,
+            compositeLiteralFields = true,
+            -- compositeLiteralTypes = true,
+            constantValues = true,
+            functionTypeParameters = true,
+            parameterNames = true,
+            -- rangeVariableTypes = true,
+        },
     },
 }
 
@@ -82,16 +92,24 @@ local function lsp_mappings(args)
         f = { function() vim.lsp.buf.format { async = true } end, 'Format' },
         i = { '<Cmd>Telescope lsp_implementations<CR>', 'Go to Implementation' },
         I = { '<Cmd>Telescope lsp_incoming_calls<CR>', 'Incoming Calls' },
-        o = { function()
-            vim.lsp.buf.code_action { context = { only = { 'source.organizeImports' } }, apply = true }
-        end, 'Organize Imports' },
+        o = {
+            function()
+                vim.lsp.buf.code_action { context = { only = { 'source.organizeImports' } }, apply = true }
+            end,
+            'Organize Imports',
+        },
         O = { '<Cmd>Telescope lsp_outgoing_calls<CR>', 'Outgoing Calls' },
         r = { '<Cmd>Telescope lsp_references<CR>', 'List References' },
         R = { vim.lsp.buf.rename, 'List References' },
         s = { '<Cmd>Telescope lsp_document_symbols<CR>', 'Document Symbols' },
         S = { '<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>', 'Workspace Symbols' },
         t = { '<Cmd>Telescope lsp_type_definitions<CR>', 'Go to Type Definition' },
-        h = { function() vim.lsp.inlay_hint(args.buf) end, 'Toggle Inlay Hints' },
+        h = {
+            function()
+                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = 0 })
+            end,
+            'Toggle Inlay Hints',
+        },
         lr = { '<Cmd>lua vim.lsp.codelens.refresh()<CR>', 'Refresh Code Lens' },
         la = { '<Cmd>lua vim.lsp.codelens.run()<CR>', 'Run Code Lens' },
     }, { prefix = '<LocalLeader>', buffer = args.buf })
@@ -115,6 +133,9 @@ local function lsp_mappings(args)
             vim.diagnostic.show(nil, args.buf)
         end,
     })
+
+
+    vim.lsp.inlay_hint.enable(true)
 end
 
 return {

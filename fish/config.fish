@@ -26,10 +26,10 @@ set -gx HOMEBREW_REPOSITORY "/opt/homebrew"
 fish_add_path -g $HOMEBREW_PREFIX/bin $HOMEBREW_PREFIX/sbin
 fish_add_path -g ~/.local/bin
 
-if status is-interactive
-  mise activate fish | source
-else
-  mise activate fish --shims | source
-end
+# if status is-interactive
+mise activate fish | source
+# else
+#   mise activate fish --shims | source
+# end
 
 source $HOME/.config/fish/local.fish # load system-specific configuration

@@ -17,7 +17,7 @@ vim.opt.smartindent = true
 vim.opt.splitbelow = true
 vim.opt.splitkeep = 'screen'
 vim.opt.splitright = true
-vim.opt.termguicolors = true
+-- vim.opt.termguicolors = true
 vim.opt.wildmode = { 'longest:full', 'full' }
 vim.opt.switchbuf = { 'useopen', 'uselast' }
 vim.opt.updatetime = 1000
@@ -31,7 +31,7 @@ vim.g.loaded_python3_provider = 0
 
 -- bootstrap package manager
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
     vim.fn.system {
         'git', 'clone', '--filter=blob:none', '--single-branch',
         'https://github.com/folke/lazy.nvim.git', lazypath,
