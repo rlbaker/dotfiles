@@ -3,28 +3,11 @@ local settings = {}
 settings.gopls = {
     gopls = {
         linksInHover = false,
-        gofumpt = false,
         staticcheck = true,
         analyses = {
             unusedvariable = true,
             useany = true,
             loopclosure = false,
-        },
-        annotations = {
-            bounds = true,
-            escape = false,
-            inline = true,
-            ['nil'] = true,
-        },
-        codelenses = { gc_details = true },
-        hints = {
-            -- assignVariableTypes = true,
-            compositeLiteralFields = true,
-            -- compositeLiteralTypes = true,
-            constantValues = true,
-            functionTypeParameters = true,
-            parameterNames = true,
-            -- rangeVariableTypes = true,
         },
     },
 }
@@ -34,7 +17,13 @@ settings.lua_ls = {
         completion = { keywordSnippet = 'Disable' },
         diagnostics = { globals = { 'vim' } },
         runtime = { version = 'LuaJIT' },
-        workspace = { library = { vim.env.VIMRUNTIME } },
+        workspace = {
+            checkThirdParty = false,
+            library = {
+                vim.env.VIMRUNTIME,
+                '${3rd}/luv/library',
+            },
+        },
         format = {
             enable = true,
             defaultConfig = {
@@ -51,7 +40,7 @@ settings.lua_ls = {
 local function goimports()
     local params = vim.lsp.util.make_range_params()
     params.context = { only = { 'source.organizeImports' } }
-    local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, 1500)
+    local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, 1000)
     for cid, res in pairs(result or {}) do
         for _, r in pairs(res.result or {}) do
             if r.edit then
@@ -70,46 +59,48 @@ local function lsp_mappings(args)
 
     client.server_capabilities.semanticTokensProvider = nil
 
-
-    vim.bo[args.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
-    local opts = { buffer = args.buf }
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, opts)
-
     local wk = require('which-key')
+    wk.add {
+        {
+            buffer = args.buf,
+            { 'K', vim.lsp.buf.hover, desc = 'LSP Hover' },
+            { '<C-k>', vim.lsp.buf.signature_help, desc = 'Signature Help', mode = { 'i' } },
+            { '<LocalLeader>', group = 'LSP' },
+            { '<LocalLeader>a', vim.lsp.buf.code_action, desc = 'Code Actions', mode = { 'n', 'v', 'x' } },
 
-    wk.register({
-        a = { vim.lsp.buf.code_action, 'Code Actions', mode = { 'n', 'v', 'x' } },
-        d = { '<Cmd>Telescope lsp_definitions<CR>', 'Go to Definition' },
-        D = { vim.lsp.buf.declaration, 'Go to Declaration' },
-        f = { function() vim.lsp.buf.format { async = true } end, 'Format' },
-        i = { '<Cmd>Telescope lsp_implementations<CR>', 'Go to Implementation' },
-        I = { '<Cmd>Telescope lsp_incoming_calls<CR>', 'Incoming Calls' },
-        o = {
-            function()
-                vim.lsp.buf.code_action { context = { only = { 'source.organizeImports' } }, apply = true }
-            end,
-            'Organize Imports',
+            { '<LocalLeader>d', '<Cmd>Telescope lsp_definitions<CR>', desc = 'Go to Definition' },
+            { '<LocalLeader>D', vim.lsp.buf.declaration, desc = 'Go to Declaration' },
+            { '<LocalLeader>f', function() vim.lsp.buf.format { async = true } end, desc = 'Format' },
+            { '<LocalLeader>i', '<Cmd>Telescope lsp_implementations<CR>', desc = 'Go to Implementation' },
+            { '<LocalLeader>I', '<Cmd>Telescope lsp_incoming_calls<CR>', desc = 'Incoming Calls' },
+            { '<LocalLeader>O', '<Cmd>Telescope lsp_outgoing_calls<CR>', desc = 'Outgoing Calls' },
+            { '<LocalLeader>r', '<Cmd>Telescope lsp_references<CR>', desc = 'List References' },
+            { '<LocalLeader>R', vim.lsp.buf.rename, desc = 'List References' },
+            { '<LocalLeader>s', '<Cmd>Telescope lsp_document_symbols<CR>', desc = 'Document Symbols' },
+            { '<LocalLeader>S', '<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>', desc = 'Workspace Symbols' },
+            { '<LocalLeader>t', '<Cmd>Telescope lsp_type_definitions<CR>', desc = 'Go to Type Definition' },
+            { '<LocalLeader>lr', '<Cmd>lua vim.lsp.codelens.refresh()<CR>', desc = 'Refresh Code Lens' },
+            { '<LocalLeader>la', '<Cmd>lua vim.lsp.codelens.run()<CR>', desc = 'Run Code Lens' },
+            { '<LocalLeader>h',
+                function()
+                    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = 0 })
+                end,
+                desc = 'Toggle Inlay Hints',
+            },
+            { '<LocalLeader>o',
+                function()
+                    vim.lsp.buf.code_action {
+                        context = { diagnostics = {}, only = { 'source.organizeImports' } },
+                        apply = true,
+                    }
+                end,
+                desc = 'Organize Imports',
+            },
+            {
+                mode = { 'i' },
+                { '<C-a>', vim.lsp.buf.code_action, desc = 'Code Actions' },
+            },
         },
-        O = { '<Cmd>Telescope lsp_outgoing_calls<CR>', 'Outgoing Calls' },
-        r = { '<Cmd>Telescope lsp_references<CR>', 'List References' },
-        R = { vim.lsp.buf.rename, 'List References' },
-        s = { '<Cmd>Telescope lsp_document_symbols<CR>', 'Document Symbols' },
-        S = { '<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>', 'Workspace Symbols' },
-        t = { '<Cmd>Telescope lsp_type_definitions<CR>', 'Go to Type Definition' },
-        h = {
-            function()
-                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = 0 })
-            end,
-            'Toggle Inlay Hints',
-        },
-        lr = { '<Cmd>lua vim.lsp.codelens.refresh()<CR>', 'Refresh Code Lens' },
-        la = { '<Cmd>lua vim.lsp.codelens.run()<CR>', 'Run Code Lens' },
-    }, { prefix = '<LocalLeader>', buffer = args.buf })
-
-    wk.register {
-        ['<C-a>'] = { vim.lsp.buf.code_action, 'Code Actions', mode = 'i' },
     }
 
     -- organize go imports on save
@@ -134,7 +125,6 @@ end
 
 return {
     { 'nvimtools/none-ls.nvim' },
-
     {
         'neovim/nvim-lspconfig',
         event = { 'BufReadPre', 'BufNewFile' },
@@ -146,9 +136,18 @@ return {
                 callback = lsp_mappings,
             })
 
-            lspconfig.lua_ls.setup { settings = settings.lua_ls }
             lspconfig.gopls.setup { settings = settings.gopls }
             lspconfig.clangd.setup { cmd = { 'clangd', '--log=error' } }
+            lspconfig.lua_ls.setup {
+                -- Support completion for Neovim lua libraries
+                on_init = function(client)
+                    local path = client.workspace_folders[1].name
+                    if vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc') then
+                        return
+                    end
+                end,
+                settings = settings.lua_ls,
+            }
 
             local none_ls = require('null-ls')
             none_ls.setup {

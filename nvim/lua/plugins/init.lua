@@ -1,39 +1,23 @@
-local function keymaps()
-    local wk = require('which-key')
-
-    wk.setup {
-        layout = { spacing = 1 },
-        window = {
-            border = 'single',
-            margin = { 0, 0, 0, 0 },
-            padding = { 0, 0, 0, 0 },
-        },
-    }
-
-    wk.register({
-        b = { '<Cmd>Telescope git_branches<CR>', 'Git Branches' },
-        c = { '<Cmd>Telescope commands<CR>', 'Command List' },
-        d = { '<Cmd>Telescope diagnostics<CR>', 'Diagnostic List' },
-        g = { '<Cmd>Telescope live_grep<CR>', 'Live Grep' },
-        h = { '<Cmd>Telescope command_history<CR>', 'Command History' },
-        q = { [[ :pclose | cclose | lclose | helpclose<CR> ]], 'Close All Helper Windows' },
-        s = { '<Cmd>Telescope git_status<CR>', 'Git Status' },
-        t = { '<Cmd>StripWhitespace<CR>', 'Strip Whitespace' },
-        T = { '<Cmd>Telescope treesitter<CR>', 'Treesitter Nodes' },
-        ['.'] = { '<Cmd>Telescope find_files<CR>', 'Find Files' },
-        ['/'] = { '<Cmd>Telescope current_buffer_fuzzy_find<CR>', 'Fuzzy Find in Buffer' },
-        ['<Leader>'] = { '<Cmd>Telescope buffers<CR>', 'Buffer List' },
-        ['['] = { vim.diagnostic.goto_prev, 'Previous Diagnostic' },
-        [']'] = { vim.diagnostic.goto_next, 'Next Diagnostic' },
-    }, { prefix = '<Leader>' })
-
-    wk.register { ['\\'] = { ':noh<CR>', 'Clear Search Highlights' } }
-    wk.register({
-        ['<C-Space>'] = { '<C-X><C-O>', 'Completion' },
-        ['<C-;>'] = { '<C-o>A;', 'Semicolon Insertion' },
-    }, { mode = 'i' })
-    wk.register({ ['<Esc>'] = { '<C-\\><C-n>', 'Leave Terminal Input Mode' } }, { mode = 't' })
-end
+local keys = {
+    { '\\', ':noh<CR>', desc = 'Clear Search Highlights' },
+    -- { '<Leader>b', '<Cmd>Telescope git_branches<CR>', desc = 'Git Branches' },
+    -- { '<Leader>c', '<Cmd>Telescope commands<CR>', desc = 'Command List' },
+    -- { '<Leader>g', '<Cmd>Telescope live_grep<CR>', desc = 'Live Grep' },
+    -- { '<Leader>h', '<Cmd>Telescope command_history<CR>', desc = 'Command History' },
+    -- { '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]], desc = 'Close All Helper Windows' },
+    -- { '<Leader>s', '<Cmd>Telescope git_status<CR>', desc = 'Git Status' },
+    -- { '<Leader>t', '<Cmd>StripWhitespace<CR>', desc = 'Strip Whitespace' },
+    -- { '<Leader>T', '<Cmd>Telescope treesitter<CR>', desc = 'Treesitter Nodes' },
+    { '<Leader>.', '<Cmd>Telescope find_files<CR>', desc = 'Find Files' },
+    { '<Leader>/', '<Cmd>Telescope current_buffer_fuzzy_find<CR>', desc = 'Fuzzy Find in Buffer' },
+    { '<Leader><Leader>', '<Cmd>Telescope buffers<CR>', desc = 'Buffer List' },
+    { '<Leader>d', '<Cmd>Telescope diagnostics<CR>', desc = 'Diagnostic List' },
+    { '<Leader>[', vim.diagnostic.goto_prev, desc = 'Previous Diagnostic' },
+    { '<Leader>]', vim.diagnostic.goto_next, desc = 'Next Diagnostic' },
+    { '<Esc>', '<C-\\><C-n>', desc = 'Leave Terminal Input Mode', mode = { 't' } },
+    { '<C-Space>', '<C-X><C-O>', desc = 'Completion', mode = { 'i' } },
+    { '<C-;>', '<C-o>A;', desc = 'Semicolon Insertion', mode = { 'i' } },
+}
 
 return {
     {
@@ -55,7 +39,15 @@ return {
         opts = { sections = { lualine_x = { 'encoding', 'filetype' } } },
     },
 
-    { 'folke/which-key.nvim', event = 'VeryLazy', config = keymaps },
+    {
+        'folke/which-key.nvim',
+        event = 'VeryLazy',
+        opts = {
+            spec = keys,
+            icons = { mappings = false },
+        },
+    },
+
     { 'tpope/vim-fugitive', cmd = 'Git' },
     { 'tpope/vim-commentary', event = 'VeryLazy' },
     { 'ntpeters/vim-better-whitespace', event = 'VeryLazy' },

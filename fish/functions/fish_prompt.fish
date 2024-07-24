@@ -12,9 +12,13 @@ function fish_prompt --description 'Write out the prompt'
         set prompt_status ' ' $status_color $last_status
     end
 
+    echo -n -s $cwd_color (prompt_pwd) $normal
+
+    if [ "$TERM_PROGRAM" != "vscode" ] 
+        echo -n -s (fish_git_prompt) $normal
+    end
+
     echo -n -s \
-        $cwd_color (prompt_pwd) $normal \
-        (fish_git_prompt) $normal \
         $status_color $prompt_status $normal \
         $status_color ' $' \
         "$normal "

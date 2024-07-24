@@ -17,7 +17,6 @@ vim.opt.smartindent = true
 vim.opt.splitbelow = true
 vim.opt.splitkeep = 'screen'
 vim.opt.splitright = true
--- vim.opt.termguicolors = true
 vim.opt.wildmode = { 'longest:full', 'full' }
 vim.opt.switchbuf = { 'useopen', 'uselast' }
 vim.opt.updatetime = 1000
