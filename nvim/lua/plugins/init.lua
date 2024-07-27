@@ -1,13 +1,6 @@
 local keys = {
     { '\\', ':noh<CR>', desc = 'Clear Search Highlights' },
-    -- { '<Leader>b', '<Cmd>Telescope git_branches<CR>', desc = 'Git Branches' },
-    -- { '<Leader>c', '<Cmd>Telescope commands<CR>', desc = 'Command List' },
-    -- { '<Leader>g', '<Cmd>Telescope live_grep<CR>', desc = 'Live Grep' },
-    -- { '<Leader>h', '<Cmd>Telescope command_history<CR>', desc = 'Command History' },
-    -- { '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]], desc = 'Close All Helper Windows' },
-    -- { '<Leader>s', '<Cmd>Telescope git_status<CR>', desc = 'Git Status' },
-    -- { '<Leader>t', '<Cmd>StripWhitespace<CR>', desc = 'Strip Whitespace' },
-    -- { '<Leader>T', '<Cmd>Telescope treesitter<CR>', desc = 'Treesitter Nodes' },
+    { '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]], desc = 'Close All Helper Windows' },
     { '<Leader>.', '<Cmd>Telescope find_files<CR>', desc = 'Find Files' },
     { '<Leader>/', '<Cmd>Telescope current_buffer_fuzzy_find<CR>', desc = 'Fuzzy Find in Buffer' },
     { '<Leader><Leader>', '<Cmd>Telescope buffers<CR>', desc = 'Buffer List' },
@@ -46,6 +39,24 @@ return {
             spec = keys,
             icons = { mappings = false },
         },
+    },
+
+    {
+        'nvim-treesitter/nvim-treesitter',
+        event = { 'BufReadPost', 'BufNewFile' },
+        dependencies = { 'RRethy/nvim-treesitter-endwise' },
+        build = function()
+            local update = require('nvim-treesitter.install').update { with_sync = true }
+            update()
+        end,
+        config = function()
+            require('nvim-treesitter.configs').setup {
+                auto_install = true,
+                ensure_installed = { 'bash', 'fish', 'go', 'lua', 'vim' },
+                highlight = { enable = true },
+                endwise = { enable = true },
+            }
+        end,
     },
 
     { 'tpope/vim-fugitive', cmd = 'Git' },

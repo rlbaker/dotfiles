@@ -67,7 +67,6 @@ local function lsp_mappings(args)
             { '<C-k>', vim.lsp.buf.signature_help, desc = 'Signature Help', mode = { 'i' } },
             { '<LocalLeader>', group = 'LSP' },
             { '<LocalLeader>a', vim.lsp.buf.code_action, desc = 'Code Actions', mode = { 'n', 'v', 'x' } },
-
             { '<LocalLeader>d', '<Cmd>Telescope lsp_definitions<CR>', desc = 'Go to Definition' },
             { '<LocalLeader>D', vim.lsp.buf.declaration, desc = 'Go to Declaration' },
             { '<LocalLeader>f', function() vim.lsp.buf.format { async = true } end, desc = 'Format' },
@@ -81,18 +80,17 @@ local function lsp_mappings(args)
             { '<LocalLeader>t', '<Cmd>Telescope lsp_type_definitions<CR>', desc = 'Go to Type Definition' },
             { '<LocalLeader>lr', '<Cmd>lua vim.lsp.codelens.refresh()<CR>', desc = 'Refresh Code Lens' },
             { '<LocalLeader>la', '<Cmd>lua vim.lsp.codelens.run()<CR>', desc = 'Run Code Lens' },
-            { '<LocalLeader>h',
-                function()
-                    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = 0 })
-                end,
+            {
+                '<LocalLeader>h',
+                function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = 0 }) end,
                 desc = 'Toggle Inlay Hints',
             },
-            { '<LocalLeader>o',
+            {
+                '<LocalLeader>o',
                 function()
-                    vim.lsp.buf.code_action {
-                        context = { diagnostics = {}, only = { 'source.organizeImports' } },
-                        apply = true,
-                    }
+                    vim.lsp.buf.code_action { context = { diagnostics = {}, only = {
+                        'source.organizeImports',
+                    } }, apply = true }
                 end,
                 desc = 'Organize Imports',
             },
@@ -118,9 +116,6 @@ local function lsp_mappings(args)
             vim.diagnostic.show(nil, args.buf)
         end,
     })
-
-
-    vim.lsp.inlay_hint.enable(true)
 end
 
 return {
@@ -129,13 +124,12 @@ return {
         'neovim/nvim-lspconfig',
         event = { 'BufReadPre', 'BufNewFile' },
         config = function()
-            local lspconfig = require('lspconfig')
-
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true }),
                 callback = lsp_mappings,
             })
 
+            local lspconfig = require('lspconfig')
             lspconfig.gopls.setup { settings = settings.gopls }
             lspconfig.clangd.setup { cmd = { 'clangd', '--log=error' } }
             lspconfig.lua_ls.setup {
@@ -149,13 +143,13 @@ return {
                 settings = settings.lua_ls,
             }
 
-            local none_ls = require('null-ls')
-            none_ls.setup {
+            local nls = require('null-ls')
+            nls.setup {
                 sources = {
-                    none_ls.builtins.diagnostics.golangci_lint,
-                    none_ls.builtins.code_actions.impl,
-                    none_ls.builtins.code_actions.gomodifytags,
-                    none_ls.builtins.diagnostics.fish,
+                    nls.builtins.diagnostics.golangci_lint,
+                    nls.builtins.code_actions.impl,
+                    nls.builtins.code_actions.gomodifytags,
+                    nls.builtins.diagnostics.fish,
                 },
             }
         end,

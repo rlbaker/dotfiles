@@ -5,6 +5,7 @@ tap 'homebrew/cask-fonts'
 tap 'homebrew/cask-versions'
 tap 'buo/cask-upgrade'
 
+brew 'cloc'
 brew 'difftastic'
 brew 'duckdb'
 brew 'entr'

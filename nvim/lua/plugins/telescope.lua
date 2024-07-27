@@ -1,7 +1,6 @@
 return {
     'nvim-telescope/telescope.nvim',
     cmd = 'Telescope',
-    -- event = 'LspAttach',
     branch = '0.1.x',
     dependencies = {
         'nvim-lua/plenary.nvim',
