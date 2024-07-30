@@ -46,8 +46,6 @@ return {
 
     {
         'nvim-treesitter/nvim-treesitter',
-        event = { 'VeryLazy' },
-        -- event = { 'BufReadPost', 'BufNewFile' },
         dependencies = { 'RRethy/nvim-treesitter-endwise' },
         build = function()
             local update = require('nvim-treesitter.install').update { with_sync = true }
