@@ -119,9 +119,9 @@ local function lsp_mappings(args)
 end
 
 return {
-    { 'nvimtools/none-ls.nvim' },
     {
         'neovim/nvim-lspconfig',
+        dependencies = { 'nvimtools/none-ls.nvim' },
         event = { 'BufReadPre', 'BufNewFile' },
         config = function()
             vim.api.nvim_create_autocmd('LspAttach', {

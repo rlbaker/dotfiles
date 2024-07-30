@@ -43,7 +43,8 @@ return {
 
     {
         'nvim-treesitter/nvim-treesitter',
-        event = { 'BufReadPost', 'BufNewFile' },
+        event = { 'VeryLazy' },
+        -- event = { 'BufReadPost', 'BufNewFile' },
         dependencies = { 'RRethy/nvim-treesitter-endwise' },
         build = function()
             local update = require('nvim-treesitter.install').update { with_sync = true }
@@ -59,9 +60,40 @@ return {
         end,
     },
 
+    {
+        'nvim-telescope/telescope.nvim',
+        cmd = 'Telescope',
+        branch = '0.1.x',
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            'nvim-telescope/telescope-ui-select.nvim',
+        },
+        config = function()
+            local telescope = require('telescope')
+            telescope.setup {
+                defaults = {
+                    layout_strategy = 'vertical',
+                    layout_config = { prompt_position = 'top' },
+                    mappings = {
+                        i = { ['<ESC>'] = require('telescope.actions').close },
+                    },
+                    sorting_strategy = 'ascending',
+                },
+                pickers = {
+                    buffers = {
+                        sort_lastused = true,
+                        sort_mru = true,
+                    },
+                },
+            }
+            telescope.load_extension('ui-select')
+        end,
+    },
+
     { 'tpope/vim-fugitive', cmd = 'Git' },
     { 'tpope/vim-commentary', event = 'VeryLazy' },
     { 'ntpeters/vim-better-whitespace', event = 'VeryLazy' },
     { 'kylechui/nvim-surround', version = '*', event = 'VeryLazy', opts = {} },
     { 'windwp/nvim-autopairs', event = 'InsertEnter', opts = { check_ts = true, enable_check_bracket_line = false } },
+
 }
