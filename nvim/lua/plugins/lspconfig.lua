@@ -1,7 +1,3 @@
-settings.lua_ls = {
-
-}
-
 local function goimports()
     local params = vim.lsp.util.make_range_params()
     params.context = { only = { 'source.organizeImports' } }
@@ -53,9 +49,13 @@ local function lsp_mappings(args)
             {
                 '<LocalLeader>o',
                 function()
-                    vim.lsp.buf.code_action { context = { diagnostics = {}, only = {
-                        'source.organizeImports',
-                    } }, apply = true }
+                    vim.lsp.buf.code_action {
+                        context = {
+                            diagnostics = {},
+                            only = { 'source.organizeImports' },
+                        },
+                        apply = true,
+                    }
                 end,
                 desc = 'Organize Imports',
             },

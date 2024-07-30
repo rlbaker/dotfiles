@@ -25,6 +25,7 @@ brew 'xz'
 
 cask 'firefox'
 cask 'font-iosevka'
+cask 'font-symbols-only-nerd-font'
 cask 'godot'
 cask 'google-chrome'
 cask 'love'

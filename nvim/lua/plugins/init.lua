@@ -15,6 +15,7 @@ local keys = {
 return {
     {
         'sainnhe/everforest',
+        lazy = false,
         priority = 1000,
         init = function()
             vim.g.everforest_better_performance = 1
@@ -25,6 +26,8 @@ return {
             vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FF0000' })
         end,
     },
+
+    { 'nvim-tree/nvim-web-devicons', lazy = true },
 
     {
         'nvim-lualine/lualine.nvim',
