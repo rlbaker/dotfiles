@@ -30,7 +30,7 @@ vim.g.html_indent_autotags = 'html'
 vim.g.loaded_python3_provider = 0
 vim.g.zig_fmt_autosave = 0
 
--- bootstrap package manager
+-- bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
     vim.fn.system {

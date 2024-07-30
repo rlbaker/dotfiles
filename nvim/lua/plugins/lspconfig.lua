@@ -1,48 +1,11 @@
-local settings = {}
-
-settings.gopls = {
-    gopls = {
-        linksInHover = false,
-        staticcheck = true,
-        analyses = {
-            unusedvariable = true,
-            useany = true,
-            loopclosure = false,
-        },
-    },
-}
-
-settings.zls = {}
-
 settings.lua_ls = {
-    Lua = {
-        completion = { keywordSnippet = 'Disable' },
-        diagnostics = { globals = { 'vim' } },
-        runtime = { version = 'LuaJIT' },
-        workspace = {
-            checkThirdParty = false,
-            library = {
-                vim.env.VIMRUNTIME,
-                '${3rd}/luv/library',
-            },
-        },
-        format = {
-            enable = true,
-            defaultConfig = {
-                indent_style = 'space',
-                quote_style = 'single',
-                call_arg_parentheses = 'remove_table_only',
-                trailing_table_separator = 'smart',
-                align_array_table = 'false',
-            },
-        },
-    },
+
 }
 
 local function goimports()
     local params = vim.lsp.util.make_range_params()
     params.context = { only = { 'source.organizeImports' } }
-    local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, 1000)
+    local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, 1500)
     for cid, res in pairs(result or {}) do
         for _, r in pairs(res.result or {}) do
             if r.edit then
@@ -114,7 +77,8 @@ local function lsp_mappings(args)
     vim.api.nvim_create_autocmd('BufWritePre', {
         buffer = args.buf,
         callback = function()
-            vim.lsp.buf.format { async = false }
+            -- vim.lsp.buf.format { async = false }
+            vim.lsp.buf.format { timeout = 1000 }
             vim.diagnostic.show(nil, args.buf)
         end,
     })
@@ -132,9 +96,30 @@ return {
             })
 
             local lspconfig = require('lspconfig')
-            lspconfig.gopls.setup { settings = settings.gopls }
-            lspconfig.zls.setup { settings = settings.zls }
+
+            lspconfig.gopls.setup {
+                settings = {
+                    linksInHover = false,
+                    staticcheck = true,
+                    analyses = {
+                        unusedvariable = true,
+                        useany = true,
+                    },
+                },
+            }
+
+            lspconfig.zls.setup {
+                settings =
+                {
+                    enable_snippets = false,
+                    -- enable_build_on_save = true,
+                    -- build_on_save_step = 'install',
+                    semantic_tokens = 'none',
+                },
+            }
+
             lspconfig.clangd.setup { cmd = { 'clangd', '--log=error' } }
+
             lspconfig.lua_ls.setup {
                 -- Support completion for Neovim lua libraries
                 on_init = function(client)
@@ -143,7 +128,33 @@ return {
                         return
                     end
                 end,
-                settings = settings.lua_ls,
+                settings =
+                {
+
+                    Lua = {
+                        completion = { keywordSnippet = 'Disable' },
+                        diagnostics = { globals = { 'vim' } },
+                        runtime = { version = 'LuaJIT' },
+                        workspace = {
+                            checkThirdParty = false,
+                            library = {
+                                vim.env.VIMRUNTIME,
+                                '${3rd}/luv/library',
+                            },
+                        },
+                        format = {
+                            enable = true,
+                            defaultConfig = {
+                                indent_style = 'space',
+                                quote_style = 'single',
+                                call_arg_parentheses = 'remove_table_only',
+                                trailing_table_separator = 'smart',
+                                align_array_table = 'false',
+                            },
+                        },
+                    },
+
+                },
             }
 
             local nls = require('null-ls')
