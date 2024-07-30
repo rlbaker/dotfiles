@@ -12,6 +12,8 @@ settings.gopls = {
     },
 }
 
+settings.zls = {}
+
 settings.lua_ls = {
     Lua = {
         completion = { keywordSnippet = 'Disable' },
@@ -131,6 +133,7 @@ return {
 
             local lspconfig = require('lspconfig')
             lspconfig.gopls.setup { settings = settings.gopls }
+            lspconfig.zls.setup { settings = settings.zls }
             lspconfig.clangd.setup { cmd = { 'clangd', '--log=error' } }
             lspconfig.lua_ls.setup {
                 -- Support completion for Neovim lua libraries

@@ -95,5 +95,5 @@ return {
     { 'ntpeters/vim-better-whitespace', event = 'VeryLazy' },
     { 'kylechui/nvim-surround', version = '*', event = 'VeryLazy', opts = {} },
     { 'windwp/nvim-autopairs', event = 'InsertEnter', opts = { check_ts = true, enable_check_bracket_line = false } },
-
+    { 'ziglang/zig.vim', event = 'VeryLazy' },
 }
