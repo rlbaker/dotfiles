@@ -12,7 +12,7 @@ local function goimports()
     end
 end
 
-local function lsp_mappings(args)
+local function lsp_config(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     if client == nil then
         return
@@ -92,7 +92,7 @@ return {
         config = function()
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true }),
-                callback = lsp_mappings,
+                callback = lsp_config,
             })
 
             local lspconfig = require('lspconfig')
@@ -105,19 +105,28 @@ return {
                         unusedvariable = true,
                         useany = true,
                     },
+                    semanticTokens = true,
                 },
             }
 
             lspconfig.zls.setup {
-                settings =
-                {
+                cmd = { 'zls', '--log-level', 'warn' },
+                settings = {
                     enable_snippets = false,
-                    -- enable_build_on_save = true,
-                    -- build_on_save_step = 'install',
-                    semantic_tokens = 'none',
+                    enable_build_on_save = true,
+                    build_on_save_step = 'check',
                 },
             }
 
+            lspconfig.sourcekit.setup {
+                capabilities = {
+                    workspace = {
+                        didChangeWatchedFiles = {
+                            dynamicRegistration = true,
+                        },
+                    },
+                },
+            }
             lspconfig.clangd.setup { cmd = { 'clangd', '--log=error' } }
 
             lspconfig.lua_ls.setup {
@@ -128,9 +137,7 @@ return {
                         return
                     end
                 end,
-                settings =
-                {
-
+                settings = {
                     Lua = {
                         completion = { keywordSnippet = 'Disable' },
                         diagnostics = { globals = { 'vim' } },
@@ -153,17 +160,18 @@ return {
                             },
                         },
                     },
-
                 },
             }
 
             local nls = require('null-ls')
             nls.setup {
                 sources = {
-                    nls.builtins.diagnostics.golangci_lint,
-                    nls.builtins.code_actions.impl,
                     nls.builtins.code_actions.gomodifytags,
+                    nls.builtins.code_actions.impl,
                     nls.builtins.diagnostics.fish,
+                    nls.builtins.diagnostics.golangci_lint,
+                    nls.builtins.diagnostics.swiftlint,
+                    nls.builtins.formatting.swift_format,
                 },
             }
         end,
