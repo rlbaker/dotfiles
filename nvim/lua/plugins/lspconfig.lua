@@ -132,6 +132,10 @@ return {
             lspconfig.lua_ls.setup {
                 -- Support completion for Neovim lua libraries
                 on_init = function(client)
+                    if client.workspace_folders == nil then
+                        return
+                    end
+
                     local path = client.workspace_folders[1].name
                     if vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc') then
                         return

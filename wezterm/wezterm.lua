@@ -4,7 +4,7 @@ local config = wezterm.config_builder()
 -- config.dpi = 92
 
 config.font_size = 15
-config.font = wezterm.font { family = 'Iosevka Term', weight = 'Light' }
+config.font = wezterm.font { family = 'IosevkaTerm Nerd Font Mono', weight = 'Light' }
 
 config.animation_fps = 1
 config.audible_bell = 'Disabled'

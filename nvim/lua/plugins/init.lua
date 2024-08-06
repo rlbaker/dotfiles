@@ -69,6 +69,7 @@ return {
             'nvim-lua/plenary.nvim',
             'nvim-telescope/telescope-ui-select.nvim',
         },
+        event = 'VeryLazy',
         config = function()
             local telescope = require('telescope')
             telescope.setup {
