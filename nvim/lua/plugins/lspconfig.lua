@@ -144,7 +144,7 @@ return {
                 settings = {
                     Lua = {
                         completion = { keywordSnippet = 'Disable' },
-                        diagnostics = { globals = { 'vim' } },
+                        diagnostics = { globals = { 'vim', 'MiniTrailspace' } },
                         runtime = { version = 'LuaJIT' },
                         workspace = {
                             checkThirdParty = false,
