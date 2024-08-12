@@ -2,12 +2,12 @@ local keys = {
     { '<Leader>.', '<Cmd>Telescope find_files<CR>', desc = 'Find Files' },
     { '<Leader>/', '<Cmd>Telescope current_buffer_fuzzy_find<CR>', desc = 'Fuzzy Find in Buffer' },
     { '<Leader><Leader>', '<Cmd>Telescope buffers<CR>', desc = 'Buffer List' },
+    { '<Leader>d', '<Cmd>Telescope diagnostics<CR>', desc = 'Diagnostic List' },
+
     { '<Leader>[', vim.diagnostic.goto_prev, desc = 'Previous Diagnostic' },
     { '<Leader>]', vim.diagnostic.goto_next, desc = 'Next Diagnostic' },
-    { '<Leader>d', '<Cmd>Telescope diagnostics<CR>', desc = 'Diagnostic List' },
     { '<Leader>q', [[ :pclose | cclose | lclose | helpclose<CR> ]], desc = 'Close All Helper Windows' },
     { '<Leader>s', function() MiniTrailspace.trim() end, desc = 'Trim Trailing Whitespace' },
-
     { '\\', ':noh<CR>', desc = 'Clear Search Highlights' },
     { '<Esc>', '<C-\\><C-n>', desc = 'Leave Terminal Input Mode', mode = { 't' } },
     { '<C-Space>', '<C-X><C-O>', desc = 'Completion', mode = { 'i' } },
@@ -30,7 +30,6 @@ return {
     },
 
     { 'nvim-tree/nvim-web-devicons', lazy = true },
-
     { 'folke/which-key.nvim', event = 'VeryLazy', opts = { spec = keys } },
 
     {
@@ -88,9 +87,10 @@ return {
         end,
     },
 
-    { 'altermo/ultimate-autopair.nvim', event = { 'InsertEnter', 'CmdlineEnter' }, opts = {} },
     { 'echasnovski/mini.comment', event = 'VeryLazy', opts = {} },
     { 'echasnovski/mini.trailspace', event = 'VeryLazy', opts = {} },
+
+    { 'altermo/ultimate-autopair.nvim', event = { 'InsertEnter', 'CmdlineEnter' }, opts = {} },
     { 'kylechui/nvim-surround', event = 'VeryLazy', opts = {} },
     { 'tpope/vim-fugitive', cmd = 'Git' },
     { 'ziglang/zig.vim', ft = 'zig' },

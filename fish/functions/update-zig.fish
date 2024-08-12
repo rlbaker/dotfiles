@@ -9,6 +9,7 @@ function update-zig
     end
 
     cd zls
+    git pull
     zig build -Doptimize=ReleaseSafe
     cp zig-out/bin/zls $HOME/.local/bin
 

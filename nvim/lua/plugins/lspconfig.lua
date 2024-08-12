@@ -118,6 +118,15 @@ return {
                 },
             }
 
+            lspconfig.sourcekit.setup {
+                capabilities = {
+                    workspace = {
+                        didChangeWatchedFiles = { dynamicRegistration = true },
+                    },
+                },
+            }
+            lspconfig.clangd.setup { cmd = { 'clangd', '--log=error' } }
+
             lspconfig.lua_ls.setup {
                 -- Support completion for Neovim lua libraries
                 on_init = function(client)
@@ -133,7 +142,13 @@ return {
                 settings = {
                     Lua = {
                         completion = { keywordSnippet = 'Disable' },
-                        diagnostics = { globals = { 'vim', 'MiniTrailspace' } },
+                        diagnostics = { globals = {
+                            'vim',
+                            'MiniTrailspace',
+                            'MiniPick',
+                            'MiniExtra',
+
+                        } },
                         runtime = { version = 'LuaJIT' },
                         workspace = {
                             checkThirdParty = false,
@@ -163,6 +178,8 @@ return {
                     nls.builtins.code_actions.impl,
                     nls.builtins.diagnostics.fish,
                     nls.builtins.diagnostics.golangci_lint,
+                    nls.builtins.diagnostics.swiftlint,
+                    nls.builtins.formatting.swift_format,
                 },
             }
         end,
