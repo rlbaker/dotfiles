@@ -52,7 +52,18 @@ return {
                 ensure_installed = { 'bash', 'fish', 'go', 'lua', 'vim' },
                 highlight = { enable = true },
                 endwise = { enable = true },
+                incremental_selection = {
+                    enable = true,
+                    keymaps = {
+                        init_selection = '<Leader><Up>',
+                        node_incremental = '<Leader><Up>',
+                        -- scope_incremental = '<Leader>ts',
+                        node_decremental = '<Leader><Down>',
+                    },
+                },
             }
+            vim.wo.foldmethod = 'expr'
+            vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
         end,
     },
 
@@ -89,8 +100,14 @@ return {
 
     { 'echasnovski/mini.comment', event = 'VeryLazy', opts = {} },
     { 'echasnovski/mini.trailspace', event = 'VeryLazy', opts = {} },
-
-    { 'altermo/ultimate-autopair.nvim', event = { 'InsertEnter', 'CmdlineEnter' }, opts = {} },
+    {
+        'windwp/nvim-autopairs',
+        event = { 'InsertEnter', 'CmdlineEnter' },
+        opts = {
+            check_ts = true,
+            disable_in_visualblock = true,
+        },
+    },
     { 'kylechui/nvim-surround', event = 'VeryLazy', opts = {} },
     { 'tpope/vim-fugitive', cmd = 'Git' },
     { 'ziglang/zig.vim', ft = 'zig' },

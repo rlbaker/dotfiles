@@ -32,4 +32,6 @@ else
     mise activate fish --shims | source
 end
 
+set -gx GOCACHE $HOME/.cache/go-cache
+
 source $HOME/.config/fish/local.fish # load system-specific configuration

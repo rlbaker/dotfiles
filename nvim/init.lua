@@ -25,6 +25,7 @@ vim.opt.switchbuf = { 'useopen', 'uselast' }
 vim.opt.updatetime = 1000
 vim.opt.timeout = true
 vim.opt.timeoutlen = 500
+vim.opt.foldlevelstart = 99
 
 vim.g.html_indent_autotags = 'html'
 vim.g.loaded_python3_provider = 0
