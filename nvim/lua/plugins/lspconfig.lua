@@ -1,13 +1,3 @@
--- local function do_action(kind)
---     return function()
---         vim.lsp.buf.code_action {
---             --- @diagnostic disable-next-line: missing-fields
---             context = { only = kind },
---             apply = true,
---         }
---     end
--- end
-
 local function code_actions()
     vim.lsp.buf.code_action {
         filter = function(action)
