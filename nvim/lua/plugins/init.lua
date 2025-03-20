@@ -25,7 +25,7 @@ return {
             vim.g.everforest_disable_terminal_colors = 1
             vim.g.everforest_sign_column_background = 'grey'
             vim.cmd [[colorscheme everforest]]
-            vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FF0000' })
+            -- vim.api.nvim_set_hl(0, 'MatchParen', { bg = '#FF0000' })
         end,
     },
 
@@ -103,12 +103,19 @@ return {
     {
         'windwp/nvim-autopairs',
         event = { 'InsertEnter', 'CmdlineEnter' },
-        opts = {
-            check_ts = true,
-            disable_in_visualblock = true,
-        },
+        opts = { check_ts = true, disable_in_visualblock = true },
     },
     { 'kylechui/nvim-surround', event = 'VeryLazy', opts = {} },
     { 'tpope/vim-fugitive', cmd = 'Git' },
-    { 'ziglang/zig.vim', ft = 'zig' },
+    { 'HiPhish/rainbow-delimiters.nvim' },
+    { 'tikhomirov/vim-glsl' },
+    { 'Apeiros-46B/uiua.vim', config = function() vim.g.uiua_format_on_save = false end },
+    {
+        'kosayoda/nvim-lightbulb',
+        opts = {
+            autocmd = { enabled = true },
+            sign = { enabled = false },
+            virtual_text = { enabled = true },
+        },
+    },
 }
