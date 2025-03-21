@@ -30,7 +30,6 @@ vim.opt.foldenable = false
 
 vim.g.html_indent_autotags = 'html'
 vim.g.loaded_python3_provider = 0
-vim.g.no_racket_maps = true
 
 -- bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
