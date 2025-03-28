@@ -1,73 +1,29 @@
-local function code_actions()
-    vim.lsp.buf.code_action {
-        filter = function(action)
-            return action.kind ~= 'gopls.doc.features'
-        end,
-    }
-end
-
-local function organize_imports()
-    vim.lsp.buf.code_action {
-        --- @diagnostic disable-next-line: missing-fields
-        context = { only = { 'source.organizeImports' } },
-        apply = true,
-    }
-end
-
-local function set_keymaps(args)
-    local wk = require('which-key')
-    wk.add { {
-        buffer = args.buffer,
-        { 'K', vim.lsp.buf.hover, desc = 'LSP Hover' },
-
-        { '<C-k>', vim.lsp.buf.signature_help, desc = 'Signature Help', mode = { 'i' } },
-        { '<C-f>', function() vim.lsp.buf.format { async = true } end, desc = 'Format', mode = { 'i' } },
-
-        { '<LocalLeader>', group = 'LSP' },
-        { '<LocalLeader>D', vim.lsp.buf.declaration, desc = 'Go to Declaration' },
-        { '<LocalLeader>R', vim.lsp.buf.rename, desc = 'List References' },
-        { '<LocalLeader>f', function() vim.lsp.buf.format { async = true } end, desc = 'Format' },
-        { '<LocalLeader>lr', vim.lsp.codelens.refresh, desc = 'Refresh Code Lens' },
-        { '<LocalLeader>la', vim.lsp.codelens.run, desc = 'Run Code Lens' },
-
-        { '<LocalLeader>d', '<Cmd>Telescope lsp_definitions<CR>', desc = 'Go to Definition' },
-        { '<LocalLeader>i', '<Cmd>Telescope lsp_implementations<CR>', desc = 'Go to Implementation' },
-        { '<LocalLeader>I', '<Cmd>Telescope lsp_incoming_calls<CR>', desc = 'Incoming Calls' },
-        { '<LocalLeader>O', '<Cmd>Telescope lsp_outgoing_calls<CR>', desc = 'Outgoing Calls' },
-        { '<LocalLeader>r', '<Cmd>Telescope lsp_references<CR>', desc = 'List References' },
-        { '<LocalLeader>s', '<Cmd>Telescope lsp_document_symbols<CR>', desc = 'Document Symbols' },
-        { '<LocalLeader>S', '<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>', desc = 'Workspace Symbols' },
-        { '<LocalLeader>t', '<Cmd>Telescope lsp_type_definitions<CR>', desc = 'Go to Type Definition' },
-
-        { '<LocalLeader>a', code_actions, desc = 'Code Actions', mode = { 'n', 'v', 'x' } },
-        -- { '<LocalLeader>A', vim.lsp.buf.code_action, desc = 'All Code Actions', mode = { 'n', 'v', 'x' } },
-        { '<C-a>', code_actions, desc = 'Code Actions', mode = { 'i' } },
-        { '<LocalLeader>o', organize_imports, desc = 'Organize Imports' },
-    } }
-end
-
 local function setup_lsp(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     if client == nil then
         return
     end
 
-    client.server_capabilities.semanticTokensProvider = nil
+    if client:supports_method('textDocument/completion') then
+        vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+    end
 
-    set_keymaps(args)
+    client.server_capabilities.semanticTokensProvider = nil
 
     if client.name == 'gopls' then
         vim.api.nvim_create_autocmd('BufWritePre', {
             pattern = '*.go',
-            callback = organize_imports,
+            callback = function()
+                vim.lsp.buf.code_action {
+                    --- @diagnostic disable-next-line: missing-fields
+                    context = { only = { 'source.organizeImports' } },
+                    apply = true,
+                }
+            end,
         })
     end
 
-    vim.api.nvim_create_autocmd('BufWritePre', {
-        callback = function()
-            vim.lsp.buf.format()
-        end,
-    })
+    vim.api.nvim_create_autocmd('BufWritePre', { callback = function() vim.lsp.buf.format({ async = false }) end })
 end
 
 return {
@@ -84,13 +40,24 @@ return {
             local lspconfig = require('lspconfig')
 
             lspconfig.gdscript.setup {}
-            lspconfig.racket_langserver.setup {}
             lspconfig.gopls.setup {
                 settings = {
                     gopls = {
                         linksInHover = false,
                         staticcheck = true,
                         gofumpt = true,
+                    },
+                },
+            }
+
+            lspconfig.zls.setup {
+                settings = {
+                    zls = {
+                        semantic_tokens = 'none',
+                        enable_snippets = false,
+                        warn_style = true,
+                        enable_build_on_save = false,
+                        build_on_save_args = { '-Dno-bin' },
                     },
                 },
             }
@@ -105,20 +72,33 @@ return {
                 },
             }
 
+            local join = vim.fs.joinpath
+            local runtime_path = vim.split(package.path, ';')
+            table.insert(runtime_path, join('lua', '?.lua'))
+            table.insert(runtime_path, join('lua', '?', 'init.lua'))
+
             lspconfig.lua_ls.setup {
                 settings = {
                     Lua = {
-                        runtime = { version = 'LuaJIT' },
+                        telemetry = false,
+                        runtime = { version = 'LuaJIT', path = runtime_path,
+                        },
+                        diagnostics = { globals = { 'vim' } },
                         workspace = {
                             checkThirdParty = false,
-                            library = { vim.env.VIMRUNTIME, '${3rd}/luv/library' },
+                            library = {
+                                vim.env.VIMRUNTIME,
+                                vim.fn.stdpath('config'),
+                                '${3rd}/luv/library',
+                            },
                         },
                         format = {
                             enable = true,
                             defaultConfig = {
                                 indent_style = 'space',
+                                indent_size = '2',
                                 quote_style = 'single',
-                                call_arg_parentheses = 'remove_table_only',
+                                call_arg_parentheses = 'keep',
                                 trailing_table_separator = 'smart',
                                 align_array_table = 'false',
                             },

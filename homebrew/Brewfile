@@ -16,6 +16,7 @@ brew 'git'
 brew 'git-lfs'
 brew 'graphviz'
 brew 'gron'
+brew 'hyperfine'
 brew 'jj'
 brew 'jq'
 brew 'just'
@@ -35,6 +36,7 @@ cask 'dungeon-crawl-stone-soup-tiles', args: { 'no-quarantine': true }
 cask 'firefox@beta'
 cask 'libreoffice'
 cask 'font-iosevka-term-nerd-font'
+cask 'ghostty', args: { 'no-quarantine': true }
 cask 'godot'
 cask 'google-chrome'
 cask 'linearmouse'
@@ -42,4 +44,4 @@ cask 'rectangle'
 cask 'skype'
 cask 'spotify'
 cask 'visual-studio-code'
-cask 'wezterm@nightly', args: { 'no-quarantine': true }
+# cask 'wezterm@nightly', args: { 'no-quarantine': true }
