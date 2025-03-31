@@ -90,22 +90,23 @@ return {
 
     {
         'HiPhish/rainbow-delimiters.nvim',
+        submodules = false,
         config = function()
             require('rainbow-delimiters.setup').setup {}
         end,
     },
     { 'tpope/vim-fugitive', cmd = 'Git' },
 
-    {
-        'windwp/nvim-autopairs',
-        event = 'VeryLazy',
-        opts = {
-            check_ts = true,
-            disable_in_visualblock = true,
-            enable_check_bracket_line = false,
-            disable_filetype = { 'TelescopePrompt', 'vim', 'racket' },
-        },
-    },
+    -- {
+    --     'windwp/nvim-autopairs',
+    --     event = 'VeryLazy',
+    --     opts = {
+    --         check_ts = true,
+    --         disable_in_visualblock = true,
+    --         enable_check_bracket_line = false,
+    --         disable_filetype = { 'TelescopePrompt', 'vim', 'racket' },
+    --     },
+    -- },
 
     { 'ziglang/zig.vim', ft = 'zig' },
 }
