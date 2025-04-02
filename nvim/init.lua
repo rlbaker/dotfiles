@@ -77,7 +77,8 @@ vim.keymap.set('n', '<LocalLeader>s', '<Cmd>Telescope lsp_document_symbols<CR>',
 vim.keymap.set('n', '<LocalLeader>S', '<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>', { desc = 'Workspace Symbols' })
 vim.keymap.set('n', '<LocalLeader>t', '<Cmd>Telescope lsp_type_definitions<CR>', { desc = 'Go to Type Definition' })
 vim.keymap.set('n', '<LocalLeader>A', vim.lsp.buf.code_action, { desc = 'Code Actions' })
-vim.keymap.set('n', '<LocalLeader>a', function()
+vim.keymap.set('i', '<C-a>', vim.lsp.buf.code_action, { desc = 'Code Actions' })
+vim.keymap.set({ 'n', 'x' }, '<LocalLeader>a', function()
     vim.lsp.buf.code_action({
         filter = function(action)
             return action.kind ~= 'gopls.doc.features' and action.kind ~= 'source.doc'

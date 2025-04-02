@@ -1,11 +1,14 @@
 font-family = IosevkaTerm Nerd Font Mono
-font-size = 14
+font-size = 15
 font-style = Light
+# font-feature = -dlig, -calt, -liga
+font-feature = -dlig
+
 mouse-hide-while-typing = true
 quit-after-last-window-closed = true
 theme = gruvbox-material
 unfocused-split-opacity = 1
+
 window-height = 100
 window-position-x = 0
 window-position-y = 0
-font-feature = -dlig
