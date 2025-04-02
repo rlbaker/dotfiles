@@ -64,10 +64,17 @@ vim.keymap.set('n', '<Leader>s', '<Cmd>lua MiniTrailspace.trim()<CR>', { desc = 
 vim.keymap.set('n', '\\', '<Cmd>noh<CR>', { desc = 'Clear Search Highlights' })
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = 'Leave Terminal Input Mode' })
 vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, { desc = 'Signature Help' })
+
+vim.keymap.set('n', '<Leader>d', '<Cmd>Telescope diagnostics<CR>', { desc = 'Diagnostic List' })
+vim.keymap.set('n', '<Leader>]', function() vim.diagnostic.jump({ count = vim.v.count1 }) end,
+    { desc = 'Next Diagnostic' })
+vim.keymap.set('n', '<Leader>[', function() vim.diagnostic.jump({ count = -vim.v.count1 }) end,
+    { desc = 'Prev Diagnostic' })
+
+
 vim.keymap.set('n', '<LocalLeader>D', vim.lsp.buf.declaration, { desc = 'Declarations' })
 vim.keymap.set('n', '<LocalLeader>R', vim.lsp.buf.rename, { desc = 'Rename' })
 vim.keymap.set('n', '<LocalLeader>f', function() vim.lsp.buf.format({ async = true }) end, { desc = 'Format' })
-vim.keymap.set('n', '<Leader>d', '<Cmd>Telescope diagnostics<CR>', { desc = 'Diagnostic List' })
 vim.keymap.set('n', '<LocalLeader>d', '<Cmd>Telescope lsp_definitions<CR>', { desc = 'Go to Definition' })
 vim.keymap.set('n', '<LocalLeader>i', '<Cmd>Telescope lsp_implementations<CR>', { desc = 'Go to Implementation' })
 vim.keymap.set('n', '<LocalLeader>I', '<Cmd>Telescope lsp_incoming_calls<CR>', { desc = 'Incoming Calls' })
