@@ -45,14 +45,6 @@ return {
             sections = {
                 lualine_x = { 'encoding', 'filetype' },
             },
-            -- tabline = {
-            --     lualine_a = { 'buffers' },
-            --     -- lualine_b = { 'branch' },
-            --     -- lualine_c = { 'filename' },
-            --     lualine_x = {},
-            --     lualine_y = {},
-            --     lualine_z = { 'tabs' },
-            -- },
         },
     },
 
@@ -103,10 +95,12 @@ return {
         opts = {
             check_ts = true,
             disable_in_visualblock = true,
-            enable_check_bracket_line = false,
+            enable_check_bracket_line = true,
             disable_filetype = { 'TelescopePrompt', 'vim', 'racket' },
         },
     },
 
     { 'ziglang/zig.vim', ft = 'zig' },
+    { 'eraserhd/parinfer-rust', build = 'cargo build --release' },
+    -- { 'benknoble/vim-racket' },
 }

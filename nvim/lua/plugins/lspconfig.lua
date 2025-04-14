@@ -1,8 +1,5 @@
 local function setup_lsp(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client == nil then
-        return
-    end
+    local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 
     if client:supports_method('textDocument/completion') then
         vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
@@ -12,30 +9,42 @@ local function setup_lsp(args)
 
     if client.name == 'gopls' then
         vim.api.nvim_create_autocmd('BufWritePre', {
-            pattern = '*.go',
+            group = vim.api.nvim_create_augroup('my.lsp', { clear = false }),
+            buffer = args.buf,
             callback = function()
                 local params = vim.lsp.util.make_range_params(0, 'utf-8')
+                ---@diagnostic disable-next-line: inject-field
                 params.context = { only = { 'source.organizeImports' } }
+
                 -- buf_request_sync defaults to a 1000ms timeout. Depending on your
                 -- machine and codebase, you may want longer. Add an additional
                 -- argument after params if you find that you have to write the file
                 -- twice for changes to be saved.
                 -- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
-                local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params)
-                for cid, res in pairs(result or {}) do
+
+                local result = vim.lsp.buf_request_sync(args.buf, 'textDocument/codeAction', params)
+                for _, res in pairs(result or {}) do
                     for _, r in pairs(res.result or {}) do
                         if r.edit then
-                            local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or 'utf-16'
+                            local enc = client.offset_encoding or 'utf-16'
                             vim.lsp.util.apply_workspace_edit(r.edit, enc)
                         end
                     end
                 end
-                vim.lsp.buf.format({ async = false })
             end,
         })
     end
 
-    vim.api.nvim_create_autocmd('BufWritePre', { callback = function() vim.lsp.buf.format({ async = false }) end })
+    if not client:supports_method('textDocument/willSaveWaitUntil')
+        and client:supports_method('textDocument/formatting') then
+        vim.api.nvim_create_autocmd('BufWritePre', {
+            group = vim.api.nvim_create_augroup('my.lsp', { clear = false }),
+            buffer = args.buf,
+            callback = function()
+                vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
+            end,
+        })
+    end
 end
 
 return {
@@ -45,12 +54,14 @@ return {
         event = { 'BufReadPre', 'BufNewFile' },
         config = function()
             vim.api.nvim_create_autocmd('LspAttach', {
-                group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true }),
+                group = vim.api.nvim_create_augroup('my.lsp', {}),
                 callback = setup_lsp,
             })
 
             local lspconfig = require('lspconfig')
 
+            lspconfig.racket_langserver.setup {}
+            lspconfig.buf_ls.setup {}
             lspconfig.gdscript.setup {}
             lspconfig.gopls.setup {
                 settings = {
@@ -68,7 +79,7 @@ return {
                         semantic_tokens = 'none',
                         enable_snippets = false,
                         warn_style = true,
-                        enable_build_on_save = true,
+                        -- enable_build_on_save = true,
                         -- build_on_save_args = { '-Dno-bin', 'test' },
                     },
                 },
@@ -78,7 +89,7 @@ return {
             nls.setup {
                 sources = {
                     nls.builtins.diagnostics.fish,
-                    -- nls.builtins.diagnostics.golangci_lint,
+                    nls.builtins.diagnostics.golangci_lint,
                     nls.builtins.code_actions.gomodifytags,
                     nls.builtins.code_actions.impl,
                 },
@@ -95,7 +106,9 @@ return {
                         telemetry = false,
                         runtime = { version = 'LuaJIT', path = runtime_path,
                         },
-                        diagnostics = { globals = { 'vim' } },
+                        diagnostics = {
+                            globals = { 'vim' },
+                        },
                         workspace = {
                             checkThirdParty = false,
                             library = {

@@ -33,6 +33,7 @@ vim.g.loaded_python3_provider = 0
 
 vim.g.zig_fmt_autosave = 0
 vim.g.zig_fmt_parse_errors = 0
+vim.g.no_racket_maps = 1
 
 -- bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
@@ -50,26 +51,36 @@ local rlb = vim.api.nvim_create_augroup('rlb', { clear = true })
 vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = '*', command = [[ set fo-=cro ]] })
 vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'go', command = [[ set noet ]] })
 vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'zig', command = [[ set iskeyword-=@-@ ]] })
-vim.api.nvim_create_autocmd('LspAttach', {
-    group = rlb,
-    callback = function()
-        vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, { desc = 'LSP Hover' })
-    end,
-})
+-- vim.api.nvim_create_autocmd('LspAttach', {
+--     group = rlb,
+--     callback = function()
+--         vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, { desc = 'LSP Hover' })
+--     end,
+-- })
 
 vim.keymap.set('i', '<C-Space>', '<C-X><C-O>', { desc = 'Completion' })
 vim.keymap.set('n', '<Leader><Leader>', '<Cmd>Telescope buffers<CR>', { desc = 'Buffer List' })
 vim.keymap.set('n', '<Leader>.', '<Cmd>Telescope find_files<CR>', { desc = 'List Files' })
 vim.keymap.set('n', '<Leader>s', '<Cmd>lua MiniTrailspace.trim()<CR>', { desc = 'Trim Trailing Whitespace' })
+vim.keymap.set('n', '<Leader>y', '"+y', { desc = 'Yank to Clipboard' })
+vim.keymap.set('n', '<Leader>p', '"+p', { desc = 'Paste from Clipboard' })
 vim.keymap.set('n', '\\', '<Cmd>noh<CR>', { desc = 'Clear Search Highlights' })
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = 'Leave Terminal Input Mode' })
 vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, { desc = 'Signature Help' })
 
+vim.keymap.set('n', '<C-;>', 'A;<Esc>', { desc = 'Add Semicolon' })
+vim.keymap.set('i', '<C-;>', '<C-o>A;', { desc = 'Add Semicolon' })
+vim.keymap.set('i', '<C-Enter>', '<C-y>', { desc = 'Expand Completion' })
+
 vim.keymap.set('n', '<Leader>d', '<Cmd>Telescope diagnostics<CR>', { desc = 'Diagnostic List' })
-vim.keymap.set('n', '<Leader>]', function() vim.diagnostic.jump({ count = vim.v.count1 }) end,
+vim.keymap.set('n', '<Leader>]',
+    function() vim.diagnostic.jump({ count = vim.v.count1 }) end,
     { desc = 'Next Diagnostic' })
-vim.keymap.set('n', '<Leader>[', function() vim.diagnostic.jump({ count = -vim.v.count1 }) end,
+
+vim.keymap.set('n', '<Leader>[',
+    function() vim.diagnostic.jump({ count = -vim.v.count1 }) end,
     { desc = 'Prev Diagnostic' })
+vim.keymap.set('n', '<Leader>K', function() vim.diagnostic.open_float() end, { desc = 'Show Diagnostic Details' })
 
 
 vim.keymap.set('n', '<LocalLeader>D', vim.lsp.buf.declaration, { desc = 'Declarations' })
@@ -93,4 +104,11 @@ vim.keymap.set({ 'n', 'x' }, '<LocalLeader>a', function()
     })
 end, { desc = 'Code Actions' })
 
-vim.diagnostic.config({ virtual_lines = true })
+vim.diagnostic.config({ virtual_text = true })
+
+local function scale(n) return math.floor(n * 0.7) end
+local hover = vim.lsp.buf.hover
+---@diagnostic disable-next-line: duplicate-set-field
+vim.lsp.buf.hover = function()
+    return hover({ border = 'rounded', max_width = 100, max_height = scale(vim.o.lines) })
+end
