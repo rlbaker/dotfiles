@@ -51,6 +51,7 @@ local rlb = vim.api.nvim_create_augroup('rlb', { clear = true })
 vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = '*', command = [[ set fo-=cro ]] })
 vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'go', command = [[ set noet ]] })
 vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'zig', command = [[ set iskeyword-=@-@ ]] })
+vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'racket', command = [[ set fo-=r ]] })
 -- vim.api.nvim_create_autocmd('LspAttach', {
 --     group = rlb,
 --     callback = function()
@@ -58,7 +59,7 @@ vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'zig', command 
 --     end,
 -- })
 
-vim.keymap.set('i', '<C-Space>', '<C-X><C-O>', { desc = 'Completion' })
+vim.keymap.set('i', '<C-Space>', function() vim.lsp.completion.get() end, { desc = 'Completion' })
 vim.keymap.set('n', '<Leader><Leader>', '<Cmd>Telescope buffers<CR>', { desc = 'Buffer List' })
 vim.keymap.set('n', '<Leader>.', '<Cmd>Telescope find_files<CR>', { desc = 'List Files' })
 vim.keymap.set('n', '<Leader>s', '<Cmd>lua MiniTrailspace.trim()<CR>', { desc = 'Trim Trailing Whitespace' })
@@ -81,7 +82,7 @@ vim.keymap.set('n', '<Leader>[',
     function() vim.diagnostic.jump({ count = -vim.v.count1 }) end,
     { desc = 'Prev Diagnostic' })
 vim.keymap.set('n', '<Leader>K', function() vim.diagnostic.open_float() end, { desc = 'Show Diagnostic Details' })
-
+vim.keymap.set('i', '<C-l>', 'λ', { desc = 'Lambda' })
 
 vim.keymap.set('n', '<LocalLeader>D', vim.lsp.buf.declaration, { desc = 'Declarations' })
 vim.keymap.set('n', '<LocalLeader>R', vim.lsp.buf.rename, { desc = 'Rename' })
@@ -95,16 +96,22 @@ vim.keymap.set('n', '<LocalLeader>s', '<Cmd>Telescope lsp_document_symbols<CR>',
 vim.keymap.set('n', '<LocalLeader>S', '<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>', { desc = 'Workspace Symbols' })
 vim.keymap.set('n', '<LocalLeader>t', '<Cmd>Telescope lsp_type_definitions<CR>', { desc = 'Go to Type Definition' })
 vim.keymap.set('n', '<LocalLeader>A', vim.lsp.buf.code_action, { desc = 'Code Actions' })
+
+local function filter_gopls_actions(action)
+    -- print(vim.inspect(action))
+    return action.kind ~= 'source.doc' and
+        action.kind ~= 'source.assembly' and
+        action.kind ~= 'gopls.doc.features' and
+        action.kind ~= 'source.toggleCompilerOptDetails' and
+        action.kind ~= 'source.addTest'
+end
+
 vim.keymap.set('i', '<C-a>', vim.lsp.buf.code_action, { desc = 'Code Actions' })
 vim.keymap.set({ 'n', 'x' }, '<LocalLeader>a', function()
-    vim.lsp.buf.code_action({
-        filter = function(action)
-            return action.kind ~= 'gopls.doc.features' and action.kind ~= 'source.doc'
-        end,
-    })
+    vim.lsp.buf.code_action({ filter = filter_gopls_actions })
 end, { desc = 'Code Actions' })
 
-vim.diagnostic.config({ virtual_text = true })
+vim.diagnostic.config({ virtual_lines = { current_line = true } })
 
 local function scale(n) return math.floor(n * 0.7) end
 local hover = vim.lsp.buf.hover

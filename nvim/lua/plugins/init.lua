@@ -1,5 +1,9 @@
 return {
-    { 'folke/which-key.nvim', event = 'VeryLazy' },
+    {
+        'folke/which-key.nvim',
+        event = 'VeryLazy',
+        opts = { delay = 300 },
+    },
     { 'nvim-tree/nvim-web-devicons', lazy = true },
 
     {
@@ -12,6 +16,8 @@ return {
             vim.g.gruvbox_material_disable_terminal_colors = 1
 
             vim.cmd.colorscheme('gruvbox-material')
+
+            vim.cmd [[ highlight MatchParen guibg=red guifg=NONE ]]
         end,
     },
 
@@ -102,5 +108,14 @@ return {
 
     { 'ziglang/zig.vim', ft = 'zig' },
     { 'eraserhd/parinfer-rust', build = 'cargo build --release' },
-    -- { 'benknoble/vim-racket' },
+    {
+        'Olical/conjure',
+        ft = { 'racket' },
+        -- lazy = true,
+        init = function()
+            vim.g['conjure#mapping#doc_word'] = 'K'
+            vim.g['conjure#completion#omnifunc'] = false
+            vim.g['conjure#client#racket#stdio#auto_enter'] = false
+        end,
+    },
 }
