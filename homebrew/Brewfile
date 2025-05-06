@@ -1,8 +1,6 @@
-# vim:syntax=ruby:
+# vim:syntax=ruby:ft=ruby
 
 tap 'homebrew/cask'
-# tap 'homebrew/cask-fonts'
-# tap 'homebrew/cask-versions'
 tap 'buo/cask-upgrade'
 
 brew 'cloc'
@@ -30,18 +28,20 @@ brew 'tree'
 brew 'xz'
 
 cask 'claude'
+cask 'cursorcerer'
 cask 'drawio'
-cask 'dungeon-crawl-stone-soup-tiles', args: { 'no-quarantine': true }
-# cask 'firefox'
 cask 'firefox@beta'
-cask 'libreoffice'
 cask 'font-iosevka-term-nerd-font'
 cask 'ghostty', args: { 'no-quarantine': true }
 cask 'godot'
 cask 'google-chrome'
+cask 'libreoffice'
 cask 'linearmouse'
+cask 'moonlight'
+cask 'netlogo'
+cask 'racket'
 cask 'rectangle'
 cask 'skype'
 cask 'spotify'
 cask 'visual-studio-code'
-# cask 'wezterm@nightly', args: { 'no-quarantine': true }
+cask 'zed', args: { 'no-quarantine': true }

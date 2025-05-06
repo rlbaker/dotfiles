@@ -14,7 +14,7 @@ function fish_prompt --description 'Write out the prompt'
 
     echo -n -s $cwd_color (prompt_pwd) $normal
 
-    if [ "$TERM_PROGRAM" != "vscode" ] 
+    if [ "$TERM_PROGRAM" != "vscode" ]; and [ "$TERM_PROGRAM" != "zed" ]
         echo -n -s (fish_git_prompt) $normal
     end
 
