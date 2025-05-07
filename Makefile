@@ -1,13 +1,6 @@
-# Makefile
+.PHONY: mise nvim fish ghostty homebrew
 
-# Phony targets (targets that don't represent files)
-.PHONY: mise nvim fish wezterm ghostty homebrew
-
-# Variables
 cfgdir := $(HOME)/.config
-# $(CURDIR) is a built-in Make variable representing the current working directory.
-
-# Recipes
 
 mise:
 	@echo "==> Setting up mise..."
@@ -26,12 +19,6 @@ fish:
 	@-fd --type file --extension fish . fish --exec ln -vs "$(CURDIR)/{}" "$(cfgdir)/{}"
 	@echo "Fish setup complete."
 
-wezterm:
-	@echo "==> Setting up wezterm configuration..."
-	@mkdir -p "$(cfgdir)/wezterm"
-	@-fd --type file --extension lua . wezterm --exec ln -vs "$(CURDIR)/{}" "$(cfgdir)/{}"
-	@echo "Wezterm setup complete."
-
 ghostty:
 	@echo "==> Setting up ghostty configuration..."
 	@mkdir -p "$(cfgdir)/ghostty/themes"
@@ -43,8 +30,3 @@ homebrew:
 	@mkdir -p "$(cfgdir)/homebrew"
 	@-fd . homebrew --exec ln -vs "$(CURDIR)/{}" "$(cfgdir)/{}"
 	@echo "Homebrew setup complete."
-
-# Optional: An 'all' target to run common setup tasks
-# .PHONY: all
-# all: nvim fish wezterm ghostty homebrew
-#	@echo "All configurations set up."
