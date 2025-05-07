@@ -1,5 +1,4 @@
 function aider
-    # Check if the current directory is the home directory
     if test (pwd) = "$HOME"
         echo "Error: Running aider in the home directory is not allowed." >&2
         return 1
@@ -10,11 +9,15 @@ function aider
     set -l config_file "$HOME/.config/aider/aider.conf.yml"
     set -a aider_args --config "$config_file"
 
-    set -l models_file "$HOME/.config/aider/aider.model.settings.yml"
-    if test -f "$models_file"
-        set -a aider_args --model-settings-file "$models_file"
+    set -l model_settings_file "$HOME/.config/aider/aider.model.settings.yml"
+    if test -f "$model_settings_file"
+        set -a aider_args --model-settings-file "$model_settings_file"
     end
 
-    # Execute the aider command with the specified config file and pass through all other arguments
-    command aider $aider_args --no-show-model-warnings $argv
+    set -l model_metadata_file "$HOME/.config/aider/aider.model.metadata.json"
+    if test -f "$model_metadata_file"
+        set -a aider_args --model-metadata-file "$model_metadata_file"
+    end
+
+    command aider $aider_args $argv
 end
