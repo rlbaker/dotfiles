@@ -6,7 +6,12 @@ function aider
     end
 
     set -l config_file "$HOME/.config/aider/aider.conf.yml"
+    set -l models_file "$HOME/.config/aider/aider.model.settings.yml"
 
     # Execute the aider command with the specified config file and pass through all other arguments
-    command aider --config "$config_file" $argv
+    command aider \
+        --config "$config_file" \
+        --model-settings-file "$models_file" \
+        --no-show-model-warnings \
+        $argv
 end
