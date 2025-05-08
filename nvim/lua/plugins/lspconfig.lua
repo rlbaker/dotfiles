@@ -60,7 +60,6 @@ return {
 
             local lspconfig = require('lspconfig')
 
-            lspconfig.racket_langserver.setup {}
             lspconfig.buf_ls.setup {}
             lspconfig.gdscript.setup {}
             lspconfig.gopls.setup {
@@ -69,18 +68,6 @@ return {
                         linksInHover = false,
                         staticcheck = true,
                         gofumpt = true,
-                    },
-                },
-            }
-
-            lspconfig.zls.setup {
-                settings = {
-                    zls = {
-                        semantic_tokens = 'none',
-                        enable_snippets = false,
-                        warn_style = true,
-                        -- enable_build_on_save = true,
-                        -- build_on_save_args = { '-Dno-bin', 'test' },
                     },
                 },
             }

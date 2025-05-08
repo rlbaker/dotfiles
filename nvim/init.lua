@@ -31,10 +31,6 @@ vim.opt.foldenable = false
 vim.g.html_indent_autotags = 'html'
 vim.g.loaded_python3_provider = 0
 
-vim.g.zig_fmt_autosave = 0
-vim.g.zig_fmt_parse_errors = 0
-vim.g.no_racket_maps = 1
-
 -- bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
@@ -50,8 +46,6 @@ require('lazy').setup { { import = 'plugins' } }
 local rlb = vim.api.nvim_create_augroup('rlb', { clear = true })
 vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = '*', command = [[ set fo-=cro ]] })
 vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'go', command = [[ set noet ]] })
-vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'zig', command = [[ set iskeyword-=@-@ ]] })
-vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'racket', command = [[ set fo-=r ]] })
 -- vim.api.nvim_create_autocmd('LspAttach', {
 --     group = rlb,
 --     callback = function()

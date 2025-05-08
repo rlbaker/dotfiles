@@ -102,20 +102,7 @@ return {
             check_ts = true,
             disable_in_visualblock = true,
             enable_check_bracket_line = true,
-            disable_filetype = { 'TelescopePrompt', 'vim', 'racket' },
+            disable_filetype = { 'TelescopePrompt', 'vim' },
         },
-    },
-
-    { 'ziglang/zig.vim', ft = 'zig' },
-    { 'eraserhd/parinfer-rust', build = 'cargo build --release' },
-    {
-        'Olical/conjure',
-        ft = { 'racket' },
-        -- lazy = true,
-        init = function()
-            vim.g['conjure#mapping#doc_word'] = 'K'
-            vim.g['conjure#completion#omnifunc'] = false
-            vim.g['conjure#client#racket#stdio#auto_enter'] = false
-        end,
     },
 }
