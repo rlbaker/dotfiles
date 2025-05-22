@@ -34,10 +34,10 @@ vim.g.loaded_python3_provider = 0
 -- bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
-    vim.fn.system {
-        'git', 'clone', '--filter=blob:none', '--single-branch',
-        'https://github.com/folke/lazy.nvim.git', lazypath,
-    }
+  vim.fn.system {
+    'git', 'clone', '--filter=blob:none', '--single-branch',
+    'https://github.com/folke/lazy.nvim.git', lazypath,
+  }
 end
 vim.opt.runtimepath:prepend(lazypath)
 
@@ -46,6 +46,10 @@ require('lazy').setup { { import = 'plugins' } }
 local rlb = vim.api.nvim_create_augroup('rlb', { clear = true })
 vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = '*', command = [[ set fo-=cro ]] })
 vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'go', command = [[ set noet ]] })
+vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'lua', command = [[ set ts=2 sts=2 sw=2 ]] })
+-- vim.opt.tabstop = 4
+-- vim.opt.shiftwidth = 4
+-- vim.opt.softtabstop = 4
 -- vim.api.nvim_create_autocmd('LspAttach', {
 --     group = rlb,
 --     callback = function()
@@ -69,12 +73,12 @@ vim.keymap.set('i', '<C-Enter>', '<C-y>', { desc = 'Expand Completion' })
 
 vim.keymap.set('n', '<Leader>d', '<Cmd>Telescope diagnostics<CR>', { desc = 'Diagnostic List' })
 vim.keymap.set('n', '<Leader>]',
-    function() vim.diagnostic.jump({ count = vim.v.count1 }) end,
-    { desc = 'Next Diagnostic' })
+  function() vim.diagnostic.jump({ count = vim.v.count1 }) end,
+  { desc = 'Next Diagnostic' })
 
 vim.keymap.set('n', '<Leader>[',
-    function() vim.diagnostic.jump({ count = -vim.v.count1 }) end,
-    { desc = 'Prev Diagnostic' })
+  function() vim.diagnostic.jump({ count = -vim.v.count1 }) end,
+  { desc = 'Prev Diagnostic' })
 vim.keymap.set('n', '<Leader>K', function() vim.diagnostic.open_float() end, { desc = 'Show Diagnostic Details' })
 vim.keymap.set('i', '<C-l>', 'λ', { desc = 'Lambda' })
 
@@ -92,24 +96,20 @@ vim.keymap.set('n', '<LocalLeader>t', '<Cmd>Telescope lsp_type_definitions<CR>',
 vim.keymap.set('n', '<LocalLeader>A', vim.lsp.buf.code_action, { desc = 'Code Actions' })
 
 local function filter_gopls_actions(action)
-    -- print(vim.inspect(action))
-    return action.kind ~= 'source.doc' and
-        action.kind ~= 'source.assembly' and
-        action.kind ~= 'gopls.doc.features' and
-        action.kind ~= 'source.toggleCompilerOptDetails' and
-        action.kind ~= 'source.addTest'
+  return action.kind ~= 'source.doc' and
+      action.kind ~= 'source.assembly' and
+      action.kind ~= 'gopls.doc.features' and
+      action.kind ~= 'source.toggleCompilerOptDetails' and
+      action.kind ~= 'source.addTest'
 end
 
 vim.keymap.set('i', '<C-a>', vim.lsp.buf.code_action, { desc = 'Code Actions' })
 vim.keymap.set({ 'n', 'x' }, '<LocalLeader>a', function()
-    vim.lsp.buf.code_action({ filter = filter_gopls_actions })
+  vim.lsp.buf.code_action({ filter = filter_gopls_actions })
 end, { desc = 'Code Actions' })
 
 vim.diagnostic.config({ virtual_lines = { current_line = true } })
 
-local function scale(n) return math.floor(n * 0.7) end
 local hover = vim.lsp.buf.hover
 ---@diagnostic disable-next-line: duplicate-set-field
-vim.lsp.buf.hover = function()
-    return hover({ border = 'rounded', max_width = 100, max_height = scale(vim.o.lines) })
-end
+vim.lsp.buf.hover = function() return hover({ border = 'rounded' }) end
