@@ -15,7 +15,7 @@ set fish_color_comment        white -i  # comments like '# important'
 set fish_color_selection      normal    # selected text in vi visual mode
 set fish_color_operator       purple    # parameter expansion operators like * and ~
 set fish_color_escape         purple    # character escapes like \n and \x70
-set fish_color_autosuggestion white     # autosuggestions (the proposed rest of a command)
+set fish_color_autosuggestion black     # autosuggestions (the proposed rest of a command)
 set fish_color_cancel         white   # '^C' indicator on a canceled command
 set fish_color_search_match   -b yellow # background color for history search matches and selected pager items
 

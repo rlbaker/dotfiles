@@ -5,7 +5,7 @@ local function setup_lsp(args)
     vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
   end
 
-  client.server_capabilities.semanticTokensProvider = nil
+  -- client.server_capabilities.semanticTokensProvider = nil
 
   if client.name == 'gopls' then
     vim.api.nvim_create_autocmd('BufWritePre', {
@@ -58,16 +58,7 @@ return {
         callback = setup_lsp,
       })
 
-      vim.lsp.config('ols', {
-        cmd = { '/Users/rlbaker/src/odin/tools/ols/ols' },
-        init_options = {
-          odin_command = '/Users/rlbaker/src/odin/tools/Odin/odin',
-          checker_args = '-strict-style -vet',
-          enable_fake_methods = true,
-          enable_references = true,
-          enable_rename = true,
-        },
-      })
+      vim.lsp.config('ols', { cmd = { '/Users/rlbaker/src/odin/tools/ols/ols' } })
 
       vim.lsp.config('gopls', {
         settings = {

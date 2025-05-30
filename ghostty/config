@@ -12,3 +12,4 @@ unfocused-split-opacity = 1
 window-height = 100
 window-position-x = 0
 window-position-y = 0
+keybind = shift+enter=text:\n
