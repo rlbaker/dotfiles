@@ -19,5 +19,13 @@ function aider
         set -a aider_args --model-metadata-file "$model_metadata_file"
     end
 
+    if test -f "CLAUDE.md"
+        set -a aider_args --read "CLAUDE.md"
+    end
+
+    if test -f "CONVENTIONS.md"
+        set -a aider_args --read "CONVENTIONS.md"
+    end
+
     command aider $aider_args $argv
 end
