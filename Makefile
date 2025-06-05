@@ -1,4 +1,4 @@
-.PHONY: mise nvim fish ghostty homebrew
+.PHONY: mise nvim fish ghostty homebrew zed
 
 cfgdir := $(HOME)/.config
 
@@ -30,3 +30,10 @@ homebrew:
 	mkdir -p "$(cfgdir)/homebrew"
 	-fd . homebrew --exec ln -vs "$(CURDIR)/{}" "$(cfgdir)/{}"
 	@echo "Homebrew setup complete."
+
+zed:
+	@echo "==> Setting up zed configuration..."
+	mkdir -p "$(cfgdir)/zed"
+	-fd . zed --exec ln -vs "$(CURDIR)/{}" "$(cfgdir)/{}"
+	@echo "Zed setup complete"
+

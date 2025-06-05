@@ -39,6 +39,7 @@ cask 'font-iosevka-term-nerd-font'
 cask 'ghostty', args: { 'no-quarantine': true }
 cask 'godot'
 cask 'google-chrome'
+cask 'keyboardcleantool'
 cask 'libreoffice'
 cask 'linearmouse'
 cask 'loopback'
@@ -49,4 +50,4 @@ cask 'skype'
 cask 'spotify'
 cask 'visual-studio-code'
 cask 'vlc'
-cask 'zed', args: { 'no-quarantine': true }
+cask 'zed@preview', args: { 'no-quarantine': true }
