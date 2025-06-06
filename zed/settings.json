@@ -8,7 +8,6 @@
   },
 
   "always_treat_brackets_as_autoclosed": true,
-  "auto_signature_help": true,
 
   "collaboration_panel": { "button": false },
 
