@@ -66,6 +66,7 @@ return {
             linksInHover = false,
             staticcheck = true,
             gofumpt = true,
+            semanticTokens = true,
           },
         },
       })
@@ -105,7 +106,7 @@ return {
                 indent_size = "2",
                 quote_style = "double",
                 trailing_table_separator = "smart",
-                -- align_array_table = 'false',
+                align_array_table = "false",
               },
             },
           },

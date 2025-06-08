@@ -43,6 +43,8 @@ vim.opt.runtimepath:prepend(lazypath)
 
 require("lazy").setup { { import = "plugins" } }
 
+vim.cmd.colorscheme("catppuccin-macchiato")
+
 local rlb = vim.api.nvim_create_augroup("rlb", { clear = true })
 vim.api.nvim_create_autocmd("FileType", { group = rlb, pattern = "*", command = [[ set fo-=cro ]] })
 vim.api.nvim_create_autocmd("FileType", { group = rlb, pattern = "go", command = [[ set noet ]] })

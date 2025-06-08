@@ -6,18 +6,7 @@ return {
   },
   { "nvim-tree/nvim-web-devicons", lazy = true },
 
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
-    config = function()
-      require("catppuccin").setup({
-        styles = { conditionals = {} },
-      })
-
-      vim.cmd.colorscheme("catppuccin-macchiato")
-    end,
-  },
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
   {
     "nvim-treesitter/nvim-treesitter",
@@ -79,9 +68,9 @@ return {
     end,
   },
 
-  { "echasnovski/mini.comment",    event = "VeryLazy", opts = {} },
+  { "echasnovski/mini.comment", event = "VeryLazy", opts = {} },
   { "echasnovski/mini.trailspace", event = "VeryLazy", opts = {} },
-  { "kylechui/nvim-surround",      event = "VeryLazy", opts = {} },
+  { "kylechui/nvim-surround", event = "VeryLazy", opts = {} },
 
   {
     "HiPhish/rainbow-delimiters.nvim",
