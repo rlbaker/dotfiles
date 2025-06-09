@@ -91,7 +91,7 @@ return {
           Lua = {
             telemetry = false,
             runtime = { version = "LuaJIT", path = runtime_path },
-            diagnostics = { globals = { "vim" } },
+            diagnostics = { globals = { "vim", "Snacks" } },
             workspace = {
               checkThirdParty = false,
               library = {

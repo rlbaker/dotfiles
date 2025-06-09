@@ -4,6 +4,29 @@ return {
     event = "VeryLazy",
     opts = { delay = 300 },
   },
+
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    opts = {
+      bigfile = { enabled = true },
+      dashboard = { enabled = true },
+      explorer = { enabled = true },
+      input = { enabled = true },
+      notifier = { enabled = true },
+      picker = {
+        win = {
+          input = {
+            keys = { ["<Esc>"] = { "close", mode = { "n", "i" } } },
+          },
+        },
+      },
+      scope = { enabled = true },
+      words = { enabled = true },
+    },
+  },
+
   { "nvim-tree/nvim-web-devicons", lazy = true },
 
   { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
@@ -38,34 +61,6 @@ return {
         lualine_x = { "encoding", "filetype" },
       },
     },
-  },
-
-  {
-    "nvim-telescope/telescope.nvim",
-    cmd = "Telescope",
-    -- branch = '0.1.x',
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope-ui-select.nvim",
-    },
-    event = "VeryLazy",
-    config = function()
-      local telescope = require("telescope")
-      telescope.setup {
-        defaults = {
-          layout_strategy = "vertical",
-          sorting_strategy = "ascending",
-          layout_config = { prompt_position = "top" },
-          mappings = {
-            i = { ["<ESC>"] = require("telescope.actions").close },
-          },
-        },
-        pickers = {
-          buffers = { sort_lastused = true, sort_mru = true },
-        },
-      }
-      telescope.load_extension("ui-select")
-    end,
   },
 
   { "echasnovski/mini.comment", event = "VeryLazy", opts = {} },
