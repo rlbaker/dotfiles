@@ -16,6 +16,8 @@ set -gx HOMEBREW_PREFIX "/opt/homebrew"
 set -gx HOMEBREW_CELLAR "/opt/homebrew/Cellar"
 set -gx HOMEBREW_REPOSITORY "/opt/homebrew"
 
+set -gx GOCACHE $HOME/.cache/go-cache
+
 set -gx EDITOR nvim
 alias vim="nvim"
 
@@ -26,13 +28,12 @@ alias vim="nvim"
 
 fish_add_path -g $HOMEBREW_PREFIX/bin $HOMEBREW_PREFIX/sbin
 fish_add_path -g ~/.local/bin
+fish_add_path -g ~/.bun/bin
 
 if status is-interactive
     mise activate fish | source
 else
     mise activate fish --shims | source
 end
-
-set -gx GOCACHE $HOME/.cache/go-cache
 
 source $HOME/.config/fish/local.fish # load system-specific configuration
