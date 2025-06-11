@@ -50,8 +50,6 @@ vim.api.nvim_create_autocmd("FileType", { group = rlb, pattern = "*", command = 
 vim.api.nvim_create_autocmd("FileType", { group = rlb, pattern = "go", command = [[ set noet ]] })
 vim.api.nvim_create_autocmd("FileType", { group = rlb, pattern = "lua", command = [[ set ts=2 sts=2 sw=2 ]] })
 
--- vim.api.nvim_create_autocmd("CursorHold", { group = rlb, command = [[ checktime ]] })
-
 vim.diagnostic.config({ virtual_lines = { current_line = true } })
 
 local hover = vim.lsp.buf.hover
@@ -65,8 +63,8 @@ wk.add(
   {
     { "<Leader><Leader>", function() Snacks.picker.buffers({ current = false }) end, desc = "Buffer List" },
     { "<Leader>.", function() Snacks.picker.files() end, desc = "List Files" },
-    { "<Leader>D", function() Snacks.picker.diagnostics() end, desc = "Show All Diagnostics" },
-    { "<Leader>d", function() Snacks.picker.diagnostics_buffer() end, desc = "Show Buffer Diagnostics" },
+    { "<Leader>D", function() Snacks.picker.diagnostics() end, desc = "List All Diagnostics" },
+    { "<Leader>d", function() Snacks.picker.diagnostics_buffer() end, desc = "List Buffer Diagnostics" },
     { "<Leader>e", function() Snacks.explorer() end, desc = "File Explorer" },
     { "<Leader>h", function() Snacks.picker.help() end, desc = "Help" },
     { "<Leader>p", function() Snacks.picker() end, desc = "Pickers" },
@@ -87,9 +85,9 @@ wk.add(
     { "gp", function() Snacks.words.jump(-1, true) end, desc = "LSP: Previous occurrence" },
     { "gF", function() vim.lsp.buf.format({ async = true }) end, desc = "LSP: Format Document" },
     { "g.", vim.lsp.buf.code_action, desc = "LSP: Code actions" },
-    { "gh", vim.diagnostic.open_float, desc = "Show diagnostic" },
-    { "g]", function() vim.diagnostic.jump({ count = vim.v.count1 }) end, desc = "Next Diagnostic" },
-    { "g[", function() vim.diagnostic.jump({ count = -vim.v.count1 }) end, desc = "Prev Diagnostic" },
+    { "gh", vim.diagnostic.open_float, desc = "Show Diagnostic" },
+    { "g]", function() vim.diagnostic.jump({ count = vim.v.count1 }) end, desc = "Go to Next Diagnostic" },
+    { "g[", function() vim.diagnostic.jump({ count = -vim.v.count1 }) end, desc = "Go to Prev Diagnostic" },
   },
   {
     mode = { "i" },
