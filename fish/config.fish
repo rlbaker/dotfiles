@@ -28,7 +28,8 @@ alias vim="nvim"
 
 fish_add_path -g $HOMEBREW_PREFIX/bin $HOMEBREW_PREFIX/sbin
 fish_add_path -g ~/.local/bin
-fish_add_path -g ~/.bun/bin
+set -gx PNPM_HOME $HOME/.local/share/pnpm
+fish_add_path -g $PNPM_HOME
 
 if status is-interactive
     mise activate fish | source

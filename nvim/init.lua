@@ -50,50 +50,57 @@ vim.api.nvim_create_autocmd("FileType", { group = rlb, pattern = "*", command = 
 vim.api.nvim_create_autocmd("FileType", { group = rlb, pattern = "go", command = [[ set noet ]] })
 vim.api.nvim_create_autocmd("FileType", { group = rlb, pattern = "lua", command = [[ set ts=2 sts=2 sw=2 ]] })
 
+-- vim.api.nvim_create_autocmd("CursorHold", { group = rlb, command = [[ checktime ]] })
+
 vim.diagnostic.config({ virtual_lines = { current_line = true } })
 
 local hover = vim.lsp.buf.hover
 ---@diagnostic disable-next-line: duplicate-set-field
 vim.lsp.buf.hover = function() return hover({ border = "rounded" }) end
 
-local function desc(s) return { desc = s } end
 local function cmd(s) return "<CMD>" .. s .. "<CR>" end
 
--- Custom
-vim.keymap.set("i", "<C-Space>", vim.lsp.completion.get, desc("Completion"))
-vim.keymap.set("n", "\\", cmd("noh"), { desc = "Clear Search Highlights" })
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Leave Terminal Input Mode" })
-vim.keymap.set("n", "<C-;>", "A;<Esc>", { desc = "Add Semicolon" })
-vim.keymap.set("i", "<C-;>", "<C-o>A;", { desc = "Add Semicolon" })
-vim.keymap.set("i", "<C-Enter>", "<C-y>", { desc = "Expand Completion" })
-
-vim.keymap.set("n", "<Leader><Leader>", function() Snacks.picker.buffers({ current = false }) end, desc("Buffer List"))
-vim.keymap.set("n", "<Leader>.", function() Snacks.picker.files() end, desc("List Files"))
-vim.keymap.set("n", "<Leader>e", function() Snacks.explorer() end, desc("File Explorer"))
-vim.keymap.set("n", "<Leader>h", function() Snacks.picker.help() end, desc("Help"))
-vim.keymap.set("n", "<Leader>t", function() Snacks.picker.treesitter() end, desc("Treesitter"))
-vim.keymap.set("n", "<Leader>p", function() Snacks.picker() end, desc("Pickers"))
-vim.keymap.set("n", "<Leader>s", cmd("lua MiniTrailspace.trim()"), desc("Trim Trailing Whitespace"))
-
--- LSP
-vim.keymap.set("n", "gd", function() Snacks.picker.lsp_definitions() end, desc("LSP: Go to definition"))
-vim.keymap.set("n", "gD", function() Snacks.picker.lsp_declarations() end, desc("LSP: Go to declaration"))
-vim.keymap.set("n", "gy", function() Snacks.picker.lsp_type_definitions() end, desc("LSP: Go to type definition"))
-vim.keymap.set("n", "gI", function() Snacks.picker.lsp_implementations() end, desc("LSP: Go to implementation"))
-vim.keymap.set("n", "gr", function() Snacks.picker.lsp_references() end, desc("LSP: Show references"))
-vim.keymap.set("n", "gR", vim.lsp.buf.rename, desc("LSP: Rename"))
-vim.keymap.set("n", "gs", function() Snacks.picker.lsp_symbols() end, desc("LSP: Find symbol in file"))
-vim.keymap.set("n", "gS", function() Snacks.picker.lsp_workspace_symbols() end, desc("LSP: Find symbol in workspace"))
-vim.keymap.set("n", "gn", function() Snacks.words.jump(1, true) end, desc("LSP: Next occurrence"))
-vim.keymap.set("n", "gp", function() Snacks.words.jump(-1, true) end, desc("LSP: Previous occurrence"))
-vim.keymap.set("n", "gF", function() vim.lsp.buf.format({ async = true }) end, desc("LSP: Format Document"))
-vim.keymap.set("n", "g.", vim.lsp.buf.code_action, desc("LSP: Code actions"))
-vim.keymap.set("i", "<C-a>", vim.lsp.buf.code_action, { desc = "LSP: Code Actions" })
-vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { desc = "Signature Help" })
-
--- Diagnostics
-vim.keymap.set("n", "<Leader>d", function() Snacks.picker.diagnostics_buffer() end, desc("Buffer Diagnostics"))
-vim.keymap.set("n", "<Leader>D", function() Snacks.picker.diagnostics() end, desc("Diagnostics"))
-vim.keymap.set("n", "gh", vim.diagnostic.open_float, desc("Show diagnostic"))
-vim.keymap.set("n", "g]", function() vim.diagnostic.jump({ count = vim.v.count1 }) end, desc("Next Diagnostic"))
-vim.keymap.set("n", "g[", function() vim.diagnostic.jump({ count = -vim.v.count1 }) end, desc("Prev Diagnostic"))
+local wk = require("which-key")
+wk.add(
+  {
+    { "<Leader><Leader>", function() Snacks.picker.buffers({ current = false }) end, desc = "Buffer List" },
+    { "<Leader>.", function() Snacks.picker.files() end, desc = "List Files" },
+    { "<Leader>D", function() Snacks.picker.diagnostics() end, desc = "Show All Diagnostics" },
+    { "<Leader>d", function() Snacks.picker.diagnostics_buffer() end, desc = "Show Buffer Diagnostics" },
+    { "<Leader>e", function() Snacks.explorer() end, desc = "File Explorer" },
+    { "<Leader>h", function() Snacks.picker.help() end, desc = "Help" },
+    { "<Leader>p", function() Snacks.picker() end, desc = "Pickers" },
+    { "<Leader>t", function() Snacks.picker.treesitter() end, desc = "Treesitter" },
+    { "<Leader>r", vim.cmd.checktime, desc = "reload file" },
+    { "<Leader>s", cmd("lua MiniTrailspace.trim()"), desc = "Trim Trailing Whitespace" },
+    { "\\", cmd("noh"), desc = "Clear Search Highlights" },
+    { "<C-;>", "A;<Esc>", desc = "Add Semicolon" },
+    { "gd", function() Snacks.picker.lsp_definitions() end, desc = "LSP: Go to definition" },
+    { "gD", function() Snacks.picker.lsp_declarations() end, desc = "LSP: Go to declaration" },
+    { "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "LSP: Go to type definition" },
+    { "gI", function() Snacks.picker.lsp_implementations() end, desc = "LSP: Go to implementation" },
+    { "gr", function() Snacks.picker.lsp_references() end, desc = "LSP: Show references" },
+    { "gR", vim.lsp.buf.rename, desc = "LSP: Rename" },
+    { "gs", function() Snacks.picker.lsp_symbols() end, desc = "LSP: Find symbol in file" },
+    { "gS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP: Find symbol in workspace" },
+    { "gn", function() Snacks.words.jump(1, true) end, desc = "LSP: Next occurrence" },
+    { "gp", function() Snacks.words.jump(-1, true) end, desc = "LSP: Previous occurrence" },
+    { "gF", function() vim.lsp.buf.format({ async = true }) end, desc = "LSP: Format Document" },
+    { "g.", vim.lsp.buf.code_action, desc = "LSP: Code actions" },
+    { "gh", vim.diagnostic.open_float, desc = "Show diagnostic" },
+    { "g]", function() vim.diagnostic.jump({ count = vim.v.count1 }) end, desc = "Next Diagnostic" },
+    { "g[", function() vim.diagnostic.jump({ count = -vim.v.count1 }) end, desc = "Prev Diagnostic" },
+  },
+  {
+    mode = { "i" },
+    { "<C-Space>", vim.lsp.completion.get, desc = "Completion" },
+    { "<C-;>", "<C-o>A;", desc = "Add Semicolon" },
+    { "<C-Enter>", "<C-y>", desc = "Expand Completion" },
+    { "<C-a>", vim.lsp.buf.code_action, desc = "LSP: Code Actions" },
+    { "<C-k>", vim.lsp.buf.signature_help, desc = "Signature Help" },
+  },
+  {
+    mode = { "t" },
+    { "<Esc>", "<C-\\><C-n>", desc = "Leave Terminal Input Mode" },
+  }
+)
