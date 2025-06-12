@@ -16,6 +16,8 @@ set -gx HOMEBREW_PREFIX "/opt/homebrew"
 set -gx HOMEBREW_CELLAR "/opt/homebrew/Cellar"
 set -gx HOMEBREW_REPOSITORY "/opt/homebrew"
 
+set -gx GOPATH $HOME/.local/share/go
+set -gx GOMODCACHE $HOME/.local/share/go/pkg/mod
 set -gx GOCACHE $HOME/.cache/go-cache
 
 set -gx EDITOR nvim
