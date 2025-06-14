@@ -29,7 +29,11 @@ vim.opt.foldenable = false
 -- vim.opt.foldlevelstart = 99
 
 vim.g.html_indent_autotags = "html"
+
 vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_node_provider = 0
 
 -- bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -43,7 +47,7 @@ vim.opt.runtimepath:prepend(lazypath)
 
 require("lazy").setup { { import = "plugins" } }
 
-vim.cmd.colorscheme("catppuccin-macchiato")
+vim.cmd.colorscheme("catppuccin-mocha")
 
 local rlb = vim.api.nvim_create_augroup("rlb", { clear = true })
 vim.api.nvim_create_autocmd("FileType", { group = rlb, pattern = "*", command = [[ set fo-=cro ]] })
@@ -83,7 +87,7 @@ wk.add({
   { "gn", function() Snacks.words.jump(1, true) end, desc = "LSP: Next occurrence" },
   { "gp", function() Snacks.words.jump(-1, true) end, desc = "LSP: Previous occurrence" },
   { "gF", function() vim.lsp.buf.format({ async = true }) end, desc = "LSP: Format Document" },
-  { "g.", vim.lsp.buf.code_action, desc = "LSP: Code actions" },
+  { "g.", vim.lsp.buf.code_action, mode = { "n", "x" }, desc = "LSP: Code actions" },
   { "gh", vim.diagnostic.open_float, desc = "Show Diagnostic" },
   { "g]", function() vim.diagnostic.jump({ count = vim.v.count1 }) end, desc = "Go to Next Diagnostic" },
   { "g[", function() vim.diagnostic.jump({ count = -vim.v.count1 }) end, desc = "Go to Prev Diagnostic" },

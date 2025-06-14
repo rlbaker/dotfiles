@@ -1,3 +1,5 @@
+local group = vim.api.nvim_create_augroup("my.lsp", {})
+
 local function setup_lsp(args)
   local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 
@@ -5,24 +7,16 @@ local function setup_lsp(args)
     vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
   end
 
-  -- client.server_capabilities.semanticTokensProvider = nil
-
   if client.name == "gopls" then
     vim.api.nvim_create_autocmd("BufWritePre", {
-      group = vim.api.nvim_create_augroup("my.lsp", { clear = false }),
+      group = group,
       buffer = args.buf,
       callback = function()
         local params = vim.lsp.util.make_range_params(0, "utf-8")
         ---@diagnostic disable-next-line: inject-field
         params.context = { only = { "source.organizeImports" } }
 
-        -- buf_request_sync defaults to a 1000ms timeout. Depending on your
-        -- machine and codebase, you may want longer. Add an additional
-        -- argument after params if you find that you have to write the file
-        -- twice for changes to be saved.
-        -- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
-
-        local result = vim.lsp.buf_request_sync(args.buf, "textDocument/codeAction", params)
+        local result = vim.lsp.buf_request_sync(args.buf, "textDocument/codeAction", params, 1000)
         for _, res in pairs(result or {}) do
           for _, r in pairs(res.result or {}) do
             if r.edit then
@@ -38,7 +32,7 @@ local function setup_lsp(args)
   if not client:supports_method("textDocument/willSaveWaitUntil")
       and client:supports_method("textDocument/formatting") then
     vim.api.nvim_create_autocmd("BufWritePre", {
-      group = vim.api.nvim_create_augroup("my.lsp", { clear = false }),
+      group = group,
       buffer = args.buf,
       callback = function()
         vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
@@ -53,10 +47,7 @@ return {
     dependencies = { "nvimtools/none-ls.nvim" },
     event = { "BufReadPre", "BufNewFile" },
     config = function()
-      vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("my.lsp", {}),
-        callback = setup_lsp,
-      })
+      vim.api.nvim_create_autocmd("LspAttach", { group = group, callback = setup_lsp })
 
       vim.lsp.config("ols", { cmd = { "/Users/rlbaker/src/odin/tools/ols/ols" } })
 
@@ -113,7 +104,7 @@ return {
         },
       })
 
-      vim.lsp.enable({ "buf_ls", "gdscript", "gopls", "lua_ls", "ols" })
+      vim.lsp.enable({ "gdscript", "gopls", "lua_ls", "ols" })
     end,
   },
 }
