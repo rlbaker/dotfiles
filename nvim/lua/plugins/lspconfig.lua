@@ -1,5 +1,3 @@
-local group = vim.api.nvim_create_augroup("my.lsp", {})
-
 local function setup_lsp(args)
   local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 
@@ -9,7 +7,7 @@ local function setup_lsp(args)
 
   if client.name == "gopls" then
     vim.api.nvim_create_autocmd("BufWritePre", {
-      group = group,
+      group = vim.api.nvim_create_augroup("my.lsp", { clear = false }),
       buffer = args.buf,
       callback = function()
         local params = vim.lsp.util.make_range_params(0, "utf-8")
@@ -32,7 +30,7 @@ local function setup_lsp(args)
   if not client:supports_method("textDocument/willSaveWaitUntil")
       and client:supports_method("textDocument/formatting") then
     vim.api.nvim_create_autocmd("BufWritePre", {
-      group = group,
+      group = vim.api.nvim_create_augroup("my.lsp", { clear = false }),
       buffer = args.buf,
       callback = function()
         vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
@@ -47,9 +45,24 @@ return {
     dependencies = { "nvimtools/none-ls.nvim" },
     event = { "BufReadPre", "BufNewFile" },
     config = function()
-      vim.api.nvim_create_autocmd("LspAttach", { group = group, callback = setup_lsp })
+      vim.api.nvim_create_autocmd("LspAttach",
+        { group = vim.api.nvim_create_augroup("my.lsp", {}), callback = setup_lsp })
 
-      vim.lsp.config("ols", { cmd = { "/Users/rlbaker/src/odin/tools/ols/ols" } })
+      vim.lsp.config("ols", {
+        cmd = { "/Users/rlbaker/src/odin/tools/ols/ols" },
+        init_options = {
+          enable_document_symbols = true,
+          enable_fake_methods = true,
+          enable_format = true,
+          enable_hover = true,
+          enable_inlay_hints = false,
+          enable_procedure_snippet = true,
+          enable_references = true,
+          enable_rename = true,
+          enable_semantic_tokens = true,
+          enable_snippets = true,
+        },
+      })
 
       vim.lsp.config("gopls", {
         settings = {
