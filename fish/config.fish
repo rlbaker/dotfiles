@@ -41,5 +41,4 @@ end
 
 source $HOME/.config/fish/local.fish # load system-specific configuration
 
-
-test -r '/Users/rlbaker/.opam/opam-init/init.fish' && source '/Users/rlbaker/.opam/opam-init/init.fish' > /dev/null 2> /dev/null; or true
+test -r '/Users/rlbaker/.opam/opam-init/init.fish'; and source '/Users/rlbaker/.opam/opam-init/init.fish' > /dev/null 2> /dev/null; or true

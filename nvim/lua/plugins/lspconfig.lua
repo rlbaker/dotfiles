@@ -104,7 +104,7 @@ return {
         },
       })
 
-      vim.lsp.enable({ "gdscript", "gopls", "lua_ls", "ols" })
+      vim.lsp.enable({ "gdscript", "gopls", "lua_ls", "ols", "ocamllsp" })
     end,
   },
 }

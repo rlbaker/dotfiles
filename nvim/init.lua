@@ -62,6 +62,12 @@ vim.lsp.buf.hover = function() return hover({ border = "rounded" }) end
 
 local function cmd(s) return "<CMD>" .. s .. "<CR>" end
 
+-- unbind default gr* mappings
+pcall(vim.keymap.del, "n", "gra")
+pcall(vim.keymap.del, "n", "gri")
+pcall(vim.keymap.del, "n", "grn")
+pcall(vim.keymap.del, "n", "grr")
+
 local wk = require("which-key")
 wk.add({
   { "<Leader><Leader>", function() Snacks.picker.buffers({ current = false }) end, desc = "Buffer List" },
@@ -80,7 +86,7 @@ wk.add({
   { "gD", function() Snacks.picker.lsp_declarations() end, desc = "LSP: Go to declaration" },
   { "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "LSP: Go to type definition" },
   { "gI", function() Snacks.picker.lsp_implementations() end, desc = "LSP: Go to implementation" },
-  { "gr", function() Snacks.picker.lsp_references() end, desc = "LSP: Show references" },
+  { "gr", function() Snacks.picker.lsp_references() end, desc = "LSP: Show references", nowait = true },
   { "gR", vim.lsp.buf.rename, desc = "LSP: Rename" },
   { "gs", function() Snacks.picker.lsp_symbols() end, desc = "LSP: Find symbol in file" },
   { "gS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP: Find symbol in workspace" },

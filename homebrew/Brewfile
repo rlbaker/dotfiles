@@ -5,6 +5,7 @@ tap 'buo/cask-upgrade'
 
 brew 'cloc'
 brew 'difftastic'
+brew 'displayplacer'
 brew 'dsda-doom'
 brew 'duckdb'
 brew 'entr'
