@@ -6,7 +6,9 @@ function update-go-tools
         'golang.org/x/tools/cmd/deadcode@latest' \
         'golang.org/x/tools/gopls@latest' \
         'honnef.co/go/tools/cmd/staticcheck@latest' \
-        'github.com/cweill/gotests/gotests@latest'
+        'github.com/cweill/gotests/gotests@latest' \
+        'golang.org/x/tools/gopls/internal/analysis/modernize/cmd/modernize@latest' \
+        'golang.org/x/tools/cmd/deadcode@latest'
         # 'github.com/haya14busa/goplay/cmd/goplay@latest' \
 
     for tool in $tools
