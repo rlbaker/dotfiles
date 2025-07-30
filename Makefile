@@ -33,9 +33,3 @@ homebrew:
 	-fd . homebrew --exec ln -vfs "$(CURDIR)/{}" "$(cfgdir)/{}"
 	@echo "Homebrew setup complete."
 
-zed:
-	@echo "==> Setting up zed configuration..."
-	mkdir -p "$(cfgdir)/zed"
-	-fd . zed --exec ln -vfs "$(CURDIR)/{}" "$(cfgdir)/{}"
-	@echo "Zed setup complete"
-

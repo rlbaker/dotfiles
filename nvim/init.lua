@@ -53,9 +53,12 @@ vim.g.editorconfig = false
 
 local rlb = vim.api.nvim_create_augroup('rlb', { clear = true })
 vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = '*', command = [[ set fo-=cro ]] })
-vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'go', command = [[ set noet ]] })
-vim.api.nvim_create_autocmd('FileType',
-  { group = rlb, pattern = 'lua,typescript,javascript,svelte', command = [[ set ts=2 sts=2 sw=2 ]] })
+vim.api.nvim_create_autocmd('FileType', { group = rlb, pattern = 'go', command = [[ set ts=3 sts=3 sw=3 noet]] })
+vim.api.nvim_create_autocmd('FileType', {
+  group = rlb,
+  pattern = 'lua,typescript,javascript,svelte,json',
+  command = [[ set ts=2 sts=2 sw=2 et ]],
+})
 
 vim.diagnostic.config({
   underline = true,

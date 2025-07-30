@@ -22,8 +22,7 @@ local function setup_lsp(args)
         for _, res in pairs(result or {}) do
           for _, r in pairs(res.result or {}) do
             if r.edit then
-              local enc = client.offset_encoding or 'utf-16'
-              vim.lsp.util.apply_workspace_edit(r.edit, enc)
+              vim.lsp.util.apply_workspace_edit(r.edit, client.offset_encoding or 'utf-16')
             end
           end
         end
@@ -43,30 +42,16 @@ local function setup_lsp(args)
   end
 end
 
+
 return {
   {
     'neovim/nvim-lspconfig',
     dependencies = { 'nvim-lua/plenary.nvim', 'nvimtools/none-ls.nvim' },
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
-      vim.api.nvim_create_autocmd('LspAttach',
-        { group = vim.api.nvim_create_augroup('my.lsp', {}), callback = setup_lsp })
-
-      vim.lsp.config('ols', {
-        cmd = { '/Users/rlbaker/src/odin/tools/ols/ols' },
-        init_options = {
-          checker_args = '-strict-style -vet',
-          enable_document_symbols = true,
-          enable_fake_methods = true,
-          enable_format = true,
-          enable_hover = true,
-          enable_inlay_hints = false,
-          enable_procedure_snippet = true,
-          enable_references = true,
-          enable_rename = true,
-          enable_semantic_tokens = true,
-          enable_snippets = true,
-        },
+      vim.api.nvim_create_autocmd('LspAttach', {
+        group = vim.api.nvim_create_augroup('my.lsp', {}),
+        callback = setup_lsp,
       })
 
       vim.lsp.config('gopls', {
@@ -74,7 +59,7 @@ return {
           gopls = {
             linksInHover = false,
             staticcheck = true,
-            gofumpt = true,
+            templateExtensions = { 'tmpl' },
             semanticTokens = true,
           },
         },
@@ -85,10 +70,8 @@ return {
       null_ls.setup({
         sources = {
           null_ls.builtins.diagnostics.fish,
-          null_ls.builtins.diagnostics.golangci_lint,
-          null_ls.builtins.code_actions.gomodifytags,
           null_ls.builtins.code_actions.impl,
-          null_ls.builtins.formatting.biome,
+          null_ls.builtins.formatting.prettier,
         },
       })
 
@@ -114,7 +97,6 @@ return {
             format = {
               enable = true,
               defaultConfig = {
-                indent_size = '2',
                 quote_style = 'single',
                 trailing_table_separator = 'smart',
                 align_array_table = 'false',

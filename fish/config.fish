@@ -23,8 +23,8 @@ set -gx GOCACHE $HOME/.cache/go-cache
 
 set -gx EDITOR nvim
 
-# ! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "/opt/homebrew/share/man" $MANPATH;
-# ! set -q INFOPATH; and set INFOPATH ''; set -gx INFOPATH "/opt/homebrew/share/info" $INFOPATH;
+! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "/opt/homebrew/share/man" $MANPATH;
+! set -q INFOPATH; and set INFOPATH ''; set -gx INFOPATH "/opt/homebrew/share/info" $INFOPATH;
 fish_add_path -g $HOMEBREW_PREFIX/bin $HOMEBREW_PREFIX/sbin
 fish_add_path -g $HOME/.bun/bin
 fish_add_path -g ~/.local/bin
@@ -40,4 +40,3 @@ source $HOME/.config/fish/local.fish # load system-specific configuration
 alias aider='aider --config "$HOME/.config/aider/aider.conf.yml" --model-settings-file "$HOME/.config/aider/aider.model.settings.yml"'
 alias vim="nvim"
 alias ccusage="bunx --bun ccusage"
-alias claude="bunx --bun @anthropic-ai/claude-code"
