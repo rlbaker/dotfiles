@@ -5,10 +5,6 @@ local function setup_lsp(args)
     vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
   end
 
-  if client.name == 'ts_ls' then
-    client.server_capabilities.documentFormattingProvider = false;
-  end
-
   if client.name == 'gopls' then
     vim.api.nvim_create_autocmd('BufWritePre', {
       group = vim.api.nvim_create_augroup('my.lsp', { clear = false }),
@@ -106,7 +102,7 @@ return {
         },
       })
 
-      vim.lsp.enable({ 'gdscript', 'gopls', 'lua_ls', 'ols', 'ts_ls', 'biome' })
+      vim.lsp.enable({ 'gdscript', 'gopls', 'lua_ls' })
     end,
   },
 }
